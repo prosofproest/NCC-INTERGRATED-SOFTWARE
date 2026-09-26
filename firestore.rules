@@ -1,0 +1,120 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Deny all access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Authentication & Role Verification Helpers
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserRole() {
+      return request.auth.token.role;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+
+    function isCto() {
+      return isAuthenticated() && getUserRole() == 'cto';
+    }
+
+    function isCadet() {
+      return isAuthenticated() && getUserRole() == 'cadet';
+    }
+
+    function getCadetId() {
+      return request.auth.token.cadetId;
+    }
+
+    // 1. Users collection
+    match /users/{userId} {
+      // User can read their own profile; Admin and CTO can view user accounts
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin() || isCto());
+      // Only Admin can write user accounts and assign roles
+      allow write: if isAdmin();
+    }
+
+    // 2. Cadets master collection (Keyed by Cadet ID)
+    match /cadets/{cadetId} {
+      // Admin and CTO can read; Cadet can ONLY read their own document matching token cadetId
+      allow get: if isAdmin() || isCto() || (isCadet() && getCadetId() == cadetId);
+      // Listing cadets is restricted to Admin and CTO (cadet cannot list collection)
+      allow list: if isAdmin() || isCto();
+      // Only Admin can create, modify, or delete master cadet records directly
+      allow write: if isAdmin();
+    }
+
+    // 3. Categories collection (Dynamic profile groupings)
+    match /categories/{categoryId} {
+      // Authenticated users can read profile categories for rendering
+      allow read: if isAuthenticated();
+      // Only Admin can create or modify categories
+      allow write: if isAdmin();
+    }
+
+    // 4. Fields collection (Dynamic field schemas)
+    match /fields/{fieldId} {
+      // Authenticated users can read active field definitions
+      allow read: if isAuthenticated();
+      // Only Admin can create, edit, or deactivate field schemas
+      allow write: if isAdmin();
+    }
+
+    // 5. Documents collection (Cadet document metadata)
+    match /documents/{docId} {
+      // Admin and CTO can read; Cadet can read if document belongs to their cadetId
+      allow get: if isAdmin() || isCto() || (isCadet() && resource.data.cadetId == getCadetId());
+      allow list: if isAdmin() || isCto() || (isCadet() && resource.data.cadetId == getCadetId());
+      // Admin can write; Cadet can register upload for their own cadetId
+      allow create: if isAdmin() || (isCadet() && request.resource.data.cadetId == getCadetId());
+      // Only Admin can verify/reject or update document records
+      allow update, delete: if isAdmin();
+    }
+
+    // 6. Data Requests collection
+    match /data_requests/{requestId} {
+      // Authenticated users can read requests
+      allow read: if isAuthenticated();
+      // Admin and CTO can create and update data requests
+      allow create, update: if isAdmin() || isCto();
+      // Only Admin can delete data requests
+      allow delete: if isAdmin();
+    }
+
+    // 7. Change Requests collection
+    match /change_requests/{changeId} {
+      // Admin and CTO can read; Cadet can read their own change requests
+      allow get: if isAdmin() || isCto() || (isCadet() && resource.data.cadetId == getCadetId());
+      allow list: if isAdmin() || isCto() || (isCadet() && resource.data.cadetId == getCadetId());
+      // Cadet can submit a change request for their own cadetId
+      allow create: if isCadet() && request.resource.data.cadetId == getCadetId();
+      // Only Admin can review (approve/reject) or delete change requests
+      allow update, delete: if isAdmin();
+    }
+
+    // 8. Audit Logs collection (Strictly Append-Only)
+    match /audit_logs/{logId} {
+      // Only Admin can read audit history
+      allow read: if isAdmin();
+      // Authenticated users or server functions can append audit logs
+      allow create: if isAuthenticated();
+      // Immutable: Update and Delete are PERMANENTLY DENIED for everyone (including Admin)
+      allow update, delete: if false;
+    }
+
+    // 9. Internal system collections (Server-side Admin SDK only)
+    match /system_otps/{otpId} {
+      allow read, write: if false;
+    }
+
+    match /system_counters/{counterId} {
+      allow read, write: if false;
+    }
+  }
+}
