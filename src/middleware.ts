@@ -27,6 +27,14 @@ function parseJwtPayload(token: string): DecodedTokenPayload | null {
   }
 }
 
+function applySecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  return response;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
@@ -48,9 +56,9 @@ export function middleware(request: NextRequest) {
 
   // 1. If user is already authenticated and visits an auth page, redirect to their role portal
   if (isAuthRoute && isAuthenticated && userRole) {
-    if (userRole === "admin") return NextResponse.redirect(new URL("/admin", request.url));
-    if (userRole === "cto") return NextResponse.redirect(new URL("/cto", request.url));
-    if (userRole === "cadet") return NextResponse.redirect(new URL("/cadet", request.url));
+    if (userRole === "admin") return applySecurityHeaders(NextResponse.redirect(new URL("/admin", request.url)));
+    if (userRole === "cto") return applySecurityHeaders(NextResponse.redirect(new URL("/cto", request.url)));
+    if (userRole === "cadet") return applySecurityHeaders(NextResponse.redirect(new URL("/cadet", request.url)));
   }
 
   // 2. Protect role-based routes
@@ -62,27 +70,27 @@ export function middleware(request: NextRequest) {
       if (sessionCookie && isExpired) {
         response.cookies.delete(SESSION_COOKIE_NAME);
       }
-      return response;
+      return applySecurityHeaders(response);
     }
 
     // Role-specific authorization boundaries
     if (pathname.startsWith("/admin") && userRole !== "admin") {
       const target = userRole === "cto" ? "/cto" : "/cadet";
-      return NextResponse.redirect(new URL(target, request.url));
+      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
     }
 
     if (pathname.startsWith("/cto") && userRole !== "cto") {
       const target = userRole === "admin" ? "/admin" : "/cadet";
-      return NextResponse.redirect(new URL(target, request.url));
+      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
     }
 
     if (pathname.startsWith("/cadet") && userRole !== "cadet") {
       const target = userRole === "admin" ? "/admin" : "/cto";
-      return NextResponse.redirect(new URL(target, request.url));
+      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
     }
   }
 
-  return NextResponse.next();
+  return applySecurityHeaders(NextResponse.next());
 }
 
 export const config = {

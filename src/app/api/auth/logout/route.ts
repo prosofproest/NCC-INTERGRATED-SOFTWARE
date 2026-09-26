@@ -1,14 +1,31 @@
 import { NextResponse } from "next/server";
-import { clearSession } from "@/lib/auth/session";
+import { clearSession, getSession } from "@/lib/auth/session";
+import { logAuditEvent } from "@/lib/security/audit";
+import { getClientIp } from "@/lib/security/rate-limit";
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const userAgent = request.headers.get("user-agent") || "unknown";
+
+  const session = await getSession();
+  if (session) {
+    await logAuditEvent({
+      actorId: session.uid,
+      actorEmail: session.email,
+      actorRole: session.role,
+      action: "AUTH_LOGOUT",
+      entityType: "user",
+      entityId: session.uid,
+      ipAddress: ip,
+      userAgent,
+    });
+  }
+
   await clearSession();
   const url = new URL("/login", request.url);
   return NextResponse.redirect(url, { status: 303 });
 }
 
 export async function GET(request: Request) {
-  await clearSession();
-  const url = new URL("/login", request.url);
-  return NextResponse.redirect(url, { status: 303 });
+  return POST(request);
 }
