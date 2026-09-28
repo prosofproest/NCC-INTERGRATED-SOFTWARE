@@ -1,0 +1,429 @@
+"use client";
+
+import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { Badge, type BadgeVariant } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card, CardContent } from "@/components/ui/Card";
+import type { CadetRecord } from "@/types/cadet";
+
+export default function AdminCadetsPage() {
+  const [cadets, setCadets] = useState<CadetRecord[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Filters & Search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [wingFilter, setWingFilter] = useState("all");
+
+  // Debounce search input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setPage(1);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  const fetchCadetsData = useCallback(async (p: number, s: string, status: string, wing: string) => {
+    try {
+      const params = new URLSearchParams({
+        page: String(p),
+        limit: "10",
+        search: s,
+        status: status,
+        wing: wing,
+      });
+
+      const res = await fetch(`/api/admin/cadets?${params.toString()}`);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Error ${res.status}: Failed to fetch cadets`);
+      }
+
+      const data = await res.json();
+      return {
+        cadets: data.cadets || [],
+        total: data.total || 0,
+        totalPages: data.totalPages || 1,
+      };
+    } catch (err: unknown) {
+      throw err;
+    }
+  }, []);
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetchCadetsData(page, debouncedSearch, statusFilter, wingFilter)
+      .then((data) => {
+        if (!ignore) {
+          setCadets(data.cadets);
+          setTotal(data.total);
+          setTotalPages(data.totalPages);
+          setError(null);
+          setLoading(false);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!ignore) {
+          setError(err instanceof Error ? err.message : "Failed to load cadets");
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [page, debouncedSearch, statusFilter, wingFilter, fetchCadetsData]);
+
+  const getWingVariant = (wing: string): BadgeVariant => {
+    switch (wing) {
+      case "Army":
+        return "army";
+      case "Navy":
+        return "navy";
+      case "Air":
+        return "air";
+      default:
+        return "default";
+    }
+  };
+
+  const getStatusVariant = (status: string): BadgeVariant => {
+    switch (status) {
+      case "active":
+        return "success";
+      case "suspended":
+        return "danger";
+      case "inactive":
+        return "warning";
+      case "passed_out":
+        return "default";
+      default:
+        return "default";
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            Cadets Directory
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Master records for all enrolled cadets. Filter by status, wing, or search by ID, name, or enrollment.
+          </p>
+        </div>
+        <div className="text-xs text-slate-500 dark:text-slate-400 self-start sm:self-auto font-medium">
+          Showing {cadets.length} of {total} cadets
+        </div>
+      </div>
+
+      {/* Filter and Search Bar */}
+      <Card>
+        <CardContent className="p-4 sm:p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+            {/* Search Input */}
+            <div className="sm:col-span-6 relative">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search by name, cadet ID, enrollment, email..."
+                className="w-full pl-10 pr-9 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+
+            {/* Status Filter */}
+            <div className="sm:col-span-3">
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+              >
+                <option value="all">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="suspended">Suspended</option>
+                <option value="passed_out">Passed Out</option>
+              </select>
+            </div>
+
+            {/* Wing Filter */}
+            <div className="sm:col-span-3">
+              <select
+                value={wingFilter}
+                onChange={(e) => {
+                  setWingFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+              >
+                <option value="all">All Wings</option>
+                <option value="Army">Army Wing</option>
+                <option value="Navy">Navy Wing</option>
+                <option value="Air">Air Wing</option>
+              </select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Error state */}
+      {error && (
+        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300">
+          {error}
+        </div>
+      )}
+
+      {/* Loading state */}
+      {loading ? (
+        <Card>
+          <div className="p-12 text-center text-slate-400 flex flex-col items-center gap-3">
+            <svg
+              className="animate-spin h-6 w-6 text-slate-600 dark:text-slate-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            <span className="text-xs font-medium">Loading cadet records...</span>
+          </div>
+        </Card>
+      ) : cadets.length === 0 ? (
+        <Card>
+          <div className="p-12 text-center text-slate-500 space-y-3">
+            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">No Cadets Found</h3>
+            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              No cadet records match your current filter or search criteria. Try modifying your search query or reset filters.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("");
+                setStatusFilter("all");
+                setWingFilter("all");
+                setPage(1);
+              }}
+            >
+              Reset Filters
+            </Button>
+          </div>
+        </Card>
+      ) : (
+        <>
+          {/* Desktop Table View */}
+          <div className="hidden lg:block">
+            <Card className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                    <tr>
+                      <th className="px-6 py-3.5">Cadet ID</th>
+                      <th className="px-6 py-3.5">Name &amp; Email</th>
+                      <th className="px-6 py-3.5">Enrollment No</th>
+                      <th className="px-6 py-3.5">Rank &amp; Wing</th>
+                      <th className="px-6 py-3.5">Unit</th>
+                      <th className="px-6 py-3.5">Status</th>
+                      <th className="px-6 py-3.5">Profile %</th>
+                      <th className="px-6 py-3.5 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    {cadets.map((cadet) => (
+                      <tr
+                        key={cadet.cadetId}
+                        className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+                      >
+                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                          {cadet.cadetId}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="font-semibold text-slate-900 dark:text-slate-100 text-sm">
+                            {cadet.fullName}
+                          </div>
+                          <div className="text-xs text-slate-400 font-normal">
+                            {cadet.email}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-xs font-mono text-slate-600 dark:text-slate-400">
+                          {cadet.enrollmentNo || (
+                            <span className="italic text-slate-400 font-sans">Pending</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
+                              {cadet.rank}
+                            </span>
+                            <Badge variant={getWingVariant(cadet.wing)} size="sm">
+                              {cadet.wing}
+                            </Badge>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400">
+                          {cadet.unit}
+                        </td>
+                        <td className="px-6 py-4">
+                          <Badge variant={getStatusVariant(cadet.status)} size="sm">
+                            {cadet.status}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                              <div
+                                className="bg-emerald-500 h-1.5 rounded-full"
+                                style={{ width: `${cadet.completionPercentage || 0}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-medium text-slate-500">
+                              {cadet.completionPercentage || 0}%
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <Link
+                            href={`/admin/cadets/${cadet.cadetId}`}
+                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+                          >
+                            Details &rarr;
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
+
+          {/* Mobile & Tablet Card View */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4">
+            {cadets.map((cadet) => (
+              <Card key={cadet.cadetId} className="p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="text-xs font-mono font-bold text-slate-500">
+                      {cadet.cadetId}
+                    </span>
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {cadet.fullName}
+                    </h3>
+                    <p className="text-xs text-slate-400">{cadet.email}</p>
+                  </div>
+                  <Badge variant={getStatusVariant(cadet.status)} size="sm">
+                    {cadet.status}
+                  </Badge>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 text-xs pt-1 border-t border-slate-100 dark:border-slate-800">
+                  <Badge variant={getWingVariant(cadet.wing)} size="sm">
+                    {cadet.wing}
+                  </Badge>
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">
+                    {cadet.rank}
+                  </span>
+                  <span className="text-slate-400">&bull;</span>
+                  <span className="text-slate-500 truncate max-w-[160px]">{cadet.unit}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs pt-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-400">Profile:</span>
+                    <div className="w-14 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className="bg-emerald-500 h-1.5 rounded-full"
+                        style={{ width: `${cadet.completionPercentage || 0}%` }}
+                      />
+                    </div>
+                    <span className="font-semibold text-slate-600 dark:text-slate-300">
+                      {cadet.completionPercentage || 0}%
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/admin/cadets/${cadet.cadetId}`}
+                    className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    View Record &rarr;
+                  </Link>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs text-slate-500">
+                Page {page} of {totalPages}
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                >
+                  &larr; Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                >
+                  Next &rarr;
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
