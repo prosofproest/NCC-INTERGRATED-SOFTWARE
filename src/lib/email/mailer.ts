@@ -142,3 +142,97 @@ export async function sendPasswordResetEmail(to: string, resetLink: string) {
     text: `Jai Hind.\n\nTo reset your password for the NCC Data System, open the following link in your browser:\n\n${resetLink}\n\nThis link expires in 1 hour. If you did not request this, you can ignore this email.`,
   });
 }
+
+export interface SendCadetWelcomeEmailOptions {
+  to: string;
+  cadetName: string;
+  cadetId: string;
+  setupLink?: string;
+  tempPassword?: string;
+}
+
+export async function sendCadetWelcomeEmail({
+  to,
+  cadetName,
+  cadetId,
+  setupLink,
+  tempPassword,
+}: SendCadetWelcomeEmailOptions) {
+  const subject = "Welcome to NCC Integrated System — Account Activation";
+  const loginUrl = process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/login`
+    : "http://localhost:3000/login";
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; padding: 20px; }
+          .container { max-width: 540px; margin: 0 auto; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+          .header { text-align: center; margin-bottom: 24px; }
+          .badge { display: inline-block; padding: 4px 12px; background-color: #0a192f; color: #ffffff; font-weight: 700; border-radius: 6px; font-size: 13px; letter-spacing: 0.05em; }
+          .title { font-size: 20px; font-weight: 700; margin: 16px 0 8px; color: #0a192f; }
+          .card { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px; margin: 20px 0; }
+          .row { margin-bottom: 8px; font-size: 14px; }
+          .row:last-child { margin-bottom: 0; }
+          .label { font-weight: 600; color: #475569; }
+          .value { font-family: monospace; font-weight: 700; color: #0a192f; }
+          .btn-container { text-align: center; margin: 28px 0; }
+          .btn { display: inline-block; background-color: #0a192f; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+          .meta { font-size: 14px; color: #475569; line-height: 1.6; }
+          .warning { font-size: 12px; color: #64748b; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <span class="badge">NCC INTEGRATED SYSTEM</span>
+            <h1 class="title">Cadet Account Created</h1>
+          </div>
+          <p class="meta">Jai Hind, <strong>${cadetName}</strong> 🇮🇳</p>
+          <p class="meta">Your official account has been created in the NCC Data Collection &amp; Organization System.</p>
+          
+          <div class="card">
+            <div class="row"><span class="label">Permanent Cadet ID:</span> <span class="value">${cadetId}</span></div>
+            <div class="row"><span class="label">Registered Email:</span> <span class="value">${to}</span></div>
+            ${tempPassword ? `<div class="row"><span class="label">Temporary Password:</span> <span class="value">${tempPassword}</span></div>` : ""}
+          </div>
+
+          ${
+            setupLink
+              ? `
+            <p class="meta">Click the button below to set your permanent password and access your cadet portal:</p>
+            <div class="btn-container">
+              <a href="${setupLink}" class="btn" style="color: #ffffff;">Set Password &amp; Login</a>
+            </div>
+            <p class="meta" style="font-size: 12px; color: #64748b;">Or use this activation link: <br/><a href="${setupLink}">${setupLink}</a></p>
+          `
+              : `
+            <div class="btn-container">
+              <a href="${loginUrl}" class="btn" style="color: #ffffff;">Login to Cadet Portal</a>
+            </div>
+          `
+          }
+
+          <p class="meta" style="font-size: 12px; color: #64748b;">
+            <strong>Security Notice:</strong> You will be strictly required to change your password upon your first login. Do not share your login credentials with anyone.
+          </p>
+
+          <div class="warning">
+            National Cadet Corps • Integrated Data Management System
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to,
+    subject,
+    html,
+    text: `Jai Hind, ${cadetName} 🇮🇳\n\nYour account has been created in the NCC Integrated System.\nCadet ID: ${cadetId}\nRegistered Email: ${to}\n${tempPassword ? `Temporary Password: ${tempPassword}\n` : ""}\n${setupLink ? `Password Activation Link: ${setupLink}\n` : `Login: ${loginUrl}\n`}\nPlease change your password immediately upon first login.`,
+  });
+}
+

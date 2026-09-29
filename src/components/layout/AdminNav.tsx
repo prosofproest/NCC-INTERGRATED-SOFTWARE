@@ -13,6 +13,7 @@ const navItems = [
   { href: "/admin/data-structure", label: "Data Structure", exact: false },
   { href: "/admin/data-requests", label: "Data Requests", exact: false },
   { href: "/admin/change-requests", label: "Change Requests", exact: false },
+  { href: "/admin/import-export", label: "Import / Export", exact: false },
 ];
 
 export function AdminNav({ userEmail }: AdminNavProps) {

@@ -95,6 +95,12 @@ export default async function AdminDashboardPage() {
               </span>
             )}
           </Link>
+          <Link
+            href="/admin/import-export"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+          >
+            Import / Export
+          </Link>
         </div>
       </div>
 
