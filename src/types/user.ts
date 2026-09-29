@@ -9,6 +9,8 @@ export interface UserProfile {
   uid: string;
   email: string;
   role: UserRole;
+  status?: "active" | "locked";
+  disabled?: boolean;
   mustChangePassword?: boolean;
   cadetId?: string;
   name?: string;

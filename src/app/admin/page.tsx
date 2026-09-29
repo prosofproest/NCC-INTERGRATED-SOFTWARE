@@ -14,6 +14,7 @@ export default async function AdminDashboardPage() {
   let totalCadets = 0;
   let activeCadets = 0;
   let inactiveCadets = 0;
+  let totalCtos = 0;
   let totalCategories = 0;
   let totalFields = 0;
   let pendingChangeRequests = 0;
@@ -23,6 +24,7 @@ export default async function AdminDashboardPage() {
     const [
       totalCadetsSnap,
       activeCadetsSnap,
+      ctosSnap,
       categoriesSnap,
       fieldsSnap,
       pendingChangeRequestsSnap,
@@ -30,6 +32,7 @@ export default async function AdminDashboardPage() {
     ] = await Promise.all([
       adminDb.collection("cadets").count().get(),
       adminDb.collection("cadets").where("status", "==", "active").count().get(),
+      adminDb.collection("users").where("role", "==", "cto").count().get(),
       adminDb.collection("categories").count().get(),
       adminDb.collection("fields").count().get(),
       adminDb.collection("change_requests").where("status", "==", "pending").count().get(),
@@ -39,6 +42,7 @@ export default async function AdminDashboardPage() {
     totalCadets = totalCadetsSnap.data().count;
     activeCadets = activeCadetsSnap.data().count;
     inactiveCadets = Math.max(0, totalCadets - activeCadets);
+    totalCtos = ctosSnap.data().count;
     totalCategories = categoriesSnap.data().count;
     totalFields = fieldsSnap.data().count;
     pendingChangeRequests = pendingChangeRequestsSnap.data().count;
@@ -96,6 +100,12 @@ export default async function AdminDashboardPage() {
             )}
           </Link>
           <Link
+            href="/admin/cto-management"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+          >
+            CTO Management
+          </Link>
+          <Link
             href="/admin/import-export"
             className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
           >
@@ -105,7 +115,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Primary Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         {/* Total Cadets */}
         <Card>
           <CardContent className="p-6">
@@ -124,6 +134,28 @@ export default async function AdminDashboardPage() {
                 {totalCadets}
               </span>
               <p className="text-xs text-slate-500 mt-1">Master enrolled profiles</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* CTO Officers */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                CTO Officers
+              </span>
+              <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </span>
+            </div>
+            <div className="mt-4">
+              <span className="text-3xl font-bold tracking-tight text-amber-600 dark:text-amber-400">
+                {totalCtos}
+              </span>
+              <p className="text-xs text-slate-500 mt-1">Care Taker Officers</p>
             </div>
           </CardContent>
         </Card>
@@ -157,14 +189,14 @@ export default async function AdminDashboardPage() {
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Inactive / Suspended
               </span>
-              <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+              <span className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-amber-600 dark:text-amber-400">
+              <span className="text-3xl font-bold tracking-tight text-rose-600 dark:text-rose-400">
                 {inactiveCadets}
               </span>
               <p className="text-xs text-slate-500 mt-1">Deactivated or locked</p>

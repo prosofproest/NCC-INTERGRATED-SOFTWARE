@@ -21,6 +21,9 @@ export async function createSessionCookieFromIdToken(idToken: string) {
 
   if (userDoc.exists) {
     const userData = userDoc.data();
+    if (userData?.status === "locked" || userData?.disabled === true) {
+      throw new Error("Your account has been deactivated. Please contact an administrator.");
+    }
     role = userData?.role || role;
     mustChangePassword = Boolean(userData?.mustChangePassword);
     cadetId = userData?.cadetId || cadetId;
@@ -67,15 +70,19 @@ export async function createSessionCookieFromIdToken(idToken: string) {
     expiresIn: SESSION_EXPIRY_MS,
   });
 
-  // 4. Store in HTTP-only cookie
-  const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE_NAME, sessionCookie, {
-    maxAge: Math.floor(SESSION_EXPIRY_MS / 1000),
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-  });
+  // 4. Store in HTTP-only cookie (if running in Next.js request scope)
+  try {
+    const cookieStore = await cookies();
+    cookieStore.set(SESSION_COOKIE_NAME, sessionCookie, {
+      maxAge: Math.floor(SESSION_EXPIRY_MS / 1000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
+  } catch {
+    // Fallback if invoked outside Next.js request scope (e.g. standalone test scripts)
+  }
 
   return {
     uid,
@@ -108,6 +115,9 @@ export async function getSession(): Promise<AuthSessionUser | null> {
     // Check if user still exists and whether mustChangePassword is required
     const userDoc = await adminDb.collection("users").doc(uid).get();
     const userData = userDoc.data();
+    if (userData?.status === "locked" || userData?.disabled === true) {
+      return null;
+    }
     const mustChangePassword = Boolean(userData?.mustChangePassword);
     const cadetId = userData?.cadetId || (decodedClaims.cadetId as string | undefined);
 
