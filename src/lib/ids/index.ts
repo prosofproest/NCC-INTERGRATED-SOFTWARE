@@ -10,6 +10,7 @@ export type IdType =
   | "document"
   | "data_request"
   | "change_request"
+  | "notification"
   | "audit_log";
 
 interface IdConfig {
@@ -24,6 +25,7 @@ const ID_CONFIGS: Record<IdType, IdConfig> = {
   document: { prefix: "DOC_", padding: 5 }, // e.g. DOC_00001
   data_request: { prefix: "REQ_", padding: 5 }, // e.g. REQ_00001
   change_request: { prefix: "CR_", padding: 5 }, // e.g. CR_00001
+  notification: { prefix: "NOTIF_", padding: 5 }, // e.g. NOTIF_00001
   audit_log: { prefix: "LOG_", padding: 7 }, // e.g. LOG_0000001
 };
 
@@ -76,4 +78,5 @@ export const generateFieldId = () => generatePermanentId("field");
 export const generateDocumentId = () => generatePermanentId("document");
 export const generateDataRequestId = () => generatePermanentId("data_request");
 export const generateChangeRequestId = () => generatePermanentId("change_request");
+export const generateNotificationId = () => generatePermanentId("notification");
 export const generateAuditLogId = () => generatePermanentId("audit_log");

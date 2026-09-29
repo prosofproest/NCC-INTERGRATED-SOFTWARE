@@ -4,6 +4,7 @@ import { adminDb } from "@/lib/firebase/admin";
 import { generateDataRequestId } from "@/lib/ids";
 import { logAuditEvent } from "@/lib/security/audit";
 import { CreateDataRequestInputSchema } from "@/lib/validation/request";
+import { createBroadcastNotification } from "@/lib/notifications/service";
 import { computeMissingFieldIds } from "@/features/data-requests/utils/missing-fields";
 import type { DataRequest, CadetResponseRecord } from "@/types/request";
 import type { CadetRecord } from "@/types/cadet";
@@ -156,6 +157,27 @@ export async function POST(req: NextRequest) {
         deadline: deadline || null,
       },
     });
+
+    // Auto-generate notifications for targeted cadets
+    try {
+      await createBroadcastNotification({
+        targetGroup: targetCadetIds === "all" ? "all_cadets" : "selected_cadets",
+        targetCadetIds: Array.isArray(targetCadetIds) ? targetCadetIds : undefined,
+        title: `New Data Request: ${dataRequest.title}`,
+        message: `A new data request "${dataRequest.title}" has been issued.${deadline ? ` Deadline: ${new Date(deadline).toLocaleDateString()}` : ""} Please review and submit your required fields.`,
+        importance: "important",
+        entityType: "data_request",
+        entityId: requestId,
+        link: "/cadet/data-requests",
+        sender: {
+          id: session.uid,
+          name: session.email || `${session.role.toUpperCase()} User`,
+          role: session.role as "admin" | "cto",
+        },
+      });
+    } catch (notifErr) {
+      console.error("Non-critical error sending data request notifications:", notifErr);
+    }
 
     return NextResponse.json(
       {

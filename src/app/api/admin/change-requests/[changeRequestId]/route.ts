@@ -3,6 +3,7 @@ import { requireAdmin, AuthError } from "@/lib/authorization";
 import { adminDb } from "@/lib/firebase/admin";
 import { logAuditEvent } from "@/lib/security/audit";
 import { ReviewChangeRequestInputSchema } from "@/lib/validation/request";
+import { createNotification } from "@/lib/notifications/service";
 import type { ChangeRequest } from "@/types/request";
 import type { CadetRecord } from "@/types/cadet";
 import type { FieldDefinition } from "@/types/fields";
@@ -224,6 +225,31 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
         fieldLabel: transactionResult.crData.fieldLabel,
       },
     });
+
+    // Auto-generate notification for cadet
+    try {
+      await createNotification({
+        recipient: transactionResult.crData.cadetId,
+        recipientCadetId: transactionResult.crData.cadetId,
+        recipientRole: "cadet",
+        title: `Change Request ${action === "approve" ? "Approved" : "Rejected"}: ${transactionResult.crData.fieldLabel}`,
+        message:
+          action === "approve"
+            ? `Your change request for ${transactionResult.crData.fieldLabel} has been approved by administration.`
+            : `Your change request for ${transactionResult.crData.fieldLabel} was rejected.${reviewerComments ? ` Reason: ${reviewerComments}` : ""}`,
+        importance: action === "approve" ? "normal" : "important",
+        entityType: "change_request",
+        entityId: changeRequestId,
+        link: "/cadet/change-requests",
+        sender: {
+          id: session.uid,
+          name: session.email || "System Admin",
+          role: "admin",
+        },
+      });
+    } catch (notifErr) {
+      console.error("Non-critical error sending change request notification:", notifErr);
+    }
 
     return NextResponse.json({
       success: true,

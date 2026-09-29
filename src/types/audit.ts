@@ -7,6 +7,7 @@ export type AuditEntityType =
   | "document"
   | "data_request"
   | "change_request"
+  | "notification"
   | "user"
   | "system";
 
@@ -33,6 +34,8 @@ export type AuditActionType =
   | "BATCH_CADETS_IMPORTED"
   | "ADMIN_CLAIM_ASSIGNED"
   | "USER_PASSWORD_RESET"
+  | "NOTIFICATION_SENT"
+  | "BROADCAST_NOTIFICATION_SENT"
   | "SYSTEM_BACKUP_CREATED";
 
 export interface AuditLogEntry {

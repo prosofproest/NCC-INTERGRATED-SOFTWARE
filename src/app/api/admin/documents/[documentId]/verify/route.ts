@@ -3,6 +3,7 @@ import { requireAdmin, AuthError } from "@/lib/authorization";
 import { adminDb } from "@/lib/firebase/admin";
 import { logAuditEvent } from "@/lib/security/audit";
 import { VerifyDocumentInputSchema } from "@/lib/validation/document";
+import { createNotification } from "@/lib/notifications/service";
 import type { CadetDocumentMetadata } from "@/types/document";
 
 export const dynamic = "force-dynamic";
@@ -115,6 +116,31 @@ export async function POST(request: NextRequest, context: RouteContext) {
         version: previousDoc.version,
       },
     });
+
+    // Auto-generate notification for cadet
+    try {
+      await createNotification({
+        recipient: previousDoc.cadetId,
+        recipientCadetId: previousDoc.cadetId,
+        recipientRole: "cadet",
+        title: `Document ${verificationStatus === "verified" ? "Verified" : "Rejected"}: ${previousDoc.title || previousDoc.fileName}`,
+        message:
+          verificationStatus === "verified"
+            ? `Your document "${previousDoc.title || previousDoc.fileName}" has been verified by administration.`
+            : `Your document "${previousDoc.title || previousDoc.fileName}" was rejected.${rejectionReason ? ` Reason: ${rejectionReason.trim()}` : ""}`,
+        importance: verificationStatus === "verified" ? "normal" : "important",
+        entityType: "document",
+        entityId: documentId,
+        link: "/cadet",
+        sender: {
+          id: session.uid,
+          name: session.email || "System Admin",
+          role: "admin",
+        },
+      });
+    } catch (notifErr) {
+      console.error("Non-critical error sending document notification:", notifErr);
+    }
 
     return NextResponse.json({
       success: true,

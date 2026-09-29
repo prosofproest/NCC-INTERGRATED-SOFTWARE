@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NotificationBadge } from "@/features/notifications/components/NotificationBadge";
 
 interface CadetNavProps {
   userEmail: string;
@@ -70,6 +71,8 @@ export function CadetNav({ userEmail, cadetName }: CadetNavProps) {
 
           {/* User Profile & Sign Out */}
           <div className="flex items-center gap-3">
+            <NotificationBadge href="/cadet/notifications" />
+
             <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
               <span className="text-slate-700 dark:text-slate-300 font-medium max-w-[160px] truncate">

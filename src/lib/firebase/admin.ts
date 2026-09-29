@@ -32,3 +32,8 @@ function getAdminApp(): App {
 export const adminApp: App = getAdminApp();
 export const adminAuth: Auth = getAuth(adminApp);
 export const adminDb: Firestore = getFirestore(adminApp);
+try {
+  adminDb.settings({ ignoreUndefinedProperties: true });
+} catch {
+  // Settings can only be called before any other calls on Firestore
+}

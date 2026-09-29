@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NotificationBadge } from "@/features/notifications/components/NotificationBadge";
 
 interface AdminNavProps {
   userEmail: string;
@@ -13,6 +14,7 @@ const navItems = [
   { href: "/admin/data-structure", label: "Data Structure", exact: false },
   { href: "/admin/data-requests", label: "Data Requests", exact: false },
   { href: "/admin/change-requests", label: "Change Requests", exact: false },
+  { href: "/admin/notifications", label: "Notifications", exact: false },
   { href: "/admin/import-export", label: "Import / Export", exact: false },
 ];
 
@@ -69,6 +71,8 @@ export function AdminNav({ userEmail }: AdminNavProps) {
 
           {/* User Profile & Sign Out */}
           <div className="flex items-center gap-3">
+            <NotificationBadge href="/admin/notifications" />
+
             <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               <span className="text-slate-500 dark:text-slate-400 max-w-[160px] truncate">
