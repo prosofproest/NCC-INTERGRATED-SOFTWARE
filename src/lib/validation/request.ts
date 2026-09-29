@@ -7,6 +7,8 @@ export const CadetResponseRecordSchema = z.object({
   status: CadetResponseStatusSchema.default("pending"),
   completedAt: z.string().optional(),
   cadetName: z.string().optional(),
+  submittedValues: z.record(z.string(), z.unknown()).optional(),
+  missingFieldIds: z.array(z.string()).optional(),
 });
 
 export const DataRequestSchema = z.object({
@@ -15,6 +17,8 @@ export const DataRequestSchema = z.object({
   purpose: z.string().min(3, "Purpose must be provided"),
   requestedBy: z.string().min(1),
   requesterRole: z.enum(["admin", "cto"]),
+  requesterEmail: z.string().optional(),
+  requesterName: z.string().optional(),
   targetCadetIds: z.union([z.array(z.string()), z.literal("all")]),
   requiredFieldIds: z.array(z.string()).min(1, "At least one required field must be specified"),
   deadline: z.string().optional(),
@@ -27,9 +31,17 @@ export const DataRequestSchema = z.object({
 export const CreateDataRequestInputSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   purpose: z.string().min(3, "Purpose must be specified"),
-  targetCadetIds: z.union([z.array(z.string()), z.literal("all")]),
+  targetCadetIds: z.union([z.array(z.string()).min(1, "Select at least one cadet"), z.literal("all")]),
   requiredFieldIds: z.array(z.string()).min(1, "Select at least one required field"),
   deadline: z.string().optional(),
+});
+
+export const SubmitDataRequestInputSchema = z.object({
+  values: z.record(z.string(), z.unknown()),
+});
+
+export const CloseDataRequestInputSchema = z.object({
+  status: z.literal("closed"),
 });
 
 export const ChangeRequestStatusSchema = z.enum(["pending", "approved", "rejected"]);

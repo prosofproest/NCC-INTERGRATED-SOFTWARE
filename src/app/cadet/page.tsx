@@ -129,6 +129,23 @@ export default async function CadetDashboardPage() {
     // If index or collection empty, fallback safely
   }
 
+  // Fetch pending data requests count
+  let pendingDataRequestsCount = 0;
+  try {
+    const drSnap = await adminDb
+      .collection("data_requests")
+      .where("status", "==", "open")
+      .get();
+    for (const d of drSnap.docs) {
+      const data = d.data();
+      if (data.cadetResponses?.[cadet.cadetId]?.status === "pending") {
+        pendingDataRequestsCount++;
+      }
+    }
+  } catch {
+    // Safe fallback
+  }
+
   const wingVariant: BadgeVariant =
     cadet.wing === "Army"
       ? "army"
@@ -387,23 +404,57 @@ export default async function CadetDashboardPage() {
 
       {/* Placeholders Grid (Data Requests, Notifications, Documents) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Data Requests Placeholder (Stage 9) */}
-        <Card className="h-full">
+        {/* Active Data Requests Card */}
+        <Card className={`h-full ${pendingDataRequestsCount > 0 ? "border-amber-300 dark:border-amber-800 bg-amber-50/20" : ""}`}>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-semibold">Active Data Requests</CardTitle>
-              <Badge variant="outline" size="sm">Stage 9</Badge>
+              {pendingDataRequestsCount > 0 ? (
+                <Badge variant="warning" size="sm">
+                  {pendingDataRequestsCount} Pending
+                </Badge>
+              ) : (
+                <Badge variant="success" size="sm">
+                  Up to Date
+                </Badge>
+              )}
             </div>
           </CardHeader>
           <CardContent className="pt-2">
             <div className="text-center py-6 space-y-2">
-              <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto ${
+                  pendingDataRequestsCount > 0
+                    ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                }`}
+              >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  {pendingDataRequestsCount > 0 ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  )}
                 </svg>
               </div>
-              <p className="text-xs font-medium text-slate-700 dark:text-slate-300">No active data requests</p>
-              <p className="text-[11px] text-slate-400">You are completely up to date.</p>
+              <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                {pendingDataRequestsCount > 0
+                  ? `${pendingDataRequestsCount} Action${pendingDataRequestsCount > 1 ? "s" : ""} Required`
+                  : "No active data requests"}
+              </p>
+              <p className="text-[11px] text-slate-400">
+                {pendingDataRequestsCount > 0
+                  ? "Battalion officers have requested information."
+                  : "You are completely up to date."}
+              </p>
+              <div className="pt-2">
+                <Link
+                  href="/cadet/data-requests"
+                  className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  {pendingDataRequestsCount > 0 ? "Complete Now &rarr;" : "View Requests &rarr;"}
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>

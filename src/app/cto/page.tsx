@@ -84,10 +84,16 @@ export default async function CtoDashboardPage() {
             Cadets Directory &rarr;
           </Link>
           <Link
-            href="/cto/reports"
+            href="/cto/data-requests"
             className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
           >
-            Reports &amp; Export
+            Data Requests
+          </Link>
+          <Link
+            href="/cto/reports"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/5 text-slate-300 border border-white/10 font-medium text-xs sm:text-sm hover:bg-white/10 transition cursor-pointer"
+          >
+            Reports
           </Link>
         </div>
       </div>
@@ -184,7 +190,7 @@ export default async function CtoDashboardPage() {
       </div>
 
       {/* Quick Action Navigation Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link href="/cto/cadets" className="group">
           <Card className="h-full border border-slate-200/80 hover:border-amber-400 dark:border-slate-800 dark:hover:border-amber-600 transition-all hover:shadow-md">
             <CardHeader className="p-6">
@@ -201,6 +207,27 @@ export default async function CtoDashboardPage() {
               <CardTitle className="mt-4 text-base font-bold">Cadets Directory</CardTitle>
               <CardDescription>
                 Search and inspect verified cadet records. Access is automatically restricted to officer-permitted profile attributes.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        <Link href="/cto/data-requests" className="group">
+          <Card className="h-full border border-slate-200/80 hover:border-amber-400 dark:border-slate-800 dark:hover:border-amber-600 transition-all hover:shadow-md">
+            <CardHeader className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-700 dark:text-amber-300">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold group-hover:translate-x-1 transition-transform">
+                  Manage &rarr;
+                </span>
+              </div>
+              <CardTitle className="mt-4 text-base font-bold">Data Requests</CardTitle>
+              <CardDescription>
+                Dispatch ad-hoc mandatory data collection batches to targeted cadet rosters. Ask only for what is missing.
               </CardDescription>
             </CardHeader>
           </Card>

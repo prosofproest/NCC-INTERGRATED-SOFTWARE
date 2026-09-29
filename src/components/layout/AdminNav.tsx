@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", exact: true },
   { href: "/admin/cadets", label: "Cadets", exact: false },
   { href: "/admin/data-structure", label: "Data Structure", exact: false },
+  { href: "/admin/data-requests", label: "Data Requests", exact: false },
 ];
 
 export function AdminNav({ userEmail }: AdminNavProps) {

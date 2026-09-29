@@ -5,6 +5,8 @@ export interface CadetResponseRecord {
   status: CadetResponseStatus;
   completedAt?: string;
   cadetName?: string;
+  submittedValues?: Record<string, unknown>;
+  missingFieldIds?: string[];
 }
 
 export interface DataRequest {
@@ -13,6 +15,8 @@ export interface DataRequest {
   purpose: string;
   requestedBy: string; // Firebase Auth UID
   requesterRole: "admin" | "cto";
+  requesterEmail?: string;
+  requesterName?: string;
   targetCadetIds: string[] | "all"; // Specific cadets or all active cadets
   requiredFieldIds: string[]; // Field IDs required to be populated
   deadline?: string;

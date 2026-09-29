@@ -74,6 +74,12 @@ export default async function AdminDashboardPage() {
           >
             Data Structure
           </Link>
+          <Link
+            href="/admin/data-requests"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+          >
+            Data Requests
+          </Link>
         </div>
       </div>
 
