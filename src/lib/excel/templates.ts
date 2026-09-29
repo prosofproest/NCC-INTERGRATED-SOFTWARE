@@ -113,7 +113,7 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
   infoSheet.addRow({
     field: "Security Note",
     requirement: "System Policy",
-    spec: "Accounts will be provisioned with a secure temporary password. Cadets must change password on first login.",
+    spec: "Cadets will receive a secure activation link via email to establish their permanent password upon onboarding.",
   });
 
   const buffer = await workbook.xlsx.writeBuffer();

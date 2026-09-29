@@ -26,6 +26,30 @@ export async function createSessionCookieFromIdToken(idToken: string) {
     cadetId = userData?.cadetId || cadetId;
   }
 
+  // If user has mustChangePassword flag, check if they already set their own password via reset link
+  if (mustChangePassword) {
+    try {
+      const userRecord = await adminAuth.getUser(uid);
+      const creationMs = new Date(userRecord.metadata.creationTime).getTime();
+      const tokensValidMs = userRecord.tokensValidAfterTime
+        ? new Date(userRecord.tokensValidAfterTime).getTime()
+        : 0;
+
+      if (tokensValidMs > creationMs + 1000) {
+        mustChangePassword = false;
+        await userDocRef.set(
+          {
+            mustChangePassword: false,
+            updatedAt: new Date().toISOString(),
+          },
+          { merge: true }
+        );
+      }
+    } catch (checkErr) {
+      console.warn("Could not verify password update status with Firebase Auth:", checkErr);
+    }
+  }
+
   // If user role is present in DB but missing from custom claims, sync it to Firebase Auth custom claims
   if (role && decodedIdToken.role !== role) {
     await adminAuth.setCustomUserClaims(uid, {

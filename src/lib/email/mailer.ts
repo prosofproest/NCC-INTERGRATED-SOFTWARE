@@ -148,7 +148,6 @@ export interface SendCadetWelcomeEmailOptions {
   cadetName: string;
   cadetId: string;
   setupLink?: string;
-  tempPassword?: string;
 }
 
 export async function sendCadetWelcomeEmail({
@@ -156,12 +155,12 @@ export async function sendCadetWelcomeEmail({
   cadetName,
   cadetId,
   setupLink,
-  tempPassword,
 }: SendCadetWelcomeEmailOptions) {
-  const subject = "Welcome to NCC Integrated System — Account Activation";
+  const subject = "Welcome to NCC Integrated System — Set Up Your Account";
   const loginUrl = process.env.NEXT_PUBLIC_APP_URL
     ? `${process.env.NEXT_PUBLIC_APP_URL}/login`
     : "http://localhost:3000/login";
+  const activationUrl = setupLink || loginUrl;
 
   const html = `
     <!DOCTYPE html>
@@ -197,27 +196,16 @@ export async function sendCadetWelcomeEmail({
           <div class="card">
             <div class="row"><span class="label">Permanent Cadet ID:</span> <span class="value">${cadetId}</span></div>
             <div class="row"><span class="label">Registered Email:</span> <span class="value">${to}</span></div>
-            ${tempPassword ? `<div class="row"><span class="label">Temporary Password:</span> <span class="value">${tempPassword}</span></div>` : ""}
           </div>
 
-          ${
-            setupLink
-              ? `
-            <p class="meta">Click the button below to set your permanent password and access your cadet portal:</p>
-            <div class="btn-container">
-              <a href="${setupLink}" class="btn" style="color: #ffffff;">Set Password &amp; Login</a>
-            </div>
-            <p class="meta" style="font-size: 12px; color: #64748b;">Or use this activation link: <br/><a href="${setupLink}">${setupLink}</a></p>
-          `
-              : `
-            <div class="btn-container">
-              <a href="${loginUrl}" class="btn" style="color: #ffffff;">Login to Cadet Portal</a>
-            </div>
-          `
-          }
+          <p class="meta">Click below to set up your account password and access your cadet portal:</p>
+          <div class="btn-container">
+            <a href="${activationUrl}" class="btn" style="color: #ffffff;">Set Up Account Password</a>
+          </div>
+          <p class="meta" style="font-size: 12px; color: #64748b;">Or copy and paste this secure link into your browser: <br/><a href="${activationUrl}">${activationUrl}</a></p>
 
           <p class="meta" style="font-size: 12px; color: #64748b;">
-            <strong>Security Notice:</strong> You will be strictly required to change your password upon your first login. Do not share your login credentials with anyone.
+            <strong>Security Notice:</strong> For your security, this activation link is private and time-sensitive. Never forward or share this email or your login credentials with anyone.
           </p>
 
           <div class="warning">
@@ -232,7 +220,7 @@ export async function sendCadetWelcomeEmail({
     to,
     subject,
     html,
-    text: `Jai Hind, ${cadetName} 🇮🇳\n\nYour account has been created in the NCC Integrated System.\nCadet ID: ${cadetId}\nRegistered Email: ${to}\n${tempPassword ? `Temporary Password: ${tempPassword}\n` : ""}\n${setupLink ? `Password Activation Link: ${setupLink}\n` : `Login: ${loginUrl}\n`}\nPlease change your password immediately upon first login.`,
+    text: `Jai Hind, ${cadetName} 🇮🇳\n\nYour official account has been created in the NCC Integrated System.\n\nAccount Details:\n- Permanent Cadet ID: ${cadetId}\n- Registered Email: ${to}\n\nClick below to set up your account password and access your cadet portal:\n${activationUrl}\n\nFor security reasons, never share this link with anyone.`,
   });
 }
 

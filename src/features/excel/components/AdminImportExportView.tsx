@@ -410,7 +410,7 @@ export function AdminImportExportView() {
                     <span>Import Completed Successfully</span>
                   </div>
                   <p className="text-xs text-emerald-700 dark:text-emerald-300">
-                    Successfully created <strong>{importResult.createdCount}</strong> cadet accounts. Temporary passwords and activation emails have been dispatched.
+                    Successfully created <strong>{importResult.createdCount}</strong> cadet accounts. Secure activation and password setup emails have been dispatched.
                   </p>
                   {importResult.failedCount > 0 && (
                     <p className="text-xs text-amber-700 dark:text-amber-300 font-medium">

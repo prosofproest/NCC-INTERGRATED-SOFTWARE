@@ -125,7 +125,6 @@ export async function POST(req: NextRequest) {
             cadetName: item.name.trim(),
             cadetId: generatedCadetId,
             setupLink,
-            tempPassword,
           });
         } catch (mailErr) {
           console.error("Non-blocking error dispatching welcome email:", mailErr);

@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { confirmPasswordReset } from "firebase/auth";
+import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
 import Link from "next/link";
 
@@ -55,7 +55,20 @@ function ResetPasswordContent() {
     setLoading(true);
 
     try {
+      const email = await verifyPasswordResetCode(auth, oobCode);
       await confirmPasswordReset(auth, oobCode, newPassword);
+
+      // Notify server to clear mustChangePassword in Firestore so cadet lands directly on dashboard
+      try {
+        await fetch("/api/auth/reset-password/complete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+      } catch (syncErr) {
+        console.warn("Could not notify server of password reset completion:", syncErr);
+      }
+
       setSuccess(true);
       setTimeout(() => {
         router.push("/login");
