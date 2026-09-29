@@ -52,64 +52,42 @@ export function proxy(request: NextRequest) {
   const isAuthenticated = Boolean(uid && !isExpired);
   const userRole = decoded?.role;
 
-  const isAuthRoute =
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/forgot-password") ||
-    pathname.startsWith("/verify-otp") ||
-    pathname.startsWith("/reset-password");
-
-  const isProtectedRoleRoute =
-    pathname.startsWith("/admin") ||
-    pathname.startsWith("/cto") ||
-    pathname.startsWith("/cadet");
-
-  // 1. If user is already authenticated and visits an auth page, redirect to their role portal
-  if (isAuthRoute && isAuthenticated && userRole) {
-    if (userRole === "admin") return applySecurityHeaders(NextResponse.redirect(new URL("/admin", request.url)));
-    if (userRole === "cto") return applySecurityHeaders(NextResponse.redirect(new URL("/cto", request.url)));
-    if (userRole === "cadet") return applySecurityHeaders(NextResponse.redirect(new URL("/cadet", request.url)));
+  // Protect role-based routes: /admin, /cto, /cadet
+  if (!isAuthenticated || !userRole) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    const response = NextResponse.redirect(loginUrl);
+    // Explicitly delete session cookie so stale/revoked cookies do not cause redirect loops
+    if (sessionCookie) {
+      response.cookies.delete(SESSION_COOKIE_NAME);
+    }
+    return applySecurityHeaders(response);
   }
 
-  // 2. Protect role-based routes
-  if (isProtectedRoleRoute) {
-    if (!isAuthenticated || !userRole) {
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("redirect", pathname);
-      const response = NextResponse.redirect(loginUrl);
-      if (sessionCookie && isExpired) {
-        response.cookies.delete(SESSION_COOKIE_NAME);
-      }
-      return applySecurityHeaders(response);
-    }
+  // Role-specific authorization boundaries
+  if (pathname.startsWith("/admin") && userRole !== "admin") {
+    const target = userRole === "cto" ? "/cto" : "/cadet";
+    return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
+  }
 
-    // Role-specific authorization boundaries
-    if (pathname.startsWith("/admin") && userRole !== "admin") {
-      const target = userRole === "cto" ? "/cto" : "/cadet";
-      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
-    }
+  if (pathname.startsWith("/cto") && userRole !== "cto") {
+    const target = userRole === "admin" ? "/admin" : "/cadet";
+    return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
+  }
 
-    if (pathname.startsWith("/cto") && userRole !== "cto") {
-      const target = userRole === "admin" ? "/admin" : "/cadet";
-      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
-    }
-
-    if (pathname.startsWith("/cadet") && userRole !== "cadet") {
-      const target = userRole === "admin" ? "/admin" : "/cto";
-      return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
-    }
+  if (pathname.startsWith("/cadet") && userRole !== "cadet") {
+    const target = userRole === "admin" ? "/admin" : "/cto";
+    return applySecurityHeaders(NextResponse.redirect(new URL(target, request.url)));
   }
 
   return applySecurityHeaders(NextResponse.next());
 }
 
 export const config = {
+  // Only match protected role routes. Never intercept /login or public auth routes.
   matcher: [
     "/admin/:path*",
     "/cto/:path*",
     "/cadet/:path*",
-    "/login",
-    "/forgot-password",
-    "/verify-otp",
-    "/reset-password",
   ],
 };
