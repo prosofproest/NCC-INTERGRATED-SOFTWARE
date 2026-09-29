@@ -1,9 +1,10 @@
 import { getSession } from "@/lib/auth/session";
 import { adminDb } from "@/lib/firebase/admin";
 import type { CadetRecord } from "@/types/cadet";
-import type { FieldDefinition } from "@/types/fields";
+import type { FieldDefinition, CategoryDefinition } from "@/types/fields";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Badge, type BadgeVariant } from "@/components/ui/Badge";
+import { CadetDocumentManager } from "@/features/documents/CadetDocumentManager";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -106,6 +107,12 @@ export default async function CadetDashboardPage() {
   const fieldsSnap = await adminDb.collection("fields").where("isActive", "==", true).get();
   const activeFields = fieldsSnap.docs.map((d) => d.data() as FieldDefinition);
   const requiredFields = activeFields.filter((f) => f.validation?.required);
+
+  // Fetch active categories for document tagging
+  const categoriesSnap = await adminDb.collection("categories").where("isActive", "==", true).get();
+  const categories = categoriesSnap.docs
+    .map((d) => d.data() as CategoryDefinition)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
   const missingFields: FieldDefinition[] = [];
   for (const f of requiredFields) {
@@ -480,24 +487,26 @@ export default async function CadetDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Document Repository Placeholder (Stage 12) */}
+        {/* Document Repository & Cloud Storage */}
         <Card className="h-full">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-semibold">Documents</CardTitle>
-              <Badge variant="outline" size="sm">Stage 12</Badge>
+              <div>
+                <CardTitle className="text-sm font-semibold">Documents</CardTitle>
+                <CardDescription className="text-xs">
+                  Upload and view verified certificates and attachments
+                </CardDescription>
+              </div>
+              <Badge variant="success" size="sm">Drive Synced</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="text-center py-6 space-y-2">
-              <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <p className="text-xs font-medium text-slate-700 dark:text-slate-300">No documents uploaded yet</p>
-              <p className="text-[11px] text-slate-400">Cloud document repository activates in Stage 12.</p>
-            </div>
+            <CadetDocumentManager
+              cadetId={cadet.cadetId}
+              cadetName={cadet.fullName}
+              userRole="cadet"
+              categories={categories}
+            />
           </CardContent>
         </Card>
       </div>
