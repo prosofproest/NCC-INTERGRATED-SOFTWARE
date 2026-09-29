@@ -10,7 +10,6 @@ export interface DriveUploadParams {
   mimeType: string;
   buffer: Buffer;
   title: string;
-  allowMetadataFallback?: boolean;
 }
 
 export interface DriveUploadResult {
@@ -19,14 +18,13 @@ export interface DriveUploadResult {
   fileName?: string;
   error?: string;
   details?: unknown;
-  usedFallback?: boolean;
 }
 
 /**
- * Uploads a document to Google Drive inside the specified cadet subfolder.
- * Attempts binary media upload. If Google rejects due to 0-quota on personal drives
- * and fallback is enabled, provisions the file node in Drive.
- * Otherwise returns a clear error without creating false success.
+ * Uploads a binary document to Google Drive inside the specified cadet subfolder.
+ * Requires actual binary file creation in Google Drive.
+ * If Drive upload fails for ANY reason, strictly returns an error.
+ * Never fakes success, never creates fallback records.
  */
 export async function uploadDocumentFileToDrive(
   params: DriveUploadParams
@@ -40,7 +38,6 @@ export async function uploadDocumentFileToDrive(
     mimeType,
     buffer,
     title,
-    allowMetadataFallback,
   } = params;
 
   const drive = getDriveClient();
@@ -87,47 +84,6 @@ export async function uploadDocumentFileToDrive(
       errorObj.response?.data?.error?.message ||
       errorObj.message ||
       "Unknown Drive upload failure";
-
-    const isQuotaError =
-      errorMessage.includes("Service Accounts do not have storage quota") ||
-      errorObj.code === 403;
-
-    const allowFallback =
-      allowMetadataFallback ??
-      (process.env.GOOGLE_DRIVE_ALLOW_METADATA_FALLBACK === "true");
-
-    if (isQuotaError && allowFallback) {
-      try {
-        const fallbackRes = await drive.files.create({
-          requestBody: {
-            name: driveFileName,
-            parents: [folderId],
-            mimeType,
-            description: `Document: ${title} | Cadet: ${cadetId} | Version: ${version} | Size: ${buffer.length} bytes (Drive metadata fallback mode)`,
-            properties: {
-              originalFileName: fileName,
-              sizeBytes: String(buffer.length),
-              cadetId,
-              categoryId,
-              version: String(version),
-            },
-          },
-          fields: "id, name, mimeType",
-          supportsAllDrives: true,
-        });
-
-        if (fallbackRes.data.id) {
-          return {
-            success: true,
-            fileId: fallbackRes.data.id,
-            fileName: fallbackRes.data.name || driveFileName,
-            usedFallback: true,
-          };
-        }
-      } catch (fallbackErr) {
-        console.error("Fallback Drive file creation also failed:", fallbackErr);
-      }
-    }
 
     return {
       success: false,

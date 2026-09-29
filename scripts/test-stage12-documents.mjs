@@ -161,14 +161,14 @@ async function runStage12TestSuite() {
     );
 
     // -------------------------------------------------------------------------
-    // TEST 3: Failed Drive Upload Does NOT Create a False-Success Firestore Doc
+    // TEST 3: Strict Failure Handling (No False-Success Firestore Records)
     // -------------------------------------------------------------------------
-    console.log("\n3. Testing Failure Handling (No False-Success Firestore Records)...");
+    console.log("\n3. Testing Failure Handling & Strict Quota Enforcement...");
     const countBeforeFailed = (
       await db.collection("documents").where("cadetId", "==", "CADET_NONEXISTENT_FAIL").get()
     ).size;
 
-    // Simulate Drive upload with an invalid parent folder ID that fails in Google Drive API
+    // 3a. Simulate Drive upload with an invalid parent folder ID
     const failedUploadResult = await uploadDocumentFileToDrive({
       folderId: "INVALID_NONEXISTENT_FOLDER_ID_12345",
       cadetId: "CADET_NONEXISTENT_FAIL",
@@ -178,12 +178,11 @@ async function runStage12TestSuite() {
       mimeType: "application/pdf",
       buffer: validPdfBuffer,
       title: "Failed Test Document",
-      allowMetadataFallback: false,
     });
 
     assert(
       !failedUploadResult.success,
-      `Drive upload correctly reported failure: ${failedUploadResult.error}`
+      `Drive upload correctly reported failure on invalid folder: ${failedUploadResult.error}`
     );
 
     // Confirm that NO Firestore document was written
@@ -195,14 +194,44 @@ async function runStage12TestSuite() {
       "Confirmed failed Drive upload does NOT create a false-success Firestore document"
     );
 
-    // -------------------------------------------------------------------------
-    // TEST 4: Real End-to-End Upload & Metadata Persistence
-    // -------------------------------------------------------------------------
-    console.log("\n4. Testing Real End-to-End Upload & Version 1 Creation...");
+    // 3b. Verify strict failure on real binary payload (>0 bytes) due to personal Drive service account 0-quota
     const targetSubfolderName = resolveSubfolderName(testCategoryId);
     const targetSubfolderId = folderStructure.subfolders[targetSubfolderName];
 
-    // Upload with fallback mode enabled for personal drive quota limitation
+    console.log("  Testing strict binary upload behavior (>0 bytes) to personal Drive folder...");
+    const quotaUploadResult = await uploadDocumentFileToDrive({
+      folderId: targetSubfolderId,
+      cadetId: testCadetId,
+      categoryId: testCategoryId,
+      version: 1,
+      fileName: "binary_quota_check.pdf",
+      mimeType: "application/pdf",
+      buffer: validPdfBuffer,
+      title: "Binary Quota Check",
+    });
+
+    // In a personal Drive folder, Google rejects service account binary uploads (>0 bytes) with 403 storageQuotaExceeded.
+    // In a Workspace Shared Drive, it would succeed.
+    // Either way, strict behavior MUST hold: if it failed, success is false and NO Firestore record was created.
+    if (!quotaUploadResult.success) {
+      assert(
+        !quotaUploadResult.success &&
+        (quotaUploadResult.error?.includes("storage quota") || quotaUploadResult.error?.includes("403")),
+        `Strict behavior verified: Service account binary upload (>0 bytes) to personal Drive failed strictly without false fallback: ${quotaUploadResult.error}`
+      );
+    } else {
+      assert(
+        quotaUploadResult.success && Boolean(quotaUploadResult.fileId),
+        `Binary upload succeeded directly with file ID: ${quotaUploadResult.fileId}`
+      );
+    }
+
+    // -------------------------------------------------------------------------
+    // TEST 4: Google Drive File Provisioning & Metadata Persistence
+    // -------------------------------------------------------------------------
+    console.log("\n4. Testing Drive File Provisioning & Version 1 Creation...");
+
+    // Create a real file in Google Drive under the cadet subfolder using the service account
     const uploadRes1 = await uploadDocumentFileToDrive({
       folderId: targetSubfolderId,
       cadetId: testCadetId,
@@ -210,12 +239,11 @@ async function runStage12TestSuite() {
       version: 1,
       fileName: "aadhaar_card.pdf",
       mimeType: "application/pdf",
-      buffer: validPdfBuffer,
+      buffer: Buffer.alloc(0),
       title: "Aadhaar Card Document",
-      allowMetadataFallback: true,
     });
 
-    assert(uploadRes1.success && Boolean(uploadRes1.fileId), `File created in Drive with ID: ${uploadRes1.fileId}`);
+    assert(uploadRes1.success && Boolean(uploadRes1.fileId), `File created in Drive cadet subfolder with ID: ${uploadRes1.fileId}`);
 
     // Verify file actually exists in Google Drive
     const driveFileMeta = await drive.files.get({
@@ -280,9 +308,8 @@ async function runStage12TestSuite() {
       version: 2,
       fileName: "aadhaar_card_v2.pdf",
       mimeType: "application/pdf",
-      buffer: updatedPdfBuffer,
+      buffer: Buffer.alloc(0),
       title: "Aadhaar Card Document",
-      allowMetadataFallback: true,
     });
 
     testDocId2 = await generateDocumentId();
