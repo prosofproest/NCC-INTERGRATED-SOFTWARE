@@ -117,6 +117,12 @@ export default async function AdminDashboardPage() {
           >
             Audit Logs
           </Link>
+          <Link
+            href="/admin/system-health"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+          >
+            System Health
+          </Link>
         </div>
       </div>
 

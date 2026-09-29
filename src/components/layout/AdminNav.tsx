@@ -18,6 +18,7 @@ const navItems = [
   { href: "/admin/notifications", label: "Notifications", exact: false },
   { href: "/admin/import-export", label: "Import / Export", exact: false },
   { href: "/admin/audit-logs", label: "Audit Logs", exact: false },
+  { href: "/admin/system-health", label: "System Health", exact: false },
 ];
 
 export function AdminNav({ userEmail }: AdminNavProps) {
