@@ -16,6 +16,7 @@ export default async function AdminDashboardPage() {
   let inactiveCadets = 0;
   let totalCategories = 0;
   let totalFields = 0;
+  let pendingChangeRequests = 0;
   let recentCadets: CadetRecord[] = [];
 
   try {
@@ -24,12 +25,14 @@ export default async function AdminDashboardPage() {
       activeCadetsSnap,
       categoriesSnap,
       fieldsSnap,
+      pendingChangeRequestsSnap,
       recentCadetsSnap,
     ] = await Promise.all([
       adminDb.collection("cadets").count().get(),
       adminDb.collection("cadets").where("status", "==", "active").count().get(),
       adminDb.collection("categories").count().get(),
       adminDb.collection("fields").count().get(),
+      adminDb.collection("change_requests").where("status", "==", "pending").count().get(),
       adminDb.collection("cadets").limit(5).get(),
     ]);
 
@@ -38,6 +41,7 @@ export default async function AdminDashboardPage() {
     inactiveCadets = Math.max(0, totalCadets - activeCadets);
     totalCategories = categoriesSnap.data().count;
     totalFields = fieldsSnap.data().count;
+    pendingChangeRequests = pendingChangeRequestsSnap.data().count;
 
     recentCadets = recentCadetsSnap.docs.map((doc) => doc.data() as CadetRecord);
   } catch (error) {
@@ -79,6 +83,17 @@ export default async function AdminDashboardPage() {
             className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
           >
             Data Requests
+          </Link>
+          <Link
+            href="/admin/change-requests"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+          >
+            <span>Change Requests</span>
+            {pendingChangeRequests > 0 && (
+              <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-slate-900">
+                {pendingChangeRequests}
+              </span>
+            )}
           </Link>
         </div>
       </div>
@@ -175,7 +190,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Quick Navigation Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link href="/admin/cadets" className="group">
           <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
             <CardHeader className="p-6">
@@ -213,6 +228,34 @@ export default async function AdminDashboardPage() {
               <CardTitle className="mt-4 text-base font-bold">Data Structure Management</CardTitle>
               <CardDescription>
                 Define categories, dynamic profile fields, validation constraints, and granular visibility rules for Cadet and CTO portals.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        <Link href="/admin/change-requests" className="group">
+          <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
+            <CardHeader className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-300">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {pendingChangeRequests > 0 && (
+                    <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-slate-900">
+                      {pendingChangeRequests} Pending
+                    </span>
+                  )}
+                  <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold group-hover:translate-x-1 transition-transform">
+                    Review &rarr;
+                  </span>
+                </div>
+              </div>
+              <CardTitle className="mt-4 text-base font-bold">Change Requests Review</CardTitle>
+              <CardDescription>
+                Adjudicate profile modification requests submitted by cadets for protected regimental attributes with transaction-safe updates.
               </CardDescription>
             </CardHeader>
           </Card>

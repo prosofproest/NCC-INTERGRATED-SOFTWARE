@@ -31,6 +31,7 @@ export type ChangeRequestStatus = "pending" | "approved" | "rejected";
 export interface ChangeRequest {
   changeRequestId: string; // Permanent ID, e.g. CR_00001
   cadetId: string; // References Cadet ID
+  cadetName?: string; // Snapshot of cadet full name for table performance
   fieldId: string; // References Field ID
   fieldLabel: string; // Snapshot of field label for historical display
   oldValue: unknown;
@@ -40,6 +41,7 @@ export interface ChangeRequest {
   requestedBy: string; // Cadet UID
   requestedAt: string;
   reviewedBy?: string; // Admin UID
+  reviewedByEmail?: string;
   reviewedAt?: string;
   reviewerComments?: string;
   createdAt: string;

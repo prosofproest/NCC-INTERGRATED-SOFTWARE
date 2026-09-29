@@ -49,6 +49,7 @@ export const ChangeRequestStatusSchema = z.enum(["pending", "approved", "rejecte
 export const ChangeRequestSchema = z.object({
   changeRequestId: z.string().regex(/^CR_\d{5,}$/, "Invalid Change Request ID format"),
   cadetId: z.string().regex(/^CADET_\d{4,}$/, "Invalid Cadet ID format"),
+  cadetName: z.string().optional(),
   fieldId: z.string().regex(/^FIELD_\d{5,}$/, "Invalid Field ID format"),
   fieldLabel: z.string().min(1),
   oldValue: z.unknown(),
@@ -58,6 +59,7 @@ export const ChangeRequestSchema = z.object({
   requestedBy: z.string().min(1),
   requestedAt: z.string(),
   reviewedBy: z.string().optional(),
+  reviewedByEmail: z.string().optional(),
   reviewedAt: z.string().optional(),
   reviewerComments: z.string().optional(),
   createdAt: z.string(),
@@ -70,7 +72,20 @@ export const CreateChangeRequestInputSchema = z.object({
   reason: z.string().min(3, "Please provide a reason for the request"),
 });
 
-export const ReviewChangeRequestInputSchema = z.object({
-  action: z.enum(["approve", "reject"]),
-  reviewerComments: z.string().optional(),
-});
+export const ReviewChangeRequestInputSchema = z
+  .object({
+    action: z.enum(["approve", "reject"]),
+    reviewerComments: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.action === "reject") {
+        return Boolean(data.reviewerComments && data.reviewerComments.trim().length >= 3);
+      }
+      return true;
+    },
+    {
+      message: "Reviewer comments are mandatory when rejecting a change request (at least 3 characters).",
+      path: ["reviewerComments"],
+    }
+  );

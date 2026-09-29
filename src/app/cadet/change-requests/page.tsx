@@ -11,6 +11,7 @@ export default function CadetChangeRequestsPage() {
   const [changeRequests, setChangeRequests] = useState<ChangeRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const fetchRequests = useCallback(async () => {
     const res = await fetch("/api/cadet/change-requests");
@@ -57,16 +58,41 @@ export default function CadetChangeRequestsPage() {
     }
   };
 
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return "—";
+    try {
+      return new Date(dateStr).toLocaleString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const filteredRequests = changeRequests.filter((cr) => {
+    if (filter === "all") return true;
+    return cr.status === filter;
+  });
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Change Requests
-          </h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              Change Requests
+            </h1>
+            <Badge variant="primary" size="sm">
+              Section 11
+            </Badge>
+          </div>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Track profile modification requests submitted for verified regimental attributes.
+            Track profile modification requests submitted for protected regimental attributes and review administrator decisions.
           </p>
         </div>
 
@@ -80,6 +106,25 @@ export default function CadetChangeRequestsPage() {
       {error && (
         <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300">
           {error}
+        </div>
+      )}
+
+      {/* Filter Tabs */}
+      {!loading && changeRequests.length > 0 && (
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          {(["all", "pending", "approved", "rejected"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setFilter(tab)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition cursor-pointer whitespace-nowrap ${
+                filter === tab
+                  ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              {tab === "all" ? `All (${changeRequests.length})` : `${tab} (${changeRequests.filter((r) => r.status === tab).length})`}
+            </button>
+          ))}
         </div>
       )}
 
@@ -113,9 +158,15 @@ export default function CadetChangeRequestsPage() {
             </Link>
           </div>
         </Card>
+      ) : filteredRequests.length === 0 ? (
+        <Card>
+          <div className="p-8 text-center text-slate-500 text-xs">
+            No change requests found with status &quot;{filter}&quot;.
+          </div>
+        </Card>
       ) : (
         <div className="space-y-4">
-          {changeRequests.map((cr) => (
+          {filteredRequests.map((cr) => (
             <Card key={cr.changeRequestId} className="p-5 sm:p-6 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3">
                 <div className="flex items-center gap-3">
@@ -128,14 +179,75 @@ export default function CadetChangeRequestsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant={getStatusVariant(cr.status)} size="sm">
-                    {cr.status}
+                    {cr.status.toUpperCase()}
                   </Badge>
                   <span className="text-[11px] text-slate-400">
-                    {new Date(cr.createdAt).toLocaleDateString()}
+                    Submitted: {formatDate(cr.requestedAt || cr.createdAt)}
                   </span>
                 </div>
               </div>
 
+              {/* Status Outcome Banner */}
+              {cr.status === "rejected" && (
+                <div className="p-4 rounded-xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 space-y-2">
+                  <div className="flex items-center gap-2 text-rose-800 dark:text-rose-200 text-xs font-bold">
+                    <svg className="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>Request Rejected by Administrator</span>
+                  </div>
+                  <div className="pl-6 space-y-1">
+                    <span className="text-[11px] font-semibold text-rose-900 dark:text-rose-300 block">
+                      Reason for Rejection:
+                    </span>
+                    <p className="text-xs text-rose-800 dark:text-rose-200 italic font-medium">
+                      &ldquo;{cr.reviewerComments || "No specific comments provided."}&rdquo;
+                    </p>
+                    {cr.reviewedAt && (
+                      <span className="text-[10px] text-rose-600 dark:text-rose-400 block pt-1">
+                        Reviewed on {formatDate(cr.reviewedAt)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {cr.status === "approved" && (
+                <div className="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 space-y-2">
+                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-200 text-xs font-bold">
+                    <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Request Approved &amp; Applied to Profile</span>
+                  </div>
+                  <div className="pl-6 space-y-1">
+                    <p className="text-xs text-emerald-800 dark:text-emerald-200">
+                      The approved value <strong className="font-mono">{String(cr.newValue)}</strong> has been updated in your master profile for <strong>{cr.fieldLabel}</strong>.
+                    </p>
+                    {cr.reviewerComments && (
+                      <p className="text-xs text-emerald-700 dark:text-emerald-300 italic pt-0.5">
+                        Admin Note: &ldquo;{cr.reviewerComments}&rdquo;
+                      </p>
+                    )}
+                    {cr.reviewedAt && (
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block pt-1">
+                        Approved on {formatDate(cr.reviewedAt)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {cr.status === "pending" && (
+                <div className="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/40 flex items-center gap-2 text-xs text-amber-800 dark:text-amber-300">
+                  <svg className="w-4 h-4 text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>This request is awaiting review by Battalion Administrators.</span>
+                </div>
+              )}
+
+              {/* Value Diff Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 space-y-1">
                   <span className="text-slate-400 font-medium">Previous / Old Value:</span>
@@ -146,27 +258,19 @@ export default function CadetChangeRequestsPage() {
 
                 <div className="p-3 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/40 space-y-1">
                   <span className="text-blue-600 dark:text-blue-400 font-medium">Requested New Value:</span>
-                  <p className="font-semibold text-blue-900 dark:text-blue-200">
+                  <p className="font-semibold text-blue-900 dark:text-blue-200 font-mono">
                     {String(cr.newValue)}
                   </p>
                 </div>
               </div>
 
+              {/* Cadet Reason */}
               <div className="text-xs space-y-1">
-                <span className="text-slate-400 font-medium">Reason for Request:</span>
+                <span className="text-slate-400 font-medium">Your Reason for Request:</span>
                 <p className="text-slate-700 dark:text-slate-300 italic">
                   &ldquo;{cr.reason}&rdquo;
                 </p>
               </div>
-
-              {cr.reviewerComments && (
-                <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs space-y-1">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">
-                    Reviewer Notes:
-                  </span>
-                  <p className="text-slate-600 dark:text-slate-400">{cr.reviewerComments}</p>
-                </div>
-              )}
             </Card>
           ))}
         </div>

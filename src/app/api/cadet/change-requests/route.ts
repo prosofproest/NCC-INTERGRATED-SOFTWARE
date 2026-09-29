@@ -126,6 +126,7 @@ export async function POST(request: Request) {
     const newChangeRequest: ChangeRequest = {
       changeRequestId,
       cadetId: cadet.cadetId,
+      cadetName: cadet.fullName,
       fieldId,
       fieldLabel,
       oldValue,
