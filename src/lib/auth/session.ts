@@ -90,6 +90,7 @@ export async function createSessionCookieFromIdToken(idToken: string) {
     role,
     mustChangePassword,
     cadetId,
+    sessionCookie,
   };
 }
 

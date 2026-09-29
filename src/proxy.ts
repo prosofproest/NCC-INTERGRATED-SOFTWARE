@@ -5,6 +5,8 @@ export const SESSION_COOKIE_NAME = "__session";
 
 interface DecodedTokenPayload {
   uid?: string;
+  user_id?: string;
+  sub?: string;
   role?: "admin" | "cto" | "cadet";
   exp?: number;
 }
@@ -13,15 +15,21 @@ function parseJwtPayload(token: string): DecodedTokenPayload | null {
   try {
     const parts = token.split(".");
     if (parts.length !== 3) return null;
-    const base64Url = parts[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    let base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4) {
+      base64 += "=";
+    }
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
         .join("")
     );
-    return JSON.parse(jsonPayload) as DecodedTokenPayload;
+    const parsed = JSON.parse(jsonPayload) as DecodedTokenPayload;
+    return {
+      ...parsed,
+      uid: parsed.uid || parsed.user_id || parsed.sub,
+    };
   } catch {
     return null;
   }
@@ -35,12 +43,13 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
   const decoded = sessionCookie ? parseJwtPayload(sessionCookie) : null;
   const isExpired = decoded?.exp ? decoded.exp * 1000 < Date.now() : true;
-  const isAuthenticated = Boolean(decoded?.uid && !isExpired);
+  const uid = decoded?.uid || decoded?.user_id || decoded?.sub;
+  const isAuthenticated = Boolean(uid && !isExpired);
   const userRole = decoded?.role;
 
   const isAuthRoute =

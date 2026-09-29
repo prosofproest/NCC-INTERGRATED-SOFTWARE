@@ -67,12 +67,24 @@ export async function POST(request: Request) {
       userAgent,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       role: sessionData.role,
       mustChangePassword: sessionData.mustChangePassword,
       redirectTo,
     });
+
+    if (sessionData.sessionCookie) {
+      response.cookies.set("__session", sessionData.sessionCookie, {
+        maxAge: Math.floor(5 * 24 * 60 * 60), // 5 days in seconds
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+      });
+    }
+
+    return response;
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to establish session.";
 
