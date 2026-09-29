@@ -1,5 +1,6 @@
 import { requireAuth } from "@/lib/auth/server-guard";
-import Link from "next/link";
+import { adminDb } from "@/lib/firebase/admin";
+import { CadetNav } from "@/components/layout/CadetNav";
 
 export default async function CadetLayout({
   children,
@@ -8,34 +9,34 @@ export default async function CadetLayout({
 }) {
   const session = await requireAuth(["cadet"]);
 
+  // Optionally fetch cadet's name for display in top nav
+  let cadetName: string | undefined;
+  if (session.cadetId) {
+    const cadetDoc = await adminDb.collection("cadets").doc(session.cadetId).get();
+    if (cadetDoc.exists) {
+      cadetName = cadetDoc.data()?.fullName;
+    }
+  } else {
+    // Fallback: look up by userId
+    const cadetSnap = await adminDb
+      .collection("cadets")
+      .where("userId", "==", session.uid)
+      .limit(1)
+      .get();
+    if (!cadetSnap.empty) {
+      cadetName = cadetSnap.docs[0].data()?.fullName;
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col">
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white">
-              CADET
-            </span>
-            <span className="font-semibold text-sm tracking-tight">
-              Cadet Personal Portal
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-slate-500 hidden sm:inline-block">
-              {session.email}
-            </span>
-            <Link
-              href="/api/auth/logout"
-              className="text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 py-1.5 px-3 rounded-lg border border-red-200 dark:border-red-900/40 hover:bg-red-50 dark:hover:bg-red-950/30 transition"
-            >
-              Sign Out
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-slate-50/60 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans antialiased">
+      <CadetNav userEmail={session.email} cadetName={cadetName} />
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
         {children}
       </main>
+      <footer className="border-t border-slate-200/60 dark:border-slate-800/60 py-6 text-center text-xs text-slate-400">
+        NCC Data Collection &amp; Organization System &bull; Cadet Personal Portal &bull; Unity and Discipline
+      </footer>
     </div>
   );
 }
