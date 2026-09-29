@@ -9,6 +9,7 @@ export const AuditEntityTypeSchema = z.enum([
   "document",
   "data_request",
   "change_request",
+  "notification",
   "user",
   "system",
 ]);
