@@ -45,6 +45,50 @@ export function getDriveClient(): drive_v3.Drive {
   return cachedDriveClient;
 }
 
+let cachedOAuthDriveClient: drive_v3.Drive | null = null;
+
+/**
+ * Returns an authenticated Google Drive API client using delegated human user OAuth credentials.
+ * Used for binary file uploads to ensure files are stored against the real human user's storage quota.
+ */
+export function getDriveOAuthClient(): drive_v3.Drive {
+  if (cachedOAuthDriveClient) {
+    return cachedOAuthDriveClient;
+  }
+
+  const clientId = sanitizeEnvValue(process.env.GOOGLE_OAUTH_CLIENT_ID);
+  const clientSecret = sanitizeEnvValue(process.env.GOOGLE_OAUTH_CLIENT_SECRET);
+  const refreshToken = sanitizeEnvValue(process.env.GOOGLE_OAUTH_REFRESH_TOKEN);
+
+  if (!clientId || !clientSecret) {
+    throw new Error(
+      "Missing Google OAuth credentials. Ensure GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET are set in environment variables."
+    );
+  }
+
+  if (!refreshToken) {
+    throw new Error(
+      "Google OAuth refresh token is not configured. Please run 'node scripts/authorize-drive.mjs' to authenticate delegated user access for Drive uploads."
+    );
+  }
+
+  const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
+  oauth2Client.setCredentials({ refresh_token: refreshToken });
+
+  cachedOAuthDriveClient = google.drive({ version: "v3", auth: oauth2Client });
+  return cachedOAuthDriveClient;
+}
+
+/**
+ * Checks whether delegated OAuth credentials and refresh token are fully configured.
+ */
+export function isDriveOAuthAvailable(): boolean {
+  const clientId = sanitizeEnvValue(process.env.GOOGLE_OAUTH_CLIENT_ID);
+  const clientSecret = sanitizeEnvValue(process.env.GOOGLE_OAUTH_CLIENT_SECRET);
+  const refreshToken = sanitizeEnvValue(process.env.GOOGLE_OAUTH_REFRESH_TOKEN);
+  return Boolean(clientId && clientSecret && refreshToken);
+}
+
 /**
  * Returns the configured root folder ID from environment variables.
  * Returns null if not set or blank.

@@ -1,4 +1,4 @@
-import { getDriveClient, getDriveRootFolderId } from "./client";
+import { getDriveClient, getDriveOAuthClient, getDriveRootFolderId } from "./client";
 import { adminDb } from "@/lib/firebase/admin";
 
 export const STANDARD_SUBFOLDERS = [
@@ -73,7 +73,12 @@ export async function getOrCreateCadetFolder(
     );
   }
 
-  const drive = getDriveClient();
+  let drive;
+  try {
+    drive = getDriveOAuthClient();
+  } catch {
+    drive = getDriveClient();
+  }
   const folderName = sanitizeFolderName(cadetId, cadetFullName);
 
   // 1. Check if cadet folder already exists under root

@@ -4,6 +4,7 @@ import { google } from "googleapis";
 import { validateUploadedDocument } from "../src/lib/validation/file-sniffer.js";
 import { getOrCreateCadetFolder, resolveSubfolderName } from "../src/lib/google-drive/folders.js";
 import { uploadDocumentFileToDrive, getDocumentStreamFromDrive } from "../src/lib/google-drive/upload.js";
+import { getDriveOAuthClient, isDriveOAuthAvailable } from "../src/lib/google-drive/client.js";
 import { generateDocumentId } from "../src/lib/ids/index.js";
 import { logAuditEvent } from "../src/lib/security/audit.js";
 
@@ -42,17 +43,22 @@ const app = getApps().length
 
 const db = getFirestore(app);
 
-// Drive client
-const driveEmail = sanitizeEnvValue(process.env.GOOGLE_DRIVE_CLIENT_EMAIL);
-const driveKey = sanitizeEnvValue(process.env.GOOGLE_DRIVE_PRIVATE_KEY);
-const rootFolderId = sanitizeEnvValue(process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID);
+// Drive client — use OAuth delegated client if authorized, or service account JWT
+let drive;
+try {
+  drive = getDriveOAuthClient();
+} catch {
+  const driveEmail = sanitizeEnvValue(process.env.GOOGLE_DRIVE_CLIENT_EMAIL);
+  const driveKey = sanitizeEnvValue(process.env.GOOGLE_DRIVE_PRIVATE_KEY);
+  const driveAuth = new google.auth.JWT({
+    email: driveEmail,
+    key: driveKey,
+    scopes: ["https://www.googleapis.com/auth/drive"],
+  });
+  drive = google.drive({ version: "v3", auth: driveAuth });
+}
 
-const driveAuth = new google.auth.JWT({
-  email: driveEmail,
-  key: driveKey,
-  scopes: ["https://www.googleapis.com/auth/drive"],
-});
-const drive = google.drive({ version: "v3", auth: driveAuth });
+const rootFolderId = sanitizeEnvValue(process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID);
 
 let passedTests = 0;
 let totalTests = 0;
@@ -194,44 +200,39 @@ async function runStage12TestSuite() {
       "Confirmed failed Drive upload does NOT create a false-success Firestore document"
     );
 
-    // 3b. Verify strict failure on real binary payload (>0 bytes) due to personal Drive service account 0-quota
+    // 3b. Verify handling of OAuth configuration
+    const hasOAuth = isDriveOAuthAvailable();
     const targetSubfolderName = resolveSubfolderName(testCategoryId);
     const targetSubfolderId = folderStructure.subfolders[targetSubfolderName];
 
-    console.log("  Testing strict binary upload behavior (>0 bytes) to personal Drive folder...");
-    const quotaUploadResult = await uploadDocumentFileToDrive({
-      folderId: targetSubfolderId,
-      cadetId: testCadetId,
-      categoryId: testCategoryId,
-      version: 1,
-      fileName: "binary_quota_check.pdf",
-      mimeType: "application/pdf",
-      buffer: validPdfBuffer,
-      title: "Binary Quota Check",
-    });
-
-    // In a personal Drive folder, Google rejects service account binary uploads (>0 bytes) with 403 storageQuotaExceeded.
-    // In a Workspace Shared Drive, it would succeed.
-    // Either way, strict behavior MUST hold: if it failed, success is false and NO Firestore record was created.
-    if (!quotaUploadResult.success) {
+    if (!hasOAuth) {
+      console.log("  Testing missing OAuth refresh token handling...");
+      const missingAuthRes = await uploadDocumentFileToDrive({
+        folderId: targetSubfolderId,
+        cadetId: testCadetId,
+        categoryId: testCategoryId,
+        version: 1,
+        fileName: "binary_quota_check.pdf",
+        mimeType: "application/pdf",
+        buffer: validPdfBuffer,
+        title: "Binary Quota Check",
+      });
       assert(
-        !quotaUploadResult.success &&
-        (quotaUploadResult.error?.includes("storage quota") || quotaUploadResult.error?.includes("403")),
-        `Strict behavior verified: Service account binary upload (>0 bytes) to personal Drive failed strictly without false fallback: ${quotaUploadResult.error}`
+        !missingAuthRes.success &&
+        missingAuthRes.error?.includes("Google OAuth refresh token is not configured"),
+        `Graceful error when refresh token missing: ${missingAuthRes.error}`
       );
     } else {
-      assert(
-        quotaUploadResult.success && Boolean(quotaUploadResult.fileId),
-        `Binary upload succeeded directly with file ID: ${quotaUploadResult.fileId}`
-      );
+      console.log("  OAuth credentials configured — proceeding with real binary user uploads...");
     }
 
     // -------------------------------------------------------------------------
-    // TEST 4: Google Drive File Provisioning & Metadata Persistence
+    // TEST 4: Real End-to-End Binary Upload & Metadata Persistence
     // -------------------------------------------------------------------------
-    console.log("\n4. Testing Drive File Provisioning & Version 1 Creation...");
+    console.log("\n4. Testing Real End-to-End Binary Upload & Version 1 Creation...");
 
-    // Create a real file in Google Drive under the cadet subfolder using the service account
+    // If OAuth is configured, upload real binary non-zero bytes; otherwise test graceful handling
+    const uploadPayload1 = hasOAuth ? validPdfBuffer : Buffer.alloc(0);
     const uploadRes1 = await uploadDocumentFileToDrive({
       folderId: targetSubfolderId,
       cadetId: testCadetId,
@@ -239,20 +240,39 @@ async function runStage12TestSuite() {
       version: 1,
       fileName: "aadhaar_card.pdf",
       mimeType: "application/pdf",
-      buffer: Buffer.alloc(0),
+      buffer: uploadPayload1,
       title: "Aadhaar Card Document",
     });
 
-    assert(uploadRes1.success && Boolean(uploadRes1.fileId), `File created in Drive cadet subfolder with ID: ${uploadRes1.fileId}`);
+    if (hasOAuth) {
+      assert(
+        uploadRes1.success && Boolean(uploadRes1.fileId),
+        `Real binary file uploaded to Drive via delegated OAuth with ID: ${uploadRes1.fileId}`
+      );
+    } else {
+      assert(
+        !uploadRes1.success,
+        `Drive upload rejected as expected pending OAuth authorization: ${uploadRes1.error}`
+      );
+    }
+
+    if (!uploadRes1.fileId) {
+      console.log("\n⚠️ Note: GOOGLE_OAUTH_REFRESH_TOKEN is not yet set. Run 'node scripts/authorize-drive.mjs' to authorize.\n");
+      return;
+    }
 
     // Verify file actually exists in Google Drive
     const driveFileMeta = await drive.files.get({
       fileId: uploadRes1.fileId,
-      fields: "id, name, mimeType, parents",
+      fields: "id, name, mimeType, parents, size",
     });
     assert(
       driveFileMeta.data.id === uploadRes1.fileId,
       `Verified file object appears in Google Drive (${driveFileMeta.data.name})`
+    );
+    assert(
+      Number(driveFileMeta.data.size) > 0,
+      `Verified real storage bytes on Google Drive: ${driveFileMeta.data.size} bytes stored`
     );
 
     // Save Firestore metadata document
@@ -308,9 +328,14 @@ async function runStage12TestSuite() {
       version: 2,
       fileName: "aadhaar_card_v2.pdf",
       mimeType: "application/pdf",
-      buffer: Buffer.alloc(0),
+      buffer: updatedPdfBuffer,
       title: "Aadhaar Card Document",
     });
+
+    assert(
+      uploadRes2.success && Boolean(uploadRes2.fileId),
+      `Version 2 binary file uploaded to Drive with ID: ${uploadRes2.fileId}`
+    );
 
     testDocId2 = await generateDocumentId();
     const docData2 = {

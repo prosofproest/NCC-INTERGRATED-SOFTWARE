@@ -1,4 +1,4 @@
-import { getDriveClient } from "./client";
+import { getDriveClient, getDriveOAuthClient } from "./client";
 import { Readable } from "stream";
 
 export interface DriveUploadParams {
@@ -22,7 +22,7 @@ export interface DriveUploadResult {
 
 /**
  * Uploads a binary document to Google Drive inside the specified cadet subfolder.
- * Requires actual binary file creation in Google Drive.
+ * Requires actual binary file creation in Google Drive using delegated human user OAuth.
  * If Drive upload fails for ANY reason, strictly returns an error.
  * Never fakes success, never creates fallback records.
  */
@@ -40,7 +40,19 @@ export async function uploadDocumentFileToDrive(
     title,
   } = params;
 
-  const drive = getDriveClient();
+  let drive;
+  try {
+    drive = getDriveOAuthClient();
+  } catch (err: unknown) {
+    const errorMsg =
+      (err as { message?: string })?.message ||
+      "Google OAuth refresh token is not configured. Please run 'node scripts/authorize-drive.mjs' to authenticate.";
+    return {
+      success: false,
+      error: errorMsg,
+    };
+  }
+
   const cleanName = fileName.replace(/[/\\?%*:|"<>]/g, "_");
   const driveFileName = `${cadetId}_${categoryId}_v${version}_${cleanName}`;
 
@@ -97,7 +109,12 @@ export async function uploadDocumentFileToDrive(
  * Downloads a binary file stream from Google Drive by its file ID.
  */
 export async function getDocumentStreamFromDrive(fileId: string) {
-  const drive = getDriveClient();
+  let drive;
+  try {
+    drive = getDriveOAuthClient();
+  } catch {
+    drive = getDriveClient();
+  }
   const res = await drive.files.get(
     { fileId, alt: "media", supportsAllDrives: true },
     { responseType: "stream" }
