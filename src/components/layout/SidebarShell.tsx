@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CloseIcon, LogoutIcon, MenuIcon, NotificationsIcon } from "./icons";
 
 export interface NavItemConfig {
@@ -46,6 +46,7 @@ export function SidebarShell({
   notificationsHref,
 }: SidebarShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState<number>(0);
 
@@ -220,13 +221,21 @@ export function SidebarShell({
           </div>
         </div>
 
-        <Link
-          href="/api/auth/logout"
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              await fetch("/api/auth/logout", { method: "POST" });
+            } finally {
+              router.push("/login");
+              router.refresh();
+            }
+          }}
           className="mt-2.5 w-full flex items-center justify-center gap-2 py-1.5 px-3 rounded-xl border border-black/[0.06] text-xs font-medium text-[#48484A] hover:bg-red-500/10 hover:text-[#FF3B30] hover:border-red-500/20 transition cursor-pointer"
         >
           <LogoutIcon className="w-3.5 h-3.5" />
           <span>Sign Out</span>
-        </Link>
+        </button>
       </div>
     </div>
   );
