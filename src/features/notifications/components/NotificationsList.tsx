@@ -172,6 +172,19 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
               ? "You're all caught up! You have read all notifications."
               : "No notifications have been received yet."}
           </p>
+          <div className="pt-3">
+            {filter !== "all" ? (
+              <Button variant="outline" size="sm" onClick={() => setFilter("all")}>
+                Show All Notifications
+              </Button>
+            ) : (
+              <Link href={portalRole === "admin" ? "/admin" : portalRole === "cto" ? "/cto" : "/cadet"}>
+                <Button variant="outline" size="sm">
+                  Back to Dashboard
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       ) : (
         <div className="space-y-2.5">

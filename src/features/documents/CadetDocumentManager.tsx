@@ -160,10 +160,14 @@ export function CadetDocumentManager({
     }
   };
 
+  const [docActionError, setDocActionError] = useState<string | null>(null);
+  const [rejectError, setRejectError] = useState<string | null>(null);
+
   // Handle Document Verification (Admin)
   const handleVerify = async (docId: string) => {
     try {
       setVerifyingId(docId);
+      setDocActionError(null);
       const res = await fetch(`/api/admin/documents/${docId}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -175,7 +179,7 @@ export function CadetDocumentManager({
       }
       await fetchDocuments();
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : "Verification failed");
+      setDocActionError(err instanceof Error ? err.message : "Verification failed");
     } finally {
       setVerifyingId(null);
     }
@@ -185,6 +189,7 @@ export function CadetDocumentManager({
   const openRejectModal = (doc: CadetDocumentMetadata) => {
     setRejectTargetDoc(doc);
     setRejectionReason("");
+    setRejectError(null);
     setIsRejectOpen(true);
   };
 
@@ -193,12 +198,13 @@ export function CadetDocumentManager({
     e.preventDefault();
     if (!rejectTargetDoc) return;
     if (!rejectionReason.trim()) {
-      alert("A rejection reason is required.");
+      setRejectError("A rejection reason is required.");
       return;
     }
 
     try {
       setVerifyingId(rejectTargetDoc.documentId);
+      setRejectError(null);
       const res = await fetch(`/api/admin/documents/${rejectTargetDoc.documentId}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -217,7 +223,7 @@ export function CadetDocumentManager({
       setRejectTargetDoc(null);
       await fetchDocuments();
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : "Rejection failed");
+      setRejectError(err instanceof Error ? err.message : "Rejection failed");
     } finally {
       setVerifyingId(null);
     }
@@ -291,6 +297,14 @@ export function CadetDocumentManager({
       {!loading && error && (
         <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
           {error}
+        </div>
+      )}
+
+      {/* Action Error State */}
+      {docActionError && (
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center justify-between">
+          <span>{docActionError}</span>
+          <button onClick={() => setDocActionError(null)} className="text-rose-500 font-bold ml-2 cursor-pointer">✕</button>
         </div>
       )}
 
@@ -557,6 +571,11 @@ export function CadetDocumentManager({
         description={`Provide a mandatory reason for rejecting '${rejectTargetDoc?.title}'. This explanation will be visible to the cadet.`}
       >
         <form onSubmit={handleRejectSubmit} className="space-y-4">
+          {rejectError && (
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+              {rejectError}
+            </div>
+          )}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">
               Rejection Reason *

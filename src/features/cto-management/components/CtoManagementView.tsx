@@ -341,8 +341,28 @@ export function CtoManagementView() {
               <p>Loading officer directory...</p>
             </div>
           ) : filteredOfficers.length === 0 ? (
-            <div className="p-12 text-center text-slate-400 text-sm">
-              No Care Taker Officers found matching your query.
+            <div className="p-12 text-center text-slate-500 space-y-3">
+              <p className="text-sm font-medium text-slate-800">
+                {officers.length === 0
+                  ? "No Care Taker Officers appointed yet."
+                  : "No Care Taker Officers found matching your query."}
+              </p>
+              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                {officers.length === 0
+                  ? "Appoint squadron Care Taker Officers to grant them designated read-only access and reporting tools."
+                  : "Try clearing your search query or changing status filters."}
+              </p>
+              <div className="pt-2">
+                {officers.length === 0 ? (
+                  <Button variant="primary" size="sm" onClick={() => setIsCreateModalOpen(true)}>
+                    Appoint First Officer
+                  </Button>
+                ) : (
+                  <Button variant="outline" size="sm" onClick={() => { setSearch(""); setStatusFilter("all"); }}>
+                    Reset Filters
+                  </Button>
+                )}
+              </div>
             </div>
           ) : (
             <div className="overflow-x-auto">

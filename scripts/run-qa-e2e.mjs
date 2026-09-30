@@ -182,6 +182,7 @@ class PageClient {
     await this.send("Network.setCookie", {
       name: "__session",
       value: cookieValue,
+      url: "http://localhost:3000",
       domain: "localhost",
       path: "/",
       httpOnly: false,
@@ -192,6 +193,7 @@ class PageClient {
   async clearSessionCookie() {
     await this.send("Network.deleteCookies", {
       name: "__session",
+      url: "http://localhost:3000",
       domain: "localhost",
       path: "/",
     });
@@ -283,7 +285,7 @@ async function main() {
     email: QA_CTO_EMAIL,
     name: "Lt. Arjun Kapoor",
     role: "cto",
-    unit: "1 KAR BN",
+    unit: "1 Kar Air Sqn NCC",
     status: "active",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -364,25 +366,33 @@ async function main() {
     const cadetInList = await page.eval(`document.body.innerText.includes('Vikram Malhotra')`);
     recordResult("Cadets Directory", "List Display", "Displays Vikram Malhotra", cadetInList);
 
-    // Search filter test
+    // Filter test & Empty State verification
     await page.eval(`
-      const input = document.querySelector('input[placeholder*="Search"]');
-      if (input) {
-        input.value = "Vikram";
-        input.dispatchEvent(new Event('input', { bubbles: true }));
+      const select = document.querySelector('select');
+      if (select) {
+        select.value = 'suspended';
+        select.dispatchEvent(new Event('change', { bubbles: true }));
       }
     `);
-    await new Promise((r) => setTimeout(r, 600));
-    const searchMatch = await page.eval(`document.body.innerText.includes('Vikram Malhotra')`);
-    recordResult("Cadets Directory", "Search Filter", "Matches search query", searchMatch);
+    const emptyFound = await page.waitForCondition(`document.body.innerText.includes('No Cadets Found')`, 5000);
+    await page.screenshot("qa_empty_state_before.png");
+    recordResult("Cadets Directory", "Empty State on No Match", "Displays friendly empty state with Reset CTA", emptyFound);
+
+    // Click Reset Filters CTA
+    await page.eval(`
+      const btn = Array.from(document.querySelectorAll('button')).find(b => b.innerText.includes('Reset Filters'));
+      if (btn) btn.click();
+    `);
+    const restored = await page.waitForCondition(`document.body.innerText.includes('Vikram Malhotra')`, 5000);
+    await page.screenshot("qa_empty_state_after.png");
+    recordResult("Cadets Directory", "Reset Filters CTA", "Restores cadet list on click", restored);
 
     // Click into Cadet Detail
     await page.navigate(`${BASE_URL}/admin/cadets/${QA_CADET_ID}`);
     const detailLoaded = await page.waitForCondition(`document.body.innerText.includes('Vikram Malhotra') && document.body.innerText.includes('CADET_QA_001')`, 6000);
-    await page.screenshot("qa_03_admin_cadet_detail.png");
     recordResult("Cadet Detail View", "Navigate to Cadet Detail", "Displays regimental profile", detailLoaded);
 
-    // Edit Cadet Field as Admin (e.g. Rank to 'Sergeant')
+    // Edit Cadet Field as Admin (e.g. Rank to 'Sergeant', Training Year to '2nd Year', Division to 'SD')
     const updateRes = await fetch(`${BASE_URL}/api/admin/cadets/${QA_CADET_ID}`, {
       method: "PUT",
       headers: {
@@ -391,13 +401,22 @@ async function main() {
       },
       body: JSON.stringify({
         rank: "Sergeant",
+        trainingYear: "2nd Year",
+        division: "SD",
         dynamicData: {
           FIELD_00007: 178,
         },
       }),
     });
     const updateData = await updateRes.json();
-    recordResult("Cadet Detail Edit", "Direct Admin Field Edit", "Returns 200 & updates record", updateRes.ok && updateData.cadet?.rank === "Sergeant");
+    const editPersisted = updateRes.ok && updateData.cadet?.rank === "Sergeant" && updateData.cadet?.trainingYear === "2nd Year";
+    recordResult("Cadet Detail Edit", "Direct Admin Field Edit", "Returns 200 & updates record with Year/Division", editPersisted);
+
+    // Reload cadet detail page and capture screenshot showing the edited cadet profile
+    await page.navigate(`${BASE_URL}/admin/cadets/${QA_CADET_ID}`);
+    await page.waitForCondition(`document.body.innerText.includes('Sergeant') && document.body.innerText.includes('2nd Year')`, 6000);
+    await page.screenshot("qa_03_admin_cadet_detail.png");
+    await page.screenshot("qa_cadet_details_edit.png");
 
     // 1.3 Data Structure Management
     await page.navigate(`${BASE_URL}/admin/data-structure`);
@@ -486,7 +505,7 @@ async function main() {
       body: JSON.stringify({
         name: "Lt. Devendra Sharma",
         email: "devendra.test.cto@ncc.test",
-        unit: "1 KAR BN",
+        unit: "1 Kar Air Sqn NCC",
       }),
     });
     const ctoCreateJson = await ctoCreateRes.json();

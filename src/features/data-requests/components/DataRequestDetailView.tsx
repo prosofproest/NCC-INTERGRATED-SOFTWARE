@@ -78,9 +78,12 @@ export function DataRequestDetailView({
     };
   }, [requestId, refreshKey]);
 
+  const [closeError, setCloseError] = useState<string | null>(null);
+
   const handleCloseRequest = async () => {
     try {
       setIsClosing(true);
+      setCloseError(null);
       const res = await fetch(`/api/data-requests/${requestId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -96,7 +99,7 @@ export function DataRequestDetailView({
       setRefreshKey((k) => k + 1);
     } catch (err: unknown) {
       const error = err as Error;
-      alert(error.message || "An error occurred while closing the request.");
+      setCloseError(error.message || "An error occurred while closing the request.");
     } finally {
       setIsClosing(false);
     }
@@ -502,6 +505,12 @@ export function DataRequestDetailView({
           <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs">
             <strong>Current Progress:</strong> {summary.completedCount} of {summary.totalTargeted} cadets completed ({summary.completionRate}%).
           </div>
+
+          {closeError && (
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+              {closeError}
+            </div>
+          )}
 
           <div className="flex items-center justify-end gap-3 pt-2">
             <Button

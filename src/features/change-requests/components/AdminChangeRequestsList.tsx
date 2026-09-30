@@ -154,9 +154,6 @@ export function AdminChangeRequestsList() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Change Requests Review
             </h1>
-            <Badge variant="primary" size="sm">
-              Section 11
-            </Badge>
             <Badge variant="default" size="sm">
               Admin Exclusive
             </Badge>
@@ -297,6 +294,24 @@ export function AdminChangeRequestsList() {
                 ? "All change requests have been processed! No pending items in queue."
                 : "No matching change requests were found for the current query."}
             </p>
+            {filter === "pending" ? (
+              <div className="pt-2 flex items-center justify-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => setFilter("all")}>
+                  View All Requests History
+                </Button>
+                <Link href="/admin/cadets">
+                  <Button variant="primary" size="sm">
+                    View Cadets Directory
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="pt-2">
+                <Button variant="outline" size="sm" onClick={() => { setFilter("pending"); setSearch(""); }}>
+                  Reset Filters
+                </Button>
+              </div>
+            )}
           </div>
         </Card>
       ) : (

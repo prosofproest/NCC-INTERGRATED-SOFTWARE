@@ -83,14 +83,14 @@ export function SystemHealthView() {
   const getCategoryBadge = (category: string): { variant: BadgeVariant; label: string } => {
     switch (category) {
       case "core":
-        return { variant: "navy", label: "Core Infra" };
+        return { variant: "primary", label: "Core Infra" };
       case "storage":
         return { variant: "primary", label: "Cloud Storage" };
       case "communication":
         return { variant: "air", label: "Communication" };
       case "features":
       default:
-        return { variant: "army", label: "Features" };
+        return { variant: "default", label: "Features" };
     }
   };
 

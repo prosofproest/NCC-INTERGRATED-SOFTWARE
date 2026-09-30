@@ -16,7 +16,7 @@ export default function CtoNotificationsPage() {
             Notifications
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Official announcements, system notifications, and battalion status alerts.
+            Official announcements, system notifications, and squadron status alerts.
           </p>
         </div>
         <Link href="/cto">

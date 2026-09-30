@@ -164,12 +164,9 @@ export function CadetDataRequestsView() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Official Data Requests
             </h1>
-            <Badge variant="primary" size="sm">
-              Section 10
-            </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Mandatory data collection requests dispatched by Battalion Officers.
+            Data collection requests dispatched by Squadron Officers.
             {cadetName && <span className="font-semibold text-slate-700"> ({cadetName})</span>}
           </p>
         </div>
@@ -254,6 +251,13 @@ export function CadetDataRequestsView() {
               <p className="text-xs text-slate-400 max-w-sm mx-auto">
                 There are currently no active data requests requiring information from you.
               </p>
+              <div className="pt-2">
+                <Link href="/cadet/profile">
+                  <Button variant="outline" size="sm">
+                    Review My Profile
+                  </Button>
+                </Link>
+              </div>
             </div>
           </Card>
         ) : (

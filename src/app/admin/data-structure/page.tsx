@@ -452,7 +452,19 @@ export default function AdminDataStructurePage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-slate-700">
-                  {categories.map((cat) => (
+                  {categories.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="p-12 text-center text-slate-500">
+                        <div className="space-y-3">
+                          <p className="text-xs">No profile categories defined yet.</p>
+                          <Button variant="outline" size="sm" onClick={() => openCreateCatModal()}>
+                            Create First Category
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    categories.map((cat) => (
                     <tr key={cat.categoryId} className="hover:bg-slate-50/60">
                       <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                         {cat.categoryId}
@@ -505,7 +517,8 @@ export default function AdminDataStructurePage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
                 </tbody>
               </table>
             </div>
@@ -559,7 +572,19 @@ export default function AdminDataStructurePage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-slate-700">
-                  {filteredFields.map((field) => (
+                  {filteredFields.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="p-12 text-center text-slate-500">
+                        <div className="space-y-3">
+                          <p className="text-xs">No dynamic fields found matching this category filter.</p>
+                          <Button variant="outline" size="sm" onClick={() => openCreateFieldModal()}>
+                            Add New Field
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredFields.map((field) => (
                     <tr key={field.fieldId} className="hover:bg-slate-50/60">
                       <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                         {field.fieldId}
@@ -630,7 +655,8 @@ export default function AdminDataStructurePage() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
                 </tbody>
               </table>
             </div>

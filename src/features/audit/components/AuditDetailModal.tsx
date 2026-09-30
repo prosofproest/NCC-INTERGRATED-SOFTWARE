@@ -26,9 +26,9 @@ export function AuditDetailModal({ log, isOpen, onClose }: AuditDetailModalProps
   const getRoleBadgeVariant = (role: AuditActorRole): BadgeVariant => {
     switch (role) {
       case "admin":
-        return "navy";
+        return "primary";
       case "cto":
-        return "army";
+        return "warning";
       case "cadet":
         return "air";
       case "system":

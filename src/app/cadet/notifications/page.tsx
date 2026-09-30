@@ -16,7 +16,7 @@ export default function CadetNotificationsPage() {
             Notifications
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            System announcements, change request status updates, document reviews, and battalion alerts.
+            System announcements, change request status updates, document reviews, and squadron alerts.
           </p>
         </div>
         <Link href="/cadet">

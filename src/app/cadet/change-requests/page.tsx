@@ -87,9 +87,6 @@ export default function CadetChangeRequestsPage() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Change Requests
             </h1>
-            <Badge variant="primary" size="sm">
-              Section 11
-            </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Track profile modification requests submitted for protected regimental attributes and review administrator decisions.
@@ -160,8 +157,11 @@ export default function CadetChangeRequestsPage() {
         </Card>
       ) : filteredRequests.length === 0 ? (
         <Card>
-          <div className="p-8 text-center text-slate-500 text-xs">
-            No change requests found with status &quot;{filter}&quot;.
+          <div className="p-8 text-center text-slate-500 text-xs space-y-2">
+            <p>No change requests found with status &quot;{filter}&quot;.</p>
+            <Button variant="outline" size="sm" onClick={() => setFilter("all")}>
+              Show All Requests
+            </Button>
           </div>
         </Card>
       ) : (

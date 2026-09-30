@@ -489,8 +489,18 @@ export function AdminNotificationsManager() {
                 <p>Loading broadcast logs...</p>
               </div>
             ) : history.length === 0 ? (
-              <div className="p-12 text-center text-slate-400 text-sm">
-                No broadcast notifications have been sent yet.
+              <div className="p-12 text-center text-slate-500 space-y-3">
+                <p className="text-sm font-medium text-slate-800">
+                  No broadcast notifications sent yet.
+                </p>
+                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  Compose announcements or urgent directives to broadcast to all cadets or specific training divisions.
+                </p>
+                <div className="pt-2">
+                  <Button variant="outline" size="sm" onClick={() => setActiveTab("compose")}>
+                    Compose Broadcast
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="overflow-x-auto">

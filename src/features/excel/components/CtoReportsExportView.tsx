@@ -109,15 +109,12 @@ export function CtoReportsExportView() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Reports &amp; Excel Export
             </h1>
-            <Badge variant="primary" size="sm">
-              Section 18
-            </Badge>
             <Badge variant="outline" size="sm">
               CTO Scope
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Generate and export authorized company nominal rolls and attendance spreadsheets.
+            Generate and export authorized squadron nominal rolls and attendance spreadsheets.
           </p>
         </div>
       </div>

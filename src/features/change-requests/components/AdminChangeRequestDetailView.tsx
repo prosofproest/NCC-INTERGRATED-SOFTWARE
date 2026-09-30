@@ -506,7 +506,7 @@ export function AdminChangeRequestDetailView({
                       Request Rejected
                     </div>
                     <p className="text-rose-700 text-xs">
-                      The profile value remains unchanged. This record is preserved in history per Section 11 regulations.
+                      The profile value remains unchanged. This decision and justification are preserved in the permanent audit history.
                     </p>
                   </div>
                 )}

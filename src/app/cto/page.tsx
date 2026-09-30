@@ -63,12 +63,12 @@ export default async function CtoDashboardPage() {
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             Caretaker Officer Session Active
           </div>
-          {/* Section 29 Mandatory Greeting */}
+          {/* Officer Regimental Greeting */}
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F]">
             Jai Hind Sir 🇮🇳
           </h1>
           <p className="text-[#6E6E73] text-xs sm:text-sm max-w-xl leading-relaxed">
-            Battalion Officer Portal. Browse enrolled Air Wing cadet profiles, inspect training year progress, and monitor squadron readiness metrics.
+            Squadron Officer Portal. Browse enrolled Air Wing cadet profiles, inspect training year progress, and monitor squadron readiness metrics.
           </p>
           <div className="pt-1 text-xs text-[#86868B]">
             Authenticated Officer: <span className="text-[#1D1D1F] font-medium">{session?.email}</span>

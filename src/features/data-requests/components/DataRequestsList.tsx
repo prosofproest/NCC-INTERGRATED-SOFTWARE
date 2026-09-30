@@ -93,15 +93,12 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Data Requests
             </h1>
-            <Badge variant="primary" size="sm">
-              Section 10
-            </Badge>
             <Badge variant={userRole === "admin" ? "default" : "warning"} size="sm">
               {userRole === "admin" ? "Admin Master" : "Officer Portal"}
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Dispatch ad-hoc mandatory data collection batches to targeted cadet rosters. Ask only for what is missing.
+            Dispatch focused data collection campaigns to cadets to complete missing profile information.
           </p>
         </div>
 
@@ -200,11 +197,11 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
               No {filter !== "all" ? filter : ""} data requests found
             </h2>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              Create a new request to target missing fields from active cadets across your battalion.
+              Create a new request to collect missing fields from active cadets across your squadron.
             </p>
             <Link href={`${basePath}/new`}>
               <Button variant="outline" size="sm">
-                Create First Request
+                Create New Data Request
               </Button>
             </Link>
           </div>

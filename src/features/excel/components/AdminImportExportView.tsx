@@ -329,9 +329,6 @@ export function AdminImportExportView() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Excel Import &amp; Export
             </h1>
-            <Badge variant="primary" size="sm">
-              Sections 16, 17, 18
-            </Badge>
             <Badge variant="default" size="sm">
               Admin Exclusive
             </Badge>

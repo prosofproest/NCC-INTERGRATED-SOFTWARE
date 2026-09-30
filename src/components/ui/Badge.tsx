@@ -7,8 +7,6 @@ export type BadgeVariant =
   | "warning"
   | "danger"
   | "outline"
-  | "army"
-  | "navy"
   | "air";
 
 interface BadgeProps {
@@ -31,8 +29,6 @@ const variantStyles: Record<BadgeVariant, string> = {
     "bg-[#FF3B30]/10 text-[#D70015] border-[#FF3B30]/25",
   outline:
     "bg-transparent text-[#6E6E73] border-black/10",
-  army: "bg-emerald-500/10 text-emerald-800 border-emerald-500/25",
-  navy: "bg-blue-500/10 text-blue-800 border-blue-500/25",
   air: "bg-sky-500/10 text-sky-800 border-sky-500/25",
 };
 

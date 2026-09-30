@@ -423,7 +423,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
             <div>
               <CardTitle>3. Required Dynamic Fields</CardTitle>
               <CardDescription>
-                Select the fields to collect. Per Section 10, cadets who already have a field filled will NOT be asked for it.
+                Select the fields to collect. Cadets who already have a verified field filled will not be asked to resubmit it.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
