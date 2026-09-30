@@ -93,28 +93,31 @@ function VerifyOtpContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-8 space-y-6">
+    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 bg-[#F5F5F7] dark:bg-[#0A0D14] overflow-hidden selection:bg-[#0071E3]/20 selection:text-[#0071E3]">
+      <div className="absolute -top-32 -left-32 w-[34rem] h-[34rem] rounded-full bg-gradient-to-tr from-[#0071E3]/20 via-sky-300/15 to-purple-300/10 blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-36 -right-36 w-[38rem] h-[38rem] rounded-full bg-gradient-to-br from-indigo-300/15 via-blue-400/20 to-sky-200/20 blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-[420px] relative z-10 backdrop-blur-2xl bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/10 rounded-3xl p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300">
-            SECURITY VERIFICATION
+          <div className="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider bg-black/[0.04] dark:bg-white/[0.08] text-[#6E6E73] dark:text-[#86868B] uppercase">
+            Security Verification
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#1D1D1F] dark:text-white">
             Enter Verification Code
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-[#6E6E73] dark:text-slate-400 leading-relaxed">
             Enter the 6-digit passcode sent to your registered email
           </p>
         </div>
 
         {errorMessage && (
-          <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm">
+          <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[#D70015] dark:text-red-400 text-xs font-medium backdrop-blur-md">
             {errorMessage}
           </div>
         )}
 
         {successMessage && (
-          <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 text-sm">
+          <div className="p-3.5 rounded-xl bg-[#34C759]/10 border border-[#34C759]/20 text-[#248A3D] dark:text-[#30D158] text-xs font-medium">
             {successMessage}
           </div>
         )}
@@ -122,7 +125,7 @@ function VerifyOtpContent() {
         <form onSubmit={handleVerify} className="space-y-4">
           {!emailParam && (
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-[#1D1D1F] dark:text-slate-200">
                 Email Address
               </label>
               <input
@@ -131,13 +134,13 @@ function VerifyOtpContent() {
                 value={customEmail}
                 onChange={(e) => setCustomEmail(e.target.value)}
                 placeholder="cadet@domain.com"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm transition"
+                className="w-full px-4 py-3 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-slate-800/60 text-[#1D1D1F] dark:text-white placeholder-[#86868B] text-sm focus:outline-none focus:ring-4 focus:ring-[#0071E3]/15 focus:border-[#0071E3] transition-all duration-200 shadow-xs"
               />
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider text-center">
+            <label className="block text-xs font-medium text-[#1D1D1F] dark:text-slate-200 text-center">
               6-Digit One-Time Code
             </label>
             <input
@@ -147,31 +150,31 @@ function VerifyOtpContent() {
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
               placeholder="000000"
-              className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+              className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-slate-800/60 text-[#1D1D1F] dark:text-white placeholder-[#86868B] focus:outline-none focus:ring-4 focus:ring-[#0071E3]/15 focus:border-[#0071E3] transition-all duration-200 shadow-xs"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading || otp.length !== 6}
-            className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-blue-600 dark:hover:bg-blue-700 font-medium text-sm transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full py-3 px-5 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] text-white font-medium text-sm transition-all duration-150 shadow-sm shadow-[#0071E3]/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify Passcode"}
           </button>
         </form>
 
-        <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between text-xs pt-2 border-t border-black/[0.05] dark:border-white/[0.06]">
           <button
             type="button"
             onClick={handleResend}
             disabled={resending || cooldown > 0}
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-[#0071E3] hover:text-[#0077ED] font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {cooldown > 0 ? `Resend OTP in ${cooldown}s` : resending ? "Sending..." : "Resend OTP"}
           </button>
           <Link
             href="/login"
-            className="text-slate-500 hover:text-slate-700 dark:text-slate-400 hover:underline"
+            className="text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white transition-colors"
           >
             Back to Sign In
           </Link>

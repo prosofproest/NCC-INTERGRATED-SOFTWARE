@@ -84,7 +84,7 @@ export function CtoSidebar({ userEmail }: CtoSidebarProps) {
       user={{
         email: userEmail,
         role: "CTO Officer",
-        roleBadgeClass: "bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300",
+        roleBadgeClass: "bg-amber-500/10 text-amber-700 dark:bg-amber-400/20 dark:text-amber-300",
         avatarBg: "bg-amber-600",
       }}
       themeColor="amber"

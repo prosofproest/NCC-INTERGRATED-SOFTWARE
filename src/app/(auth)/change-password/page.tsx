@@ -49,29 +49,32 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm p-8 space-y-6">
+    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 bg-[#F5F5F7] dark:bg-[#0A0D14] overflow-hidden selection:bg-[#0071E3]/20 selection:text-[#0071E3]">
+      <div className="absolute -top-32 -left-32 w-[34rem] h-[34rem] rounded-full bg-gradient-to-tr from-[#0071E3]/20 via-sky-300/15 to-purple-300/10 blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-36 -right-36 w-[38rem] h-[38rem] rounded-full bg-gradient-to-br from-indigo-300/15 via-blue-400/20 to-sky-200/20 blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-[420px] relative z-10 backdrop-blur-2xl bg-white/75 dark:bg-slate-900/80 border border-white/80 dark:border-white/10 rounded-3xl p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300">
-            SECURITY REQUIREMENT
+          <div className="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider bg-amber-500/10 border border-amber-500/20 text-[#B25000] dark:text-amber-300 uppercase">
+            Security Requirement
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#1D1D1F] dark:text-white">
             Set Your Permanent Password
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-[#6E6E73] dark:text-slate-400 leading-relaxed">
             You are logged in with a temporary password. For account protection, you must establish a permanent password before proceeding.
           </p>
         </div>
 
         {errorMessage && (
-          <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm">
+          <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-[#D70015] dark:text-red-400 text-xs font-medium backdrop-blur-md">
             {errorMessage}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-[#1D1D1F] dark:text-slate-200">
               New Permanent Password
             </label>
             <input
@@ -81,12 +84,12 @@ export default function ChangePasswordPage() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 8 characters"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm transition"
+              className="w-full px-4 py-3 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-slate-800/60 text-[#1D1D1F] dark:text-white placeholder-[#86868B] text-sm focus:outline-none focus:ring-4 focus:ring-[#0071E3]/15 focus:border-[#0071E3] transition-all duration-200 shadow-xs"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            <label className="block text-xs font-medium text-[#1D1D1F] dark:text-slate-200">
               Confirm Permanent Password
             </label>
             <input
@@ -96,24 +99,24 @@ export default function ChangePasswordPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter password"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm transition"
+              className="w-full px-4 py-3 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-slate-800/60 text-[#1D1D1F] dark:text-white placeholder-[#86868B] text-sm focus:outline-none focus:ring-4 focus:ring-[#0071E3]/15 focus:border-[#0071E3] transition-all duration-200 shadow-xs"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-blue-600 dark:hover:bg-blue-700 font-medium text-sm transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full py-3 px-5 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] text-white font-medium text-sm transition-all duration-150 shadow-sm shadow-[#0071E3]/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
           >
             {loading ? "Updating Password..." : "Update Password & Continue"}
           </button>
         </form>
 
-        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 text-center">
+        <div className="pt-2 border-t border-black/[0.05] dark:border-white/[0.06] text-center">
           <button
             type="button"
             onClick={() => router.push("/api/auth/logout")}
-            className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 underline"
+            className="text-xs text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white transition-colors cursor-pointer"
           >
             Cancel and Log Out
           </button>

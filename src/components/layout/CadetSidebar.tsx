@@ -76,7 +76,7 @@ export function CadetSidebar({ userEmail, cadetName }: CadetSidebarProps) {
     <SidebarShell
       brand={{
         badgeText: "NCC",
-        badgeBg: "bg-blue-600 text-white",
+        badgeBg: "bg-[#0071E3] text-white",
         title: "Cadet Portal",
         subtitle: "Unity & Discipline",
         href: "/cadet",
@@ -86,8 +86,8 @@ export function CadetSidebar({ userEmail, cadetName }: CadetSidebarProps) {
         email: userEmail,
         name: cadetName,
         role: "Cadet",
-        roleBadgeClass: "bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300",
-        avatarBg: "bg-blue-600",
+        roleBadgeClass: "bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF]",
+        avatarBg: "bg-[#0071E3]",
       }}
       themeColor="blue"
       notificationsHref="/cadet/notifications"

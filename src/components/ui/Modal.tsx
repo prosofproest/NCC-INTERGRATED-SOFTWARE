@@ -48,28 +48,28 @@ export function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Dialog */}
       <div
-        className={`relative w-full ${maxWidthStyles[maxWidth]} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden z-10 my-8 flex flex-col max-h-[90vh]`}
+        className={`relative w-full ${maxWidthStyles[maxWidth]} bg-white/85 dark:bg-[#1C1C1E]/90 backdrop-blur-2xl border border-white/60 dark:border-white/10 rounded-3xl shadow-apple-modal overflow-hidden z-10 my-8 flex flex-col max-h-[90vh]`}
       >
-        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between">
+        <div className="p-6 border-b border-black/[0.05] dark:border-white/[0.08] flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+            <h2 className="text-lg font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
               {title}
             </h2>
             {description && (
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-xs sm:text-sm text-[#6E6E73] dark:text-[#86868B] mt-1">
                 {description}
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            className="text-[#86868B] hover:text-[#1D1D1F] dark:hover:text-white p-1.5 rounded-full hover:bg-black/[0.05] dark:hover:bg-white/[0.1] transition-colors"
             aria-label="Close"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

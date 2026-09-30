@@ -55,71 +55,74 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-sm">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-slate-200 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        {/* Soft background ambient radial highlight */}
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-[#0071E3]/10 to-indigo-300/10 blur-3xl pointer-events-none" />
+
+        <div className="space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF] border border-[#0071E3]/20">
+            <span className="w-2 h-2 rounded-full bg-[#34C759] shadow-[0_0_8px_rgba(52,199,89,0.5)] animate-pulse" />
             Admin Operations Active
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
             Jai Hind, Administrator
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
-            Logged in as <span className="font-semibold text-white">{session?.email}</span>. System overview for NCC Integrated Software. Manage master cadet records, dynamic profile definitions, and security policies.
+          <p className="text-[#6E6E73] dark:text-[#86868B] text-xs sm:text-sm max-w-xl leading-relaxed">
+            Logged in as <span className="font-medium text-[#1D1D1F] dark:text-white">{session?.email}</span>. System overview for NCC Integrated Software. Manage master cadet records, dynamic profile definitions, and security policies.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 relative z-10">
           <Link
             href="/admin/cadets"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white text-slate-900 font-semibold text-xs sm:text-sm hover:bg-slate-100 transition shadow-sm cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#0071E3] text-white font-medium text-xs sm:text-sm hover:bg-[#0077ED] transition shadow-sm cursor-pointer"
           >
             Cadets Directory &rarr;
           </Link>
           <Link
             href="/admin/data-structure"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Structure
           </Link>
           <Link
             href="/admin/data-requests"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Requests
           </Link>
           <Link
             href="/admin/change-requests"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             <span>Change Requests</span>
             {pendingChangeRequests > 0 && (
-              <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-slate-900">
+              <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-[#FF9500] text-white">
                 {pendingChangeRequests}
               </span>
             )}
           </Link>
           <Link
             href="/admin/cto-management"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
-            CTO Management
+            CTO Officers
           </Link>
           <Link
             href="/admin/import-export"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Import / Export
           </Link>
           <Link
             href="/admin/audit-logs"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Audit Logs
           </Link>
           <Link
             href="/admin/system-health"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             System Health
           </Link>

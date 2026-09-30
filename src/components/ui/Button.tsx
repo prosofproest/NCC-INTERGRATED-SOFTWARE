@@ -11,21 +11,21 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-sm active:scale-[0.99]",
+    "bg-[#0071E3] text-white hover:bg-[#0077ED] active:scale-[0.98] shadow-sm font-medium",
   secondary:
-    "bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 active:scale-[0.99]",
+    "bg-black/[0.05] text-[#1D1D1F] hover:bg-black/[0.08] dark:bg-white/[0.1] dark:text-[#F5F5F7] dark:hover:bg-white/[0.15] active:scale-[0.98]",
   danger:
-    "bg-rose-600 text-white hover:bg-rose-700 dark:bg-rose-600 dark:hover:bg-rose-700 shadow-sm active:scale-[0.99]",
+    "bg-[#FF3B30] text-white hover:bg-[#D70015] active:scale-[0.98] shadow-sm font-medium",
   ghost:
-    "bg-transparent text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800",
+    "bg-transparent text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.04] dark:text-[#86868B] dark:hover:text-white dark:hover:bg-white/[0.06] active:scale-[0.98]",
   outline:
-    "bg-transparent text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:scale-[0.99]",
+    "bg-white/60 dark:bg-black/20 backdrop-blur-md text-[#1D1D1F] dark:text-[#F5F5F7] border border-black/[0.08] dark:border-white/[0.1] hover:bg-white/90 dark:hover:bg-white/10 active:scale-[0.98]",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
   sm: "text-xs px-3 py-1.5 rounded-lg",
   md: "text-sm px-4 py-2 rounded-xl font-medium",
-  lg: "text-base px-5 py-2.5 rounded-xl font-medium",
+  lg: "text-base px-5 py-2.5 rounded-2xl font-medium",
 };
 
 export function Button({

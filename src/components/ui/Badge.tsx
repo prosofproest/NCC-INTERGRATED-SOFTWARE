@@ -20,20 +20,20 @@ interface BadgeProps {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default:
-    "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700",
+    "bg-black/[0.05] text-[#1D1D1F] dark:bg-white/[0.1] dark:text-[#F5F5F7] border-black/[0.06] dark:border-white/[0.1]",
   primary:
-    "bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border-blue-200 dark:border-blue-800/60",
+    "bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF] border-[#0071E3]/20",
   success:
-    "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60",
+    "bg-[#34C759]/10 text-[#248A3D] dark:bg-[#30D158]/20 dark:text-[#30D158] border-[#34C759]/25",
   warning:
-    "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200 dark:border-amber-800/60",
+    "bg-[#FF9500]/10 text-[#B25000] dark:bg-[#FF9F0A]/20 dark:text-[#FF9F0A] border-[#FF9500]/25",
   danger:
-    "bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 border-rose-200 dark:border-rose-800/60",
+    "bg-[#FF3B30]/10 text-[#D70015] dark:bg-[#FF453A]/20 dark:text-[#FF453A] border-[#FF3B30]/25",
   outline:
-    "bg-transparent text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700",
-  army: "bg-emerald-100/70 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200 border-emerald-300 dark:border-emerald-800",
-  navy: "bg-indigo-100/70 text-indigo-800 dark:bg-indigo-950/60 dark:text-indigo-200 border-indigo-300 dark:border-indigo-800",
-  air: "bg-sky-100/70 text-sky-800 dark:bg-sky-950/60 dark:text-sky-200 border-sky-300 dark:border-sky-800",
+    "bg-transparent text-[#6E6E73] dark:text-[#86868B] border-black/10 dark:border-white/15",
+  army: "bg-emerald-500/10 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300 border-emerald-500/25",
+  navy: "bg-blue-500/10 text-blue-800 dark:bg-blue-500/20 dark:text-blue-300 border-blue-500/25",
+  air: "bg-sky-500/10 text-sky-800 dark:bg-sky-500/20 dark:text-sky-300 border-sky-500/25",
 };
 
 export function Badge({

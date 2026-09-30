@@ -1,7 +1,6 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
-import crypto from "crypto";
 
 const projectId = process.env.FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
@@ -44,23 +43,22 @@ async function seedAdmin() {
 
   try {
     let user;
-    let isNewUser = false;
-    let temporaryPassword = null;
+    const defaultPassword = process.argv[2] || "AdminPassword123!";
 
     try {
       user = await auth.getUserByEmail(normalizedEmail);
       console.log(`✓ Existing Firebase Auth user found with UID: ${user.uid}`);
+      // Update password to ensure user can always log in with the seeded password
+      await auth.updateUser(user.uid, {
+        password: defaultPassword,
+      });
+      console.log(`✓ Password updated in Firebase Auth.`);
     } catch (err) {
       if (err.code === "auth/user-not-found") {
-        isNewUser = true;
-        // Check if an initial password was passed as command-line argument
-        const cliPassword = process.argv[2];
-        temporaryPassword = cliPassword || crypto.randomBytes(8).toString("hex") + "A1!";
-
         console.log(`• Creating new Firebase Auth user for ${normalizedEmail}...`);
         user = await auth.createUser({
           email: normalizedEmail,
-          password: temporaryPassword,
+          password: defaultPassword,
           emailVerified: true,
           displayName: "System Administrator",
         });
@@ -88,7 +86,7 @@ async function seedAdmin() {
       email: normalizedEmail,
       name: "System Administrator",
       role: "admin",
-      mustChangePassword: isNewUser ? true : existingDoc.data()?.mustChangePassword || false,
+      mustChangePassword: false,
       updatedAt: timestamp,
       ...(existingDoc.exists ? {} : { createdAt: timestamp }),
     };
@@ -98,12 +96,9 @@ async function seedAdmin() {
 
     console.log(`\n======================================================`);
     console.log(`🎉 SUCCESS: Admin account bootstrap completed!`);
-    console.log(`Email: ${normalizedEmail}`);
-    console.log(`Role:  admin`);
-    if (isNewUser) {
-      console.log(`Initial Temporary Password: ${temporaryPassword}`);
-      console.log(`(User will be prompted to change password on first login)`);
-    }
+    console.log(`Email:    ${normalizedEmail}`);
+    console.log(`Password: ${defaultPassword}`);
+    console.log(`Role:     admin`);
     console.log(`======================================================\n`);
   } catch (error) {
     console.error(`\n❌ Failed to bootstrap admin account:`, error);

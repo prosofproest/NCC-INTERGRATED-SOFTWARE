@@ -58,40 +58,42 @@ export default async function CtoDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Officer Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-gradient-to-br from-slate-900 via-amber-950/30 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-sm border border-amber-900/20">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/30 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-amber-500/10 to-orange-300/10 blur-3xl pointer-events-none" />
+
+        <div className="space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:bg-amber-400/20 dark:text-amber-300 border border-amber-500/20">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             Caretaker Officer Session Active
           </div>
           {/* Section 29 Mandatory Greeting */}
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
             Jai Hind Sir 🇮🇳
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
+          <p className="text-[#6E6E73] dark:text-[#86868B] text-xs sm:text-sm max-w-xl leading-relaxed">
             Battalion Officer Portal. Browse enrolled cadet profiles, filter records across wings, and monitor readiness metrics.
           </p>
-          <div className="pt-1 text-xs text-slate-400">
-            Authenticated Officer: <span className="text-slate-200 font-mono">{session?.email}</span>
+          <div className="pt-1 text-xs text-[#86868B]">
+            Authenticated Officer: <span className="text-[#1D1D1F] dark:text-[#F5F5F7] font-medium">{session?.email}</span>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 relative z-10">
           <Link
             href="/cto/cadets"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-amber-600 text-white font-semibold text-xs sm:text-sm hover:bg-amber-500 transition shadow-sm cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-amber-600 text-white font-medium text-xs sm:text-sm hover:bg-amber-500 transition shadow-sm cursor-pointer"
           >
             Cadets Directory &rarr;
           </Link>
           <Link
             href="/cto/data-requests"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Requests
           </Link>
           <Link
             href="/cto/reports"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/5 text-slate-300 border border-white/10 font-medium text-xs sm:text-sm hover:bg-white/10 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Reports
           </Link>

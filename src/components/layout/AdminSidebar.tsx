@@ -108,7 +108,7 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
     <SidebarShell
       brand={{
         badgeText: "NCC",
-        badgeBg: "bg-slate-900 dark:bg-white text-white dark:text-slate-900",
+        badgeBg: "bg-[#0071E3] text-white",
         title: "NCC Admin",
         subtitle: "Integrated System",
         href: "/admin",
@@ -117,8 +117,8 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
       user={{
         email: userEmail,
         role: "Admin",
-        roleBadgeClass: "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200",
-        avatarBg: "bg-slate-900 dark:bg-slate-700",
+        roleBadgeClass: "bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF]",
+        avatarBg: "bg-[#0071E3]",
       }}
       themeColor="slate"
       notificationsHref="/admin/notifications"

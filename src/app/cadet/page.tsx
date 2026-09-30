@@ -54,26 +54,26 @@ export default async function CadetDashboardPage() {
   if (!cadet) {
     return (
       <div className="max-w-2xl mx-auto py-12 space-y-6">
-        <Card className="border-amber-200 dark:border-amber-900/50 bg-gradient-to-br from-amber-50/50 to-white dark:from-amber-950/20 dark:to-slate-900 p-8 text-center space-y-4 shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center mx-auto shadow-xs">
+        <Card className="border-amber-500/20 bg-amber-500/[0.03] backdrop-blur-xl p-8 text-center space-y-4 shadow-apple-card">
+          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-700 dark:text-amber-300 flex items-center justify-center mx-auto shadow-xs border border-amber-500/20">
             <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20">
               Profile Setup Pending
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-semibold tracking-tight text-[#1D1D1F] dark:text-slate-100">
               Jai Hind Cadet 🇮🇳
             </h1>
-            <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm text-[#6E6E73] dark:text-slate-400 max-w-md mx-auto leading-relaxed">
               Your authentication account (<strong>{session.email}</strong>) is active, but your master NCC cadet record has not yet been linked by the Unit Administrator.
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs text-slate-500 text-left space-y-2">
-            <p className="font-semibold text-slate-700 dark:text-slate-300">Next Steps:</p>
+          <div className="p-4 rounded-xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] text-xs text-[#6E6E73] text-left space-y-2">
+            <p className="font-semibold text-[#1D1D1F] dark:text-slate-300">Next Steps:</p>
             <ul className="list-disc pl-4 space-y-1">
               <li>Contact your Associate NCC Officer (ANO) or Caretaker Officer (CTO).</li>
               <li>Provide your registered email address and regimental enrollment number.</li>
@@ -84,13 +84,13 @@ export default async function CadetDashboardPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link
               href="/cadet/security"
-              className="inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition"
+              className="inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium bg-[#0071E3] text-white hover:bg-[#0077ED] transition"
             >
               Account Security &rarr;
             </Link>
             <Link
               href="/api/auth/logout"
-              className="inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
+              className="inline-flex items-center px-4 py-2 rounded-xl text-xs font-medium border border-black/[0.08] dark:border-white/[0.1] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition"
             >
               Sign Out
             </Link>
@@ -170,16 +170,18 @@ export default async function CadetDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Hero Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-gradient-to-br from-blue-950 via-slate-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-sm">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-200 border border-blue-500/30 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-[#0071E3]/10 to-indigo-300/10 blur-3xl pointer-events-none" />
+
+        <div className="space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF] border border-[#0071E3]/20">
+            <span className="w-2 h-2 rounded-full bg-[#34C759] shadow-[0_0_8px_rgba(52,199,89,0.5)] animate-pulse" />
             Cadet Active Session
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
             Jai Hind, {cadet.fullName} 🇮🇳
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
+          <p className="text-[#6E6E73] dark:text-[#86868B] text-xs sm:text-sm max-w-xl leading-relaxed">
             Welcome to your unified cadet portal. Manage your regimental details, review profile completion, and track official data requests.
           </p>
           <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
@@ -189,22 +191,22 @@ export default async function CadetDashboardPage() {
             <Badge variant={statusVariant} size="sm">
               {cadet.status}
             </Badge>
-            <span className="font-mono bg-white/10 px-2 py-0.5 rounded text-slate-300">
+            <span className="font-mono bg-black/[0.04] dark:bg-white/[0.08] px-2.5 py-0.5 rounded-full text-[#6E6E73] dark:text-[#86868B] border border-black/[0.06] dark:border-white/[0.08] text-[11px]">
               {cadet.cadetId}
             </span>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 relative z-10">
           <Link
             href="/cadet/profile"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white text-slate-900 font-semibold text-xs sm:text-sm hover:bg-slate-100 transition shadow-sm cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#0071E3] text-white font-medium text-xs sm:text-sm hover:bg-[#0077ED] transition shadow-sm cursor-pointer"
           >
             My Profile &rarr;
           </Link>
           <Link
             href="/cadet/change-requests"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white/10 text-white border border-white/20 font-medium text-xs sm:text-sm hover:bg-white/20 transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Change Requests
           </Link>
