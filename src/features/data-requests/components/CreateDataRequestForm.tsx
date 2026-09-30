@@ -185,7 +185,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Create Data Request
             </h1>
             <Badge variant="primary" size="sm">
@@ -195,7 +195,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               {userRole === "admin" ? "Admin Authoring" : "Officer Authoring"}
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Dispatch a targeted data collection request. Targeted cadets will only be asked for fields they have not yet filled.
           </p>
         </div>
@@ -223,7 +223,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Request Title <span className="text-rose-500">*</span>
             </label>
             <input
@@ -232,12 +232,12 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Mandatory Blood Group & Emergency Contact Verification"
               required
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Purpose &amp; Instructions <span className="text-rose-500">*</span>
             </label>
             <textarea
@@ -246,19 +246,19 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               onChange={(e) => setPurpose(e.target.value)}
               placeholder="e.g. Required by NCC Directorate for Annual Training Camp (ATC) medical clearance and logistics."
               required
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <div className="sm:w-1/2">
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Submission Deadline (Optional)
             </label>
             <input
               type="date"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </CardContent>
@@ -290,12 +290,12 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               onClick={() => setTargetMode("all")}
               className={`p-3 rounded-xl border text-left transition cursor-pointer ${
                 targetMode === "all"
-                  ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-blue-200"
-                  : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850"
+                  ? "border-blue-500 bg-blue-50/50 text-blue-950"
+                  : "border-slate-200 hover:bg-slate-50"
               }`}
             >
               <div className="text-xs font-semibold">All Active Cadets</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <div className="text-[11px] text-slate-500 mt-0.5">
                 Target all {cadets.length} currently enrolled active cadets
               </div>
             </button>
@@ -305,12 +305,12 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               onClick={() => setTargetMode("specific")}
               className={`p-3 rounded-xl border text-left transition cursor-pointer ${
                 targetMode === "specific"
-                  ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-blue-200"
-                  : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850"
+                  ? "border-blue-500 bg-blue-50/50 text-blue-950"
+                  : "border-slate-200 hover:bg-slate-50"
               }`}
             >
               <div className="text-xs font-semibold">Specific Cadets</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <div className="text-[11px] text-slate-500 mt-0.5">
                 Hand-pick specific cadet profiles
               </div>
             </button>
@@ -318,7 +318,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
 
           {/* Specific Cadets Selector Box */}
           {targetMode === "specific" && (
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-3">
+            <div className="pt-3 border-t border-slate-100 space-y-3">
               {/* Filter controls */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <input
@@ -326,12 +326,12 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                   placeholder="Search by name, ID, unit, or enrollment..."
                   value={cadetSearch}
                   onChange={(e) => setCadetSearch(e.target.value)}
-                  className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                  className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
                 />
                 <select
                   value={cadetWingFilter}
                   onChange={(e) => setCadetWingFilter(e.target.value)}
-                  className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                  className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
                 >
                   <option value="all">All Wings</option>
                   <option value="Army">Army Wing</option>
@@ -361,7 +361,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
               </div>
 
               {/* Cadets Checklist */}
-              <div className="max-h-60 overflow-y-auto border border-slate-200 dark:border-slate-800 rounded-xl divide-y divide-slate-100 dark:divide-slate-800">
+              <div className="max-h-60 overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100">
                 {filteredCadets.length === 0 ? (
                   <div className="p-4 text-center text-xs text-slate-400">
                     No active cadets match your filter criteria.
@@ -372,8 +372,8 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                     return (
                       <label
                         key={cadet.cadetId}
-                        className={`p-2.5 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-850 cursor-pointer text-xs ${
-                          isSelected ? "bg-blue-50/40 dark:bg-blue-950/20" : ""
+                        className={`p-2.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer text-xs ${
+                          isSelected ? "bg-blue-50/40" : ""
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -384,7 +384,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                             className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
                           />
                           <div>
-                            <div className="font-semibold text-slate-900 dark:text-slate-100">
+                            <div className="font-semibold text-slate-900">
                               {cadet.fullName}
                             </div>
                             <div className="text-[11px] text-slate-400 font-mono">
@@ -432,9 +432,9 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
 
             return (
               <div key={cat.categoryId} className="space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
                       {cat.name}
                     </h4>
                     <p className="text-[11px] text-slate-400">{cat.description}</p>
@@ -442,7 +442,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                   <button
                     type="button"
                     onClick={() => toggleCategoryFields(cat.categoryId)}
-                    className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                    className="text-xs font-medium text-blue-600 hover:underline cursor-pointer"
                   >
                     {allCatSelected ? "Deselect All" : "Select All"}
                   </button>
@@ -456,8 +456,8 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                         key={field.fieldId}
                         className={`p-3 rounded-xl border flex items-start gap-3 transition cursor-pointer ${
                           isSelected
-                            ? "border-blue-500 bg-blue-50/30 dark:bg-blue-950/20"
-                            : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                            ? "border-blue-500 bg-blue-50/30"
+                            : "border-slate-200 hover:border-slate-300"
                         }`}
                       >
                         <input
@@ -468,7 +468,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                         />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 truncate">
+                            <span className="text-xs font-semibold text-slate-900 truncate">
                               {field.label}
                             </span>
                             {field.validation?.required && (
@@ -479,11 +479,11 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                             <span className="font-mono text-[10px] text-slate-400">
                               {field.fieldId}
                             </span>
-                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase">
+                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 uppercase">
                               {field.type}
                             </span>
                             {!field.permissions?.cadetEditable && (
-                              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-medium">
+                              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 font-medium">
                                 Officer Managed
                               </span>
                             )}

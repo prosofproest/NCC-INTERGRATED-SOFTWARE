@@ -104,14 +104,14 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
   return (
     <div className="space-y-4">
       {/* Controls & Filter Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => setFilter("all")}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
               filter === "all"
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ? "bg-slate-900 text-white shadow-xs"
+                : "text-slate-600 hover:bg-slate-100"
             }`}
           >
             All ({notifications.length})
@@ -121,7 +121,7 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
               filter === "unread"
                 ? "bg-blue-600 text-white shadow-xs"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                : "text-slate-600 hover:bg-slate-100"
             }`}
           >
             Unread ({unreadCount})
@@ -131,7 +131,7 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
               filter === "important"
                 ? "bg-amber-600 text-white shadow-xs"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                : "text-slate-600 hover:bg-slate-100"
             }`}
           >
             Important
@@ -153,18 +153,18 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
 
       {/* Notifications List */}
       {loading ? (
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center text-slate-400 text-sm">
+        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400 text-sm">
           <div className="inline-block w-6 h-6 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin mb-2" />
           <p>Loading notifications...</p>
         </div>
       ) : filteredNotifications.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-12 text-center text-slate-500">
-          <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400 mb-3">
+        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500">
+          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400 mb-3">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
           </div>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
+          <h3 className="text-sm font-semibold text-slate-900 mb-1">
             {filter === "unread" ? "No Unread Notifications" : "No Notifications"}
           </h3>
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -184,8 +184,8 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
                 key={notif.notificationId}
                 className={`p-4 rounded-xl border transition-all ${
                   isUnread
-                    ? "bg-blue-50/40 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/50 shadow-xs"
-                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                    ? "bg-blue-50/40 border-blue-200 shadow-xs"
+                    : "bg-white border-slate-200 hover:border-slate-300"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -201,23 +201,23 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
                         </Badge>
                       )}
 
-                      <h4 className={`text-sm font-semibold ${isUnread ? "text-slate-900 dark:text-white" : "text-slate-800 dark:text-slate-200"}`}>
+                      <h4 className={`text-sm font-semibold ${isUnread ? "text-slate-900" : "text-slate-800"}`}>
                         {notif.title}
                       </h4>
 
-                      <span className="text-[11px] text-slate-400 dark:text-slate-500">
+                      <span className="text-[11px] text-slate-400">
                         • {formatTimestamp(notif.createdAt)}
                       </span>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">
                       {notif.message}
                     </p>
 
                     <div className="flex items-center gap-3 pt-1 text-xs text-slate-400">
-                      <span>From: <strong className="text-slate-600 dark:text-slate-400 font-medium">{notif.sender?.name || "System"}</strong></span>
+                      <span>From: <strong className="text-slate-600 font-medium">{notif.sender?.name || "System"}</strong></span>
                       {notif.sender?.role && (
-                        <span className="uppercase text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 font-semibold tracking-wider">
+                        <span className="uppercase text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 font-semibold tracking-wider">
                           {notif.sender.role}
                         </span>
                       )}
@@ -238,7 +238,7 @@ export function NotificationsList({ portalRole }: NotificationsListProps) {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleMarkAsRead(notif.notificationId)}
-                        className="text-xs text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+                        className="text-xs text-slate-500 hover:text-slate-900"
                         title="Mark as read"
                       >
                         ✓

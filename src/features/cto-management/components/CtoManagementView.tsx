@@ -179,8 +179,8 @@ export function CtoManagementView() {
         <div
           className={`p-4 rounded-xl border text-sm flex items-center justify-between transition-all ${
             actionMessage.type === "success"
-              ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200"
-              : "bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-rose-50 border-rose-200 text-rose-800"
           }`}
         >
           <span>{actionMessage.text}</span>
@@ -198,17 +198,17 @@ export function CtoManagementView() {
         <Card>
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Total CTO Officers
               </span>
-              <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400">
+              <span className="p-2 rounded-xl bg-amber-50 text-amber-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-3">
-              <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <span className="text-2xl font-bold tracking-tight text-slate-900">
                 {totalOfficers}
               </span>
               <p className="text-xs text-slate-500 mt-0.5">Care Taker Officers registered</p>
@@ -219,17 +219,17 @@ export function CtoManagementView() {
         <Card>
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Active &amp; Operational
               </span>
-              <span className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
+              <span className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-3">
-              <span className="text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
+              <span className="text-2xl font-bold tracking-tight text-emerald-600">
                 {activeOfficers}
               </span>
               <p className="text-xs text-slate-500 mt-0.5">Authorized portal access</p>
@@ -240,17 +240,17 @@ export function CtoManagementView() {
         <Card>
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Deactivated / Suspended
               </span>
-              <span className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400">
+              <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m0 0v2m0-2h2m-2 0H10m4-8a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-3">
-              <span className="text-2xl font-bold tracking-tight text-rose-600 dark:text-rose-400">
+              <span className="text-2xl font-bold tracking-tight text-rose-600">
                 {lockedOfficers}
               </span>
               <p className="text-xs text-slate-500 mt-0.5">Access disabled / revoked</p>
@@ -264,7 +264,7 @@ export function CtoManagementView() {
         <div className="p-6 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-lg font-bold text-slate-900">
                 Officer Directory
               </h2>
               <p className="text-xs text-slate-500">
@@ -287,8 +287,8 @@ export function CtoManagementView() {
                 onClick={() => setStatusFilter("all")}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                   statusFilter === "all"
-                    ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    ? "bg-slate-900 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
                 All ({totalOfficers})
@@ -298,7 +298,7 @@ export function CtoManagementView() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                   statusFilter === "active"
                     ? "bg-emerald-600 text-white"
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
                 Active ({activeOfficers})
@@ -308,7 +308,7 @@ export function CtoManagementView() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                   statusFilter === "locked"
                     ? "bg-rose-600 text-white"
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    : "text-slate-600 hover:bg-slate-100"
                 }`}
               >
                 Deactivated ({lockedOfficers})
@@ -321,7 +321,7 @@ export function CtoManagementView() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search name or email..."
-                className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 w-full sm:w-64 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white text-slate-900 w-full sm:w-64 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
               />
               <Button
                 variant="outline"
@@ -348,7 +348,7 @@ export function CtoManagementView() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                  <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                     <th className="py-3 px-3">Officer Name</th>
                     <th className="py-3 px-3">Official Email</th>
                     <th className="py-3 px-3">Status</th>
@@ -357,23 +357,23 @@ export function CtoManagementView() {
                     <th className="py-3 px-3 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100">
                   {filteredOfficers.map((officer) => {
                     const isLocked = officer.status === "locked" || officer.disabled;
                     return (
                       <tr
                         key={officer.uid}
-                        className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                        className="hover:bg-slate-50/50 transition-colors"
                       >
                         <td className="py-3.5 px-3">
-                          <div className="font-semibold text-slate-900 dark:text-slate-100">
+                          <div className="font-semibold text-slate-900">
                             {officer.name || "Care Taker Officer"}
                           </div>
                           <div className="text-[10px] text-slate-400 font-mono">
                             UID: {officer.uid.substring(0, 12)}...
                           </div>
                         </td>
-                        <td className="py-3.5 px-3 font-mono text-slate-700 dark:text-slate-300">
+                        <td className="py-3.5 px-3 font-mono text-slate-700">
                           {officer.email}
                         </td>
                         <td className="py-3.5 px-3">
@@ -383,11 +383,11 @@ export function CtoManagementView() {
                         </td>
                         <td className="py-3.5 px-3">
                           {officer.mustChangePassword ? (
-                            <span className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+                            <span className="text-[11px] text-amber-600 font-medium">
                               Pending Initial Password Setup
                             </span>
                           ) : (
-                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                            <span className="text-[11px] text-emerald-600 font-medium">
                               Password Configured
                             </span>
                           )}
@@ -422,7 +422,7 @@ export function CtoManagementView() {
                                   setActionTarget(officer);
                                   setActionType("reactivate");
                                 }}
-                                className="text-xs py-1 h-auto text-emerald-600 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-800 dark:hover:bg-emerald-950/20"
+                                className="text-xs py-1 h-auto text-emerald-600 border-emerald-200 hover:bg-emerald-50"
                               >
                                 Reactivate
                               </Button>
@@ -434,7 +434,7 @@ export function CtoManagementView() {
                                   setActionTarget(officer);
                                   setActionType("deactivate");
                                 }}
-                                className="text-xs py-1 h-auto text-rose-600 border-rose-200 hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950/20"
+                                className="text-xs py-1 h-auto text-rose-600 border-rose-200 hover:bg-rose-50"
                               >
                                 Deactivate
                               </Button>
@@ -466,19 +466,19 @@ export function CtoManagementView() {
       >
         <form onSubmit={handleCreateCto} className="space-y-4">
           {createError && (
-            <div className="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs">
+            <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
               {createError}
             </div>
           )}
 
           {createSuccess && (
-            <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs">
+            <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs">
               {createSuccess}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
               Officer Full Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -487,12 +487,12 @@ export function CtoManagementView() {
               onChange={(e) => setNewName(e.target.value)}
               placeholder="e.g. Capt. Rajesh Sharma"
               required
-              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
               Official Email Address <span className="text-rose-500">*</span>
             </label>
             <input
@@ -501,12 +501,12 @@ export function CtoManagementView() {
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder="e.g. cto.officer@ncc.test"
               required
-              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
             />
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-500 space-y-1">
-            <div className="font-semibold text-slate-700 dark:text-slate-300">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 space-y-1">
+            <div className="font-semibold text-slate-700">
               🔒 Security &amp; Password Policy:
             </div>
             <p>
@@ -514,7 +514,7 @@ export function CtoManagementView() {
             </p>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-200">
             <Button
               type="button"
               variant="outline"
@@ -553,7 +553,7 @@ export function CtoManagementView() {
       >
         <div className="space-y-4 pt-2">
           {actionType === "deactivate" && (
-            <div className="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs">
+            <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
               ⚠️ <strong>Warning:</strong> Active session tokens will be revoked immediately via Firebase Auth.
             </div>
           )}

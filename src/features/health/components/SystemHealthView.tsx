@@ -176,7 +176,7 @@ export function SystemHealthView() {
 
       {/* Error Alert */}
       {errorMessage && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center justify-between">
           <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage(null)}
@@ -189,23 +189,23 @@ export function SystemHealthView() {
 
       {/* 2. Active Incidents Alert (Prominent per Spec Section 21) */}
       {report && report.activeIncidents && report.activeIncidents.length > 0 && (
-        <div className="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/80 space-y-3">
-          <div className="flex items-center gap-2 text-rose-800 dark:text-rose-200 font-semibold text-sm">
+        <div className="p-5 rounded-2xl bg-rose-50 border border-rose-200 space-y-3">
+          <div className="flex items-center gap-2 text-rose-800 font-semibold text-sm">
             <span className="text-lg">⚠️</span>
             <span>Active Service Incidents ({report.activeIncidents.length})</span>
           </div>
-          <p className="text-xs text-rose-700 dark:text-rose-300">
+          <p className="text-xs text-rose-700">
             The following services failed automated health checks and require administrative attention:
           </p>
           <div className="space-y-2">
             {report.activeIncidents.map((incident) => (
               <div
                 key={incident.serviceId}
-                className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-rose-200 dark:border-rose-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                className="p-3 rounded-xl bg-white border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-slate-900 dark:text-slate-100">
+                    <span className="font-bold text-slate-900">
                       {incident.serviceName}
                     </span>
                     <Badge variant="danger" size="sm">
@@ -213,7 +213,7 @@ export function SystemHealthView() {
                       {incident.consecutiveFailures > 1 ? "s" : ""}
                     </Badge>
                   </div>
-                  <p className="text-slate-600 dark:text-slate-400 font-mono text-[11px]">
+                  <p className="text-slate-600 font-mono text-[11px]">
                     {incident.lastError}
                   </p>
                 </div>
@@ -230,69 +230,69 @@ export function SystemHealthView() {
       {/* 3. Metric Summary Cards */}
       {report && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+          <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
                   Total Services Checked
                 </span>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                <div className="text-2xl font-bold text-slate-900">
                   {report.summary.total}
                 </div>
                 <p className="text-[10px] text-slate-500">Live components monitored</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-lg">
                 🖥️
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+          <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between">
               <div className="space-y-1">
-                <span className="text-[11px] font-semibold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase">
+                <span className="text-[11px] font-semibold tracking-wider text-emerald-600 uppercase">
                   Fully Operational
                 </span>
-                <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">
+                <div className="text-2xl font-bold text-emerald-700">
                   {report.summary.operational}
                 </div>
                 <p className="text-[10px] text-slate-500">Healthy & verified</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
                 ✓
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+          <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between">
               <div className="space-y-1">
-                <span className="text-[11px] font-semibold tracking-wider text-amber-600 dark:text-amber-400 uppercase">
+                <span className="text-[11px] font-semibold tracking-wider text-amber-600 uppercase">
                   Degraded / Warnings
                 </span>
-                <div className="text-2xl font-bold text-amber-700 dark:text-amber-400">
+                <div className="text-2xl font-bold text-amber-700">
                   {report.summary.warning}
                 </div>
                 <p className="text-[10px] text-slate-500">Slow latency or retries</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
                 ⚠️
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+          <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between">
               <div className="space-y-1">
-                <span className="text-[11px] font-semibold tracking-wider text-rose-600 dark:text-rose-400 uppercase">
+                <span className="text-[11px] font-semibold tracking-wider text-rose-600 uppercase">
                   Service Failures
                 </span>
-                <div className="text-2xl font-bold text-rose-700 dark:text-rose-400">
+                <div className="text-2xl font-bold text-rose-700">
                   {report.summary.failed}
                 </div>
                 <p className="text-[10px] text-slate-500">Requires investigation</p>
               </div>
-              <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg">
                 ❌
               </div>
             </CardContent>
@@ -303,7 +303,7 @@ export function SystemHealthView() {
       {/* 4. Detailed Services List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+          <h2 className="text-base font-semibold text-slate-900">
             Monitored Component Services
           </h2>
           <span className="text-xs text-slate-500">
@@ -314,7 +314,7 @@ export function SystemHealthView() {
         {isLoading ? (
           <div className="p-16 text-center text-xs text-slate-500 space-y-3">
             <div className="inline-block w-8 h-8 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin" />
-            <p className="font-medium text-slate-700 dark:text-slate-300">
+            <p className="font-medium text-slate-700">
               Running live diagnostics across all system services...
             </p>
             <p className="text-[11px] text-slate-400">
@@ -337,24 +337,24 @@ export function SystemHealthView() {
                   key={service.serviceId}
                   className={`border transition-all ${
                     service.status === "failed"
-                      ? "border-rose-300 dark:border-rose-800 bg-rose-50/20 dark:bg-rose-950/10"
+                      ? "border-rose-300 bg-rose-50/20"
                       : service.status === "warning"
-                      ? "border-amber-300 dark:border-amber-800 bg-amber-50/20 dark:bg-amber-950/10"
-                      : "border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900"
+                      ? "border-amber-300 bg-amber-50/20"
+                      : "border-slate-200/80 bg-white"
                   }`}
                 >
                   <CardContent className="p-5 space-y-3">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                          <h3 className="text-sm font-bold text-slate-900">
                             {service.serviceName}
                           </h3>
                           <Badge variant={catBadge.variant} size="sm">
                             {catBadge.label}
                           </Badge>
                         </div>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                        <p className="text-xs text-slate-600 mt-1">
                           {service.message}
                         </p>
                       </div>
@@ -365,10 +365,10 @@ export function SystemHealthView() {
                     </div>
 
                     {/* Latency and Status Bar */}
-                    <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
                       <div className="flex items-center gap-2">
                         {service.latencyMs !== undefined ? (
-                          <span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">
+                          <span className="font-mono text-slate-700 font-semibold">
                             {service.latencyMs} ms
                           </span>
                         ) : (
@@ -396,7 +396,7 @@ export function SystemHealthView() {
                             onClick={() =>
                               setExpandedService(isExpanded ? null : service.serviceId)
                             }
-                            className="text-blue-600 dark:text-blue-400 hover:underline text-[11px] cursor-pointer"
+                            className="text-blue-600 hover:underline text-[11px] cursor-pointer"
                           >
                             {isExpanded ? "Hide Details" : "Details"}
                           </button>
@@ -406,11 +406,11 @@ export function SystemHealthView() {
 
                     {/* Expandable Technical Details */}
                     {isExpanded && service.details && (
-                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-mono space-y-1">
+                      <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/60 text-[11px] font-mono space-y-1">
                         {Object.entries(service.details).map(([k, v]) => (
                           <div key={k} className="flex items-center justify-between">
                             <span className="text-slate-500 uppercase">{k}:</span>
-                            <span className="text-slate-800 dark:text-slate-200 font-medium">
+                            <span className="text-slate-800 font-medium">
                               {typeof v === "object" ? JSON.stringify(v) : String(v)}
                             </span>
                           </div>

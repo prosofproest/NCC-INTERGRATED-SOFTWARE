@@ -81,10 +81,10 @@ export default function CadetSecurityPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
           Security &amp; Account
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
           Manage your cadet portal authentication credentials and view account status.
         </p>
       </div>
@@ -111,14 +111,14 @@ export default function CadetSecurityPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs">
               <div className="space-y-1">
                 <span className="text-slate-500 font-medium">Registered Email</span>
-                <p className="font-semibold text-slate-900 dark:text-slate-100 text-sm">
+                <p className="font-semibold text-slate-900 text-sm">
                   {cadet?.email || "Authenticated Cadet"}
                 </p>
               </div>
 
               <div className="space-y-1">
                 <span className="text-slate-500 font-medium">Cadet ID Reference</span>
-                <p className="font-mono font-bold text-slate-900 dark:text-slate-100 text-sm">
+                <p className="font-mono font-bold text-slate-900 text-sm">
                   {cadet?.cadetId || "Unlinked"}
                 </p>
               </div>
@@ -147,19 +147,19 @@ export default function CadetSecurityPage() {
         <CardContent>
           <form onSubmit={handlePasswordChange} className="space-y-4 max-w-md">
             {passwordSuccess && (
-              <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300">
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
                 {passwordSuccess}
               </div>
             )}
 
             {passwordError && (
-              <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300">
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
                 {passwordError}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 New Password <span className="text-rose-500">*</span>
               </label>
               <input
@@ -168,12 +168,12 @@ export default function CadetSecurityPage() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Enter new password (min. 8 characters)"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Confirm New Password <span className="text-rose-500">*</span>
               </label>
               <input
@@ -182,7 +182,7 @@ export default function CadetSecurityPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter new password"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
               />
             </div>
 

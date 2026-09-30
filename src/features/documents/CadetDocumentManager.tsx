@@ -248,10 +248,10 @@ export function CadetDocumentManager({
       {/* Header Bar */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-slate-900">
             Attached Documents ({documents.length})
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-500">
             Stored in Google Drive under cadet directory
           </p>
         </div>
@@ -289,21 +289,21 @@ export function CadetDocumentManager({
 
       {/* Error State */}
       {!loading && error && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 text-xs text-rose-700 dark:text-rose-300">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
           {error}
         </div>
       )}
 
       {/* Empty State */}
       {!loading && !error && documents.length === 0 && (
-        <div className="p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center space-y-3">
-          <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+        <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl text-center space-y-3">
+          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <p className="text-xs font-semibold text-slate-700">
               No documents uploaded yet
             </p>
             <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
@@ -336,14 +336,14 @@ export function CadetDocumentManager({
                 key={doc.documentId}
                 className={`p-4 rounded-xl border transition-all ${
                   isSuperseded
-                    ? "bg-slate-50/60 dark:bg-slate-900/40 border-slate-200/60 dark:border-slate-800/60 opacity-70"
-                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xs"
+                    ? "bg-slate-50/60 border-slate-200/60 opacity-70"
+                    : "bg-white border-slate-200 shadow-xs"
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   {/* Left: Document Info */}
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
@@ -351,7 +351,7 @@ export function CadetDocumentManager({
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-semibold text-sm text-slate-900 dark:text-white">
+                        <span className="font-semibold text-sm text-slate-900">
                           {doc.title}
                         </span>
                         <Badge variant="outline" size="sm">
@@ -365,7 +365,7 @@ export function CadetDocumentManager({
                         {getVerificationBadge(doc.verificationStatus)}
                       </div>
 
-                      <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
+                      <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
                         <span>{doc.fileName}</span>
                         <span>•</span>
                         <span>{formatFileSize(doc.sizeBytes)}</span>
@@ -377,7 +377,7 @@ export function CadetDocumentManager({
 
                       {/* Rejection Note */}
                       {doc.verificationStatus === "rejected" && doc.rejectionReason && (
-                        <div className="mt-2 text-xs bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 p-2.5 rounded-lg text-rose-700 dark:text-rose-300">
+                        <div className="mt-2 text-xs bg-rose-50 border border-rose-200 p-2.5 rounded-lg text-rose-700">
                           <span className="font-semibold">Rejection reason:</span> {doc.rejectionReason}
                         </div>
                       )}
@@ -390,7 +390,7 @@ export function CadetDocumentManager({
                     <a
                       href={`/api/documents/${doc.documentId}/download`}
                       download={doc.fileName}
-                      className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
+                      className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 border border-slate-300 hover:bg-slate-50 transition"
                       title="Download file securely from Google Drive"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -401,7 +401,7 @@ export function CadetDocumentManager({
 
                     {/* Admin Verification Controls */}
                     {userRole === "admin" && !isSuperseded && (
-                      <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200 dark:border-slate-800">
+                      <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">
                         {doc.verificationStatus !== "verified" && (
                           <Button
                             type="button"
@@ -409,7 +409,7 @@ export function CadetDocumentManager({
                             size="sm"
                             isLoading={verifyingId === doc.documentId}
                             onClick={() => handleVerify(doc.documentId)}
-                            className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300"
+                            className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
                           >
                             Verify
                           </Button>
@@ -447,20 +447,20 @@ export function CadetDocumentManager({
       >
         <form onSubmit={handleUploadSubmit} className="space-y-4">
           {uploadError && (
-            <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 rounded-xl text-xs text-rose-700 dark:text-rose-300">
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700">
               {uploadError}
             </div>
           )}
 
           {uploadSuccess && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-xl text-xs text-emerald-700 dark:text-emerald-300">
+            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-700">
               {uploadSuccess}
             </div>
           )}
 
           {/* Document Title */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Document Title *
             </label>
             <input
@@ -469,19 +469,19 @@ export function CadetDocumentManager({
               value={uploadTitle}
               onChange={(e) => setUploadTitle(e.target.value)}
               placeholder="e.g. Aadhaar Card, 10th Standard Marksheet"
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Category Dropdown */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Document Category *
             </label>
             <select
               value={uploadCategoryId}
               onChange={(e) => setUploadCategoryId(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             >
               {categories.map((c) => (
                 <option key={c.categoryId} value={c.categoryId}>
@@ -501,7 +501,7 @@ export function CadetDocumentManager({
 
           {/* File Picker */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               File Attachment (PDF, JPG, PNG, WEBP, DOCX, XLSX — max 10MB) *
             </label>
             <input
@@ -509,7 +509,7 @@ export function CadetDocumentManager({
               required
               accept=".pdf,.jpg,.jpeg,.png,.webp,.docx,.xlsx"
               onChange={handleFileChange}
-              className="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-slate-900 file:text-white dark:file:bg-slate-100 dark:file:text-slate-900 hover:file:opacity-90 cursor-pointer"
+              className="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-slate-900 file:text-white hover:file:opacity-90 cursor-pointer"
             />
             {selectedFile && (
               <p className="mt-1.5 text-[11px] text-slate-500">
@@ -519,12 +519,12 @@ export function CadetDocumentManager({
           </div>
 
           {/* Replacement Warning Note */}
-          <div className="p-3 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/40 rounded-xl text-[11px] text-amber-800 dark:text-amber-300">
+          <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl text-[11px] text-amber-800">
             <span className="font-semibold">Version Management:</span> Uploading a new file with the same title and category automatically preserves the previous version as superseded without deleting Drive history.
           </div>
 
           {/* Modal Actions */}
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
             <Button
               type="button"
               variant="outline"
@@ -558,7 +558,7 @@ export function CadetDocumentManager({
       >
         <form onSubmit={handleRejectSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Rejection Reason *
             </label>
             <textarea
@@ -567,11 +567,11 @@ export function CadetDocumentManager({
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
               placeholder="e.g. Scanned copy is illegible, missing official seal, or expired document."
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-rose-500"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
             <Button
               type="button"
               variant="outline"

@@ -90,7 +90,7 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Data Requests
             </h1>
             <Badge variant="primary" size="sm">
@@ -100,7 +100,7 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
               {userRole === "admin" ? "Admin Master" : "Officer Portal"}
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Dispatch ad-hoc mandatory data collection batches to targeted cadet rosters. Ask only for what is missing.
           </p>
         </div>
@@ -122,7 +122,7 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Total Requests
             </span>
-            <div className="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <div className="mt-2 text-2xl font-bold text-slate-900">
               {totalRequests}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">Historical campaigns dispatched</p>
@@ -134,7 +134,7 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Active / Open
             </span>
-            <div className="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="mt-2 text-2xl font-bold text-emerald-600">
               {openRequests}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">Currently collecting responses</p>
@@ -146,7 +146,7 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Response Rate
             </span>
-            <div className="mt-2 text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="mt-2 text-2xl font-bold text-blue-600">
               {overallCompletionRate}%
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">
@@ -157,15 +157,15 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
         {(["all", "open", "closed"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setFilter(tab)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition cursor-pointer ${
               filter === tab
-                ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                ? "bg-slate-900 text-white shadow-xs"
+                : "text-slate-600 hover:bg-slate-100"
             }`}
           >
             {tab} Requests
@@ -191,12 +191,12 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
       ) : filteredRequests.length === 0 ? (
         <Card>
           <div className="p-12 text-center text-slate-500 space-y-3">
-            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-sm font-semibold text-slate-900">
               No {filter !== "all" ? filter : ""} data requests found
             </h2>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -219,13 +219,13 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
             return (
               <Card
                 key={req.requestId}
-                className="hover:border-slate-300 dark:hover:border-slate-700 transition"
+                className="hover:border-slate-300 transition"
               >
                 <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                   {/* Left Column: Info */}
                   <div className="space-y-1.5 max-w-xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
                         {req.requestId}
                       </span>
                       <Badge variant={statusBadgeVariant} size="sm">
@@ -241,11 +241,11 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
                       )}
                     </div>
 
-                    <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+                    <h3 className="text-base font-semibold text-slate-900">
                       {req.title}
                     </h3>
 
-                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                    <p className="text-xs text-slate-500 line-clamp-2">
                       {req.purpose}
                     </p>
 
@@ -260,11 +260,11 @@ export function DataRequestsList({ basePath, userRole }: DataRequestsListProps) 
                     <div className="w-full sm:w-44 space-y-1.5">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-slate-500 font-medium">Progress</span>
-                        <span className="font-semibold text-slate-900 dark:text-slate-100">
+                        <span className="font-semibold text-slate-900">
                           {req.summary.completedCount} / {req.summary.totalTargeted} ({req.summary.completionRate}%)
                         </span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                      <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-300 ${
                             req.summary.completionRate === 100

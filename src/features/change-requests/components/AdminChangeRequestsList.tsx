@@ -151,7 +151,7 @@ export function AdminChangeRequestsList() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Change Requests Review
             </h1>
             <Badge variant="primary" size="sm">
@@ -161,7 +161,7 @@ export function AdminChangeRequestsList() {
               Admin Exclusive
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Review and adjudicate profile modification requests submitted by cadets for protected regimental attributes.
           </p>
         </div>
@@ -176,10 +176,10 @@ export function AdminChangeRequestsList() {
           }`}
         >
           <CardContent className="p-4 sm:p-5">
-            <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-amber-700">
               Pending Review
             </span>
-            <div className="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400">
+            <div className="mt-1 text-2xl font-bold text-amber-600">
               {summary.pendingCount}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">Awaiting admin adjudication</p>
@@ -193,10 +193,10 @@ export function AdminChangeRequestsList() {
           }`}
         >
           <CardContent className="p-4 sm:p-5">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
               Approved
             </span>
-            <div className="mt-1 text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="mt-1 text-2xl font-bold text-emerald-600">
               {summary.approvedCount}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">Updated to master profile</p>
@@ -210,10 +210,10 @@ export function AdminChangeRequestsList() {
           }`}
         >
           <CardContent className="p-4 sm:p-5">
-            <span className="text-xs font-semibold uppercase tracking-wider text-rose-700 dark:text-rose-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-rose-700">
               Rejected
             </span>
-            <div className="mt-1 text-2xl font-bold text-rose-600 dark:text-rose-400">
+            <div className="mt-1 text-2xl font-bold text-rose-600">
               {summary.rejectedCount}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">History preserved</p>
@@ -230,7 +230,7 @@ export function AdminChangeRequestsList() {
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Total Lifetime
             </span>
-            <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <div className="mt-1 text-2xl font-bold text-slate-900">
               {summary.totalCount}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">All submitted requests</p>
@@ -247,8 +247,8 @@ export function AdminChangeRequestsList() {
               onClick={() => setFilter(tab)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition cursor-pointer whitespace-nowrap ${
                 filter === tab
-                  ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-slate-900 text-white shadow-xs"
+                  : "text-slate-600 hover:bg-slate-100"
               }`}
             >
               {tab === "all" ? "All Requests" : `${tab}`}
@@ -262,7 +262,7 @@ export function AdminChangeRequestsList() {
             placeholder="Search by cadet, ID, field, or reason..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
@@ -284,12 +284,12 @@ export function AdminChangeRequestsList() {
       ) : changeRequests.length === 0 ? (
         <Card>
           <div className="p-12 text-center text-slate-500 space-y-3">
-            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-sm font-semibold text-slate-900">
               No {filter !== "all" ? filter : ""} change requests found
             </h2>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -303,7 +303,7 @@ export function AdminChangeRequestsList() {
         <Card className="overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+              <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="px-5 py-3">Request ID</th>
                   <th className="px-5 py-3">Cadet</th>
@@ -314,16 +314,16 @@ export function AdminChangeRequestsList() {
                   <th className="px-5 py-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100">
                 {changeRequests.map((cr) => {
                   const isPending = cr.status === "pending";
 
                   return (
                     <tr
                       key={cr.changeRequestId}
-                      className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition"
+                      className="hover:bg-slate-50/60 transition"
                     >
-                      <td className="px-5 py-4 font-mono font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                      <td className="px-5 py-4 font-mono font-semibold text-slate-900 whitespace-nowrap">
                         <Link
                           href={`/admin/change-requests/${cr.changeRequestId}`}
                           className="hover:text-blue-600 hover:underline"
@@ -333,7 +333,7 @@ export function AdminChangeRequestsList() {
                       </td>
 
                       <td className="px-5 py-4">
-                        <div className="font-semibold text-slate-900 dark:text-slate-100">
+                        <div className="font-semibold text-slate-900">
                           {cr.cadetName || cr.cadetId}
                         </div>
                         <div className="font-mono text-[11px] text-slate-400">
@@ -342,7 +342,7 @@ export function AdminChangeRequestsList() {
                       </td>
 
                       <td className="px-5 py-4 min-w-[200px]">
-                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                        <div className="font-medium text-slate-800">
                           {cr.fieldLabel}
                         </div>
                         <div className="flex items-center gap-1.5 mt-1 text-[11px]">
@@ -350,14 +350,14 @@ export function AdminChangeRequestsList() {
                             {cr.oldValue ? String(cr.oldValue) : "empty"}
                           </span>
                           <span className="text-slate-400">&rarr;</span>
-                          <span className="font-semibold text-blue-600 dark:text-blue-400 truncate max-w-[120px]" title={String(cr.newValue)}>
+                          <span className="font-semibold text-blue-600 truncate max-w-[120px]" title={String(cr.newValue)}>
                             {String(cr.newValue)}
                           </span>
                         </div>
                       </td>
 
                       <td className="px-5 py-4 max-w-[200px]">
-                        <p className="truncate text-slate-600 dark:text-slate-400 italic" title={cr.reason}>
+                        <p className="truncate text-slate-600 italic" title={cr.reason}>
                           &ldquo;{cr.reason}&rdquo;
                         </p>
                         {cr.reviewerComments && (
@@ -431,34 +431,34 @@ export function AdminChangeRequestsList() {
             )}
 
             {/* Request Context Summary */}
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2 text-xs">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-400">Cadet:</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">
+                <span className="font-semibold text-slate-900">
                   {selectedRequest.cadetName || selectedRequest.cadetId} ({selectedRequest.cadetId})
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Field:</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">
+                <span className="font-semibold text-slate-900">
                   {selectedRequest.fieldLabel} ({selectedRequest.fieldId})
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Current / Old Value:</span>
-                <span className="text-slate-700 dark:text-slate-300 font-mono">
+                <span className="text-slate-700 font-mono">
                   {selectedRequest.oldValue ? String(selectedRequest.oldValue) : "None"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-blue-600 font-semibold">Requested New Value:</span>
-                <span className="text-blue-700 dark:text-blue-300 font-bold font-mono">
+                <span className="text-blue-700 font-bold font-mono">
                   {String(selectedRequest.newValue)}
                 </span>
               </div>
-              <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
+              <div className="pt-2 border-t border-slate-200">
                 <span className="text-slate-400 block mb-0.5">Cadet Reason:</span>
-                <p className="italic text-slate-700 dark:text-slate-300">
+                <p className="italic text-slate-700">
                   &ldquo;{selectedRequest.reason}&rdquo;
                 </p>
               </div>
@@ -471,8 +471,8 @@ export function AdminChangeRequestsList() {
                 onClick={() => setReviewAction("approve")}
                 className={`p-3 rounded-xl border text-center transition cursor-pointer ${
                   reviewAction === "approve"
-                    ? "border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-semibold"
-                    : "border-slate-200 dark:border-slate-700 text-slate-600 hover:bg-slate-50"
+                    ? "border-emerald-500 bg-emerald-50/50 text-emerald-900 font-semibold"
+                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 Approve Request
@@ -482,8 +482,8 @@ export function AdminChangeRequestsList() {
                 onClick={() => setReviewAction("reject")}
                 className={`p-3 rounded-xl border text-center transition cursor-pointer ${
                   reviewAction === "reject"
-                    ? "border-rose-500 bg-rose-50/50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-semibold"
-                    : "border-slate-200 dark:border-slate-700 text-slate-600 hover:bg-slate-50"
+                    ? "border-rose-500 bg-rose-50/50 text-rose-900 font-semibold"
+                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 Reject Request
@@ -492,7 +492,7 @@ export function AdminChangeRequestsList() {
 
             {/* Reviewer Comments Field */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 {reviewAction === "reject" ? (
                   <span>
                     Reason for Rejection <span className="text-rose-500">* (Required)</span>
@@ -511,7 +511,7 @@ export function AdminChangeRequestsList() {
                     : "Add optional notes or audit remarks..."
                 }
                 required={reviewAction === "reject"}
-                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 

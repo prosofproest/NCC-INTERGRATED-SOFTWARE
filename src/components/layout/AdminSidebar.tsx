@@ -117,7 +117,7 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
       user={{
         email: userEmail,
         role: "Admin",
-        roleBadgeClass: "bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF]",
+        roleBadgeClass: "bg-[#0071E3]/10 text-[#0071E3]",
         avatarBg: "bg-[#0071E3]",
       }}
       themeColor="slate"

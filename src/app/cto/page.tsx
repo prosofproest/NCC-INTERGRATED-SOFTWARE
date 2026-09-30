@@ -58,23 +58,23 @@ export default async function CtoDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Officer Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 border border-black/[0.06] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-amber-500/10 to-orange-300/10 blur-3xl pointer-events-none" />
 
         <div className="space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:bg-amber-400/20 dark:text-amber-300 border border-amber-500/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 border border-amber-500/20">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             Caretaker Officer Session Active
           </div>
           {/* Section 29 Mandatory Greeting */}
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F]">
             Jai Hind Sir 🇮🇳
           </h1>
-          <p className="text-[#6E6E73] dark:text-[#86868B] text-xs sm:text-sm max-w-xl leading-relaxed">
+          <p className="text-[#6E6E73] text-xs sm:text-sm max-w-xl leading-relaxed">
             Battalion Officer Portal. Browse enrolled cadet profiles, filter records across wings, and monitor readiness metrics.
           </p>
           <div className="pt-1 text-xs text-[#86868B]">
-            Authenticated Officer: <span className="text-[#1D1D1F] dark:text-[#F5F5F7] font-medium">{session?.email}</span>
+            Authenticated Officer: <span className="text-[#1D1D1F] font-medium">{session?.email}</span>
           </div>
         </div>
 
@@ -87,13 +87,13 @@ export default async function CtoDashboardPage() {
           </Link>
           <Link
             href="/cto/data-requests"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Requests
           </Link>
           <Link
             href="/cto/reports"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Reports
           </Link>
@@ -106,17 +106,17 @@ export default async function CtoDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Active Cadets
               </span>
-              <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+              <span className="p-2 rounded-xl bg-amber-50 text-amber-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <span className="text-3xl font-bold tracking-tight text-slate-900">
                 {activeCadetsCount}
               </span>
               <p className="text-xs text-slate-500 mt-1">Operational battalion strength</p>
@@ -128,17 +128,17 @@ export default async function CtoDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Army Wing
               </span>
-              <span className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+              <span className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
+              <span className="text-3xl font-bold tracking-tight text-emerald-600">
                 {armyCadetsCount}
               </span>
               <p className="text-xs text-slate-500 mt-1">Enrolled infantry cadets</p>
@@ -150,17 +150,17 @@ export default async function CtoDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Naval Wing
               </span>
-              <span className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+              <span className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
+              <span className="text-3xl font-bold tracking-tight text-indigo-600">
                 {navyCadetsCount}
               </span>
               <p className="text-xs text-slate-500 mt-1">Enrolled naval cadets</p>
@@ -172,17 +172,17 @@ export default async function CtoDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Air Wing
               </span>
-              <span className="p-2 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
+              <span className="p-2 rounded-xl bg-sky-50 text-sky-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-sky-600 dark:text-sky-400">
+              <span className="text-3xl font-bold tracking-tight text-sky-600">
                 {airCadetsCount}
               </span>
               <p className="text-xs text-slate-500 mt-1">Enrolled flying squadron cadets</p>
@@ -194,15 +194,15 @@ export default async function CtoDashboardPage() {
       {/* Quick Action Navigation Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link href="/cto/cadets" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-amber-400 dark:border-slate-800 dark:hover:border-amber-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-amber-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/60 flex items-center justify-center text-amber-700 dark:text-amber-300">
+                <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold group-hover:translate-x-1 transition-transform">
+                <span className="text-xs text-amber-600 font-semibold group-hover:translate-x-1 transition-transform">
                   Search &amp; Filter &rarr;
                 </span>
               </div>
@@ -215,15 +215,15 @@ export default async function CtoDashboardPage() {
         </Link>
 
         <Link href="/cto/data-requests" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-amber-400 dark:border-slate-800 dark:hover:border-amber-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-amber-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-700 dark:text-amber-300">
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-700">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                 </div>
-                <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold group-hover:translate-x-1 transition-transform">
+                <span className="text-xs text-amber-600 font-semibold group-hover:translate-x-1 transition-transform">
                   Manage &rarr;
                 </span>
               </div>
@@ -236,10 +236,10 @@ export default async function CtoDashboardPage() {
         </Link>
 
         <Link href="/cto/reports" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-slate-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
@@ -268,7 +268,7 @@ export default async function CtoDashboardPage() {
           </div>
           <Link
             href="/cto/cadets"
-            className="text-xs font-semibold text-amber-700 dark:text-amber-400 hover:underline"
+            className="text-xs font-semibold text-amber-700 hover:underline"
           >
             View all {activeCadetsCount} active cadets &rarr;
           </Link>
@@ -281,7 +281,7 @@ export default async function CtoDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                <thead className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-3.5">Cadet ID</th>
                     <th className="px-6 py-3.5">Name</th>
@@ -292,16 +292,16 @@ export default async function CtoDashboardPage() {
                     <th className="px-6 py-3.5 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {recentCadets.map((cadet) => (
                     <tr
                       key={cadet.cadetId}
-                      className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+                      className="hover:bg-slate-50/60 transition-colors"
                     >
-                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                         {cadet.cadetId}
                       </td>
-                      <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
+                      <td className="px-6 py-4 font-semibold text-slate-900">
                         {cadet.fullName}
                       </td>
                       <td className="px-6 py-4 text-xs font-mono text-slate-500">
@@ -320,7 +320,7 @@ export default async function CtoDashboardPage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                          <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
                             <div
                               className="bg-emerald-500 h-1.5 rounded-full"
                               style={{ width: `${cadet.completionPercentage || 0}%` }}
@@ -334,7 +334,7 @@ export default async function CtoDashboardPage() {
                       <td className="px-6 py-4 text-right">
                         <Link
                           href={`/cto/cadets/${cadet.cadetId}`}
-                          className="text-xs font-semibold text-amber-700 dark:text-amber-400 hover:underline"
+                          className="text-xs font-semibold text-amber-700 hover:underline"
                         >
                           View &rarr;
                         </Link>

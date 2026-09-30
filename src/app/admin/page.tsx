@@ -55,20 +55,20 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-[#1C1C1E]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 backdrop-blur-2xl bg-white/80 border border-black/[0.06] shadow-apple-card flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         {/* Soft background ambient radial highlight */}
         <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gradient-to-br from-[#0071E3]/10 to-indigo-300/10 blur-3xl pointer-events-none" />
 
         <div className="space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-[#0071E3]/10 text-[#0071E3] dark:bg-[#0071E3]/20 dark:text-[#0A84FF] border border-[#0071E3]/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-[#0071E3]/10 text-[#0071E3] border border-[#0071E3]/20">
             <span className="w-2 h-2 rounded-full bg-[#34C759] shadow-[0_0_8px_rgba(52,199,89,0.5)] animate-pulse" />
             Admin Operations Active
           </div>
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F] dark:text-[#F5F5F7]">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1D1D1F]">
             Jai Hind, Administrator
           </h1>
-          <p className="text-[#6E6E73] dark:text-[#86868B] text-xs sm:text-sm max-w-xl leading-relaxed">
-            Logged in as <span className="font-medium text-[#1D1D1F] dark:text-white">{session?.email}</span>. System overview for NCC Integrated Software. Manage master cadet records, dynamic profile definitions, and security policies.
+          <p className="text-[#6E6E73] text-xs sm:text-sm max-w-xl leading-relaxed">
+            Logged in as <span className="font-medium text-[#1D1D1F]">{session?.email}</span>. System overview for NCC Integrated Software. Manage master cadet records, dynamic profile definitions, and security policies.
           </p>
         </div>
 
@@ -81,19 +81,19 @@ export default async function AdminDashboardPage() {
           </Link>
           <Link
             href="/admin/data-structure"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Structure
           </Link>
           <Link
             href="/admin/data-requests"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Data Requests
           </Link>
           <Link
             href="/admin/change-requests"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             <span>Change Requests</span>
             {pendingChangeRequests > 0 && (
@@ -104,25 +104,25 @@ export default async function AdminDashboardPage() {
           </Link>
           <Link
             href="/admin/cto-management"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             CTO Officers
           </Link>
           <Link
             href="/admin/import-export"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Import / Export
           </Link>
           <Link
             href="/admin/audit-logs"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             Audit Logs
           </Link>
           <Link
             href="/admin/system-health"
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] dark:bg-white/[0.08] text-[#1D1D1F] dark:text-[#F5F5F7] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/[0.06] dark:border-white/[0.08] font-medium text-xs sm:text-sm transition cursor-pointer"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
           >
             System Health
           </Link>
@@ -135,17 +135,17 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Total Cadets
               </span>
-              <span className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
+              <span className="p-2 rounded-xl bg-blue-50 text-blue-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <span className="text-3xl font-bold tracking-tight text-slate-900">
                 {totalCadets}
               </span>
               <p className="text-xs text-slate-500 mt-1">Master enrolled profiles</p>
@@ -157,17 +157,17 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 CTO Officers
               </span>
-              <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+              <span className="p-2 rounded-xl bg-amber-50 text-amber-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-amber-600 dark:text-amber-400">
+              <span className="text-3xl font-bold tracking-tight text-amber-600">
                 {totalCtos}
               </span>
               <p className="text-xs text-slate-500 mt-1">Care Taker Officers</p>
@@ -179,17 +179,17 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Active Accounts
               </span>
-              <span className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+              <span className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
+              <span className="text-3xl font-bold tracking-tight text-emerald-600">
                 {activeCadets}
               </span>
               <p className="text-xs text-slate-500 mt-1">Verified and operational</p>
@@ -201,17 +201,17 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Inactive / Suspended
               </span>
-              <span className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400">
+              <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-rose-600 dark:text-rose-400">
+              <span className="text-3xl font-bold tracking-tight text-rose-600">
                 {inactiveCadets}
               </span>
               <p className="text-xs text-slate-500 mt-1">Deactivated or locked</p>
@@ -223,17 +223,17 @@ export default async function AdminDashboardPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Data Model
               </span>
-              <span className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+              <span className="p-2 rounded-xl bg-purple-50 text-purple-600">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7zm0 5h16" />
                 </svg>
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-bold tracking-tight text-purple-600 dark:text-purple-400">
+              <span className="text-3xl font-bold tracking-tight text-purple-600">
                 {totalCategories} / {totalFields}
               </span>
               <p className="text-xs text-slate-500 mt-1">Categories / Dynamic Fields</p>
@@ -245,15 +245,15 @@ export default async function AdminDashboardPage() {
       {/* Quick Navigation Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link href="/admin/cadets" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-slate-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-300">
+                <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-1 transition-transform">
+                <span className="text-xs text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">
                   Manage Cadets &rarr;
                 </span>
               </div>
@@ -266,15 +266,15 @@ export default async function AdminDashboardPage() {
         </Link>
 
         <Link href="/admin/data-structure" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-slate-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-300">
+                <div className="w-10 h-10 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-600">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
-                <span className="text-xs text-purple-600 dark:text-purple-400 font-semibold group-hover:translate-x-1 transition-transform">
+                <span className="text-xs text-purple-600 font-semibold group-hover:translate-x-1 transition-transform">
                   Configure Schema &rarr;
                 </span>
               </div>
@@ -287,10 +287,10 @@ export default async function AdminDashboardPage() {
         </Link>
 
         <Link href="/admin/change-requests" className="group">
-          <Card className="h-full border border-slate-200/80 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600 transition-all hover:shadow-md">
+          <Card className="h-full border border-slate-200/80 hover:border-slate-400 transition-all hover:shadow-md">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-300">
+                <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                   </svg>
@@ -301,7 +301,7 @@ export default async function AdminDashboardPage() {
                       {pendingChangeRequests} Pending
                     </span>
                   )}
-                  <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold group-hover:translate-x-1 transition-transform">
+                  <span className="text-xs text-amber-600 font-semibold group-hover:translate-x-1 transition-transform">
                     Review &rarr;
                   </span>
                 </div>
@@ -326,7 +326,7 @@ export default async function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/cadets"
-            className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
+            className="text-xs font-semibold text-slate-700 hover:text-slate-900 underline underline-offset-4"
           >
             View all {totalCadets} cadets &rarr;
           </Link>
@@ -340,7 +340,7 @@ export default async function AdminDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                <thead className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-3.5">Cadet ID</th>
                     <th className="px-6 py-3.5">Name</th>
@@ -351,7 +351,7 @@ export default async function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {recentCadets.map((cadet) => {
                     const wingVariant =
                       cadet.wing === "Army"
@@ -369,12 +369,12 @@ export default async function AdminDashboardPage() {
                     return (
                       <tr
                         key={cadet.cadetId}
-                        className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+                        className="hover:bg-slate-50/60 transition-colors"
                       >
-                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                           {cadet.cadetId}
                         </td>
-                        <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
+                        <td className="px-6 py-4 font-semibold text-slate-900">
                           {cadet.fullName}
                         </td>
                         <td className="px-6 py-4 text-xs font-mono text-slate-500">
@@ -395,7 +395,7 @@ export default async function AdminDashboardPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                            <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
                               <div
                                 className="bg-emerald-500 h-1.5 rounded-full"
                                 style={{ width: `${cadet.completionPercentage || 0}%` }}
@@ -409,7 +409,7 @@ export default async function AdminDashboardPage() {
                         <td className="px-6 py-4 text-right">
                           <Link
                             href={`/admin/cadets/${cadet.cadetId}`}
-                            className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                            className="text-xs font-medium text-blue-600 hover:underline"
                           >
                             Details &rarr;
                           </Link>

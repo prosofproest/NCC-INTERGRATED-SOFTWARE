@@ -198,7 +198,7 @@ export default function CadetProfilePage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Profile Notice</h2>
+        <h2 className="text-lg font-bold text-slate-900">Profile Notice</h2>
         <p className="text-sm text-slate-500">{error}</p>
         <Link href="/cadet">
           <Button variant="outline" size="sm">
@@ -212,7 +212,7 @@ export default function CadetProfilePage() {
   return (
     <form onSubmit={handleSaveProfile} className="space-y-8">
       {/* Top Cadet Identity Card */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start sm:items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-xl tracking-wider shadow-sm shrink-0">
             {cadet?.fullName
@@ -224,7 +224,7 @@ export default function CadetProfilePage() {
           </div>
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 {cadet?.fullName}
               </h1>
               <Badge variant={getWingVariant(cadet?.wing)} size="sm">
@@ -235,7 +235,7 @@ export default function CadetProfilePage() {
               </Badge>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-              <span className="font-mono bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+              <span className="font-mono bg-slate-100 px-2 py-0.5 rounded">
                 {cadet?.cadetId}
               </span>
               <span>&bull;</span>
@@ -246,17 +246,17 @@ export default function CadetProfilePage() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
           <div className="flex flex-col items-start sm:items-end">
             <span className="text-xs text-slate-500 font-medium">Profile Completion</span>
             <div className="flex items-center gap-2 mt-1">
-              <div className="w-28 bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+              <div className="w-28 bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
                   className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${cadet?.completionPercentage || 0}%` }}
                 />
               </div>
-              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800">
                 {cadet?.completionPercentage || 0}%
               </span>
             </div>
@@ -270,7 +270,7 @@ export default function CadetProfilePage() {
 
       {/* Notifications */}
       {successMessage && (
-        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs sm:text-sm text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -280,7 +280,7 @@ export default function CadetProfilePage() {
           <button
             type="button"
             onClick={() => setSuccessMessage(null)}
-            className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800"
+            className="text-emerald-600 hover:text-emerald-800"
           >
             &times;
           </button>
@@ -288,7 +288,7 @@ export default function CadetProfilePage() {
       )}
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-700">
           {error}
         </div>
       )}
@@ -303,7 +303,7 @@ export default function CadetProfilePage() {
                 Permanent battalion enrollment identifiers. These fields are verified by officers.
               </CardDescription>
             </div>
-            <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+            <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg">
               Official Protected
             </span>
           </div>
@@ -312,34 +312,34 @@ export default function CadetProfilePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Full Name</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.fullName}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.fullName}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Regimental Enrollment No</span>
-              <p className="text-sm font-mono font-semibold text-slate-900 dark:text-slate-100">
+              <p className="text-sm font-mono font-semibold text-slate-900">
                 {cadet?.enrollmentNo || <span className="text-slate-400 italic font-sans">Pending</span>}
               </p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Rank</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.rank}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.rank}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">NCC Wing</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.wing}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.wing}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Battalion / Unit</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.unit}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.unit}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Registered Email</span>
-              <p className="text-sm text-slate-700 dark:text-slate-300">{cadet?.email}</p>
+              <p className="text-sm text-slate-700">{cadet?.email}</p>
             </div>
           </div>
         </CardContent>
@@ -375,23 +375,23 @@ export default function CadetProfilePage() {
                       key={field.fieldId}
                       className={`p-4 rounded-2xl border transition-all ${
                         isEditable
-                          ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-2xs"
-                          : "bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-800/60"
+                          ? "bg-white border-slate-200 shadow-2xs"
+                          : "bg-slate-50/70 border-slate-200/60"
                       } space-y-2`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        <label className="text-xs font-semibold text-slate-800">
                           {field.label}
                           {field.validation?.required && (
                             <span className="text-rose-500 ml-0.5">*</span>
                           )}
                         </label>
                         {isEditable ? (
-                          <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 rounded-full shrink-0">
+                          <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full shrink-0">
                             Direct Edit
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-200/70 dark:bg-slate-700 px-2 py-0.5 rounded-full shrink-0">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500 bg-slate-200/70 px-2 py-0.5 rounded-full shrink-0">
                             <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
@@ -407,7 +407,7 @@ export default function CadetProfilePage() {
                             <select
                               value={strVal}
                               onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600 cursor-pointer"
+                              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600 cursor-pointer"
                             >
                               <option value="">-- Select option --</option>
                               {field.options?.map((opt) => (
@@ -421,7 +421,7 @@ export default function CadetProfilePage() {
                               rows={2}
                               value={strVal}
                               onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
                             />
                           ) : field.type === "boolean" ? (
                             <div className="pt-1 flex items-center gap-2">
@@ -431,7 +431,7 @@ export default function CadetProfilePage() {
                                 onChange={(e) => handleDynamicChange(field.fieldId, e.target.checked)}
                                 className="w-4 h-4 rounded-sm border-slate-300 text-blue-600 focus:ring-blue-600"
                               />
-                              <span className="text-xs text-slate-600 dark:text-slate-400">
+                              <span className="text-xs text-slate-600">
                                 {Boolean(val) ? "Yes / Confirmed" : "No / Not Applicable"}
                               </span>
                             </div>
@@ -440,7 +440,7 @@ export default function CadetProfilePage() {
                               type="date"
                               value={strVal}
                               onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
                             />
                           ) : field.type === "number" ? (
                             <input
@@ -454,21 +454,21 @@ export default function CadetProfilePage() {
                               }
                               min={field.validation?.min}
                               max={field.validation?.max}
-                              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
                             />
                           ) : (
                             <input
                               type="text"
                               value={strVal}
                               onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
                             />
                           )}
                         </div>
                       ) : (
                         /* Case 2: Locked Field with Request Change Action */
                         <div className="space-y-2">
-                          <p className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 min-h-6 flex items-center">
+                          <p className="text-xs sm:text-sm font-medium text-slate-700 min-h-6 flex items-center">
                             {strVal ? (
                               strVal
                             ) : (
@@ -479,7 +479,7 @@ export default function CadetProfilePage() {
                             <button
                               type="button"
                               onClick={() => openChangeRequestModal(field)}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer transition"
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transition"
                             >
                               <span>Request Change</span>
                               <span>&rarr;</span>
@@ -497,7 +497,7 @@ export default function CadetProfilePage() {
       })}
 
       {/* Bottom Sticky Action Bar */}
-      <div className="sticky bottom-4 z-20 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg flex items-center justify-between">
+      <div className="sticky bottom-4 z-20 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-lg flex items-center justify-between">
         <span className="text-xs text-slate-500">
           Direct modifications to editable fields are saved immediately. Protected attributes require a Change Request.
         </span>
@@ -517,15 +517,15 @@ export default function CadetProfilePage() {
       >
         {crField && (
           <div className="space-y-4">
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl space-y-1 border border-slate-100 dark:border-slate-800">
+            <div className="p-3 bg-slate-50 rounded-xl space-y-1 border border-slate-100">
               <span className="text-xs text-slate-500 font-medium">Current Registered Value</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+              <p className="text-sm font-semibold text-slate-900">
                 {String(cadet?.dynamicData?.[crField.fieldId] || "Not provided")}
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Proposed New Value <span className="text-rose-500">*</span>
               </label>
               {crField.type === "select" ? (
@@ -533,7 +533,7 @@ export default function CadetProfilePage() {
                   required
                   value={crNewValue}
                   onChange={(e) => setCrNewValue(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
                 >
                   <option value="">-- Select new value --</option>
                   {crField.options?.map((opt) => (
@@ -548,7 +548,7 @@ export default function CadetProfilePage() {
                   required
                   value={crNewValue}
                   onChange={(e) => setCrNewValue(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
                 />
               ) : (
                 <input
@@ -557,13 +557,13 @@ export default function CadetProfilePage() {
                   value={crNewValue}
                   onChange={(e) => setCrNewValue(e.target.value)}
                   placeholder={`Enter correct ${crField.label}`}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
                 />
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Reason for Change <span className="text-rose-500">*</span>
               </label>
               <textarea
@@ -572,11 +572,11 @@ export default function CadetProfilePage() {
                 value={crReason}
                 onChange={(e) => setCrReason(e.target.value)}
                 placeholder="Explain why this information needs to be corrected or updated..."
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
               />
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
               <Button
                 type="button"
                 variant="outline"

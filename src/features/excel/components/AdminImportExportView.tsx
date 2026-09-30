@@ -318,7 +318,7 @@ export function AdminImportExportView() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Excel Import &amp; Export
             </h1>
             <Badge variant="primary" size="sm">
@@ -328,20 +328,20 @@ export function AdminImportExportView() {
               Admin Exclusive
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Perform bulk cadet onboarding, regimental enrollment matching, and customized nominal roll data exports.
           </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab("onboarding")}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
             activeTab === "onboarding"
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           1. Cadet Account Onboarding
@@ -350,8 +350,8 @@ export function AdminImportExportView() {
           onClick={() => setActiveTab("enrollment")}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
             activeTab === "enrollment"
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           2. Enrollment Numbers
@@ -360,8 +360,8 @@ export function AdminImportExportView() {
           onClick={() => setActiveTab("export")}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
             activeTab === "export"
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-xs"
-              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           3. Cadet Data Export
@@ -402,18 +402,18 @@ export function AdminImportExportView() {
               )}
 
               {importResult && (
-                <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-200 font-bold text-sm">
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
                     <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span>Import Completed Successfully</span>
                   </div>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                  <p className="text-xs text-emerald-700">
                     Successfully created <strong>{importResult.createdCount}</strong> cadet accounts. Secure activation and password setup emails have been dispatched.
                   </p>
                   {importResult.failedCount > 0 && (
-                    <p className="text-xs text-amber-700 dark:text-amber-300 font-medium">
+                    <p className="text-xs text-amber-700 font-medium">
                       Notice: {importResult.failedCount} rows encountered errors and were skipped without corrupting database state.
                     </p>
                   )}
@@ -421,7 +421,7 @@ export function AdminImportExportView() {
               )}
 
               {/* Upload Dropzone */}
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 sm:p-8 text-center hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition">
+              <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 sm:p-8 text-center hover:bg-slate-50/50 transition">
                 <input
                   type="file"
                   id="onboarding-upload"
@@ -433,12 +433,12 @@ export function AdminImportExportView() {
                   htmlFor="onboarding-upload"
                   className="cursor-pointer flex flex-col items-center gap-2"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                   </div>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  <span className="text-sm font-semibold text-slate-800">
                     {onboardingFile ? onboardingFile.name : "Click to select or drop an Excel spreadsheet (.xlsx)"}
                   </span>
                   <span className="text-xs text-slate-400">
@@ -459,35 +459,35 @@ export function AdminImportExportView() {
                 <div className="space-y-4 pt-2">
                   {/* Summary Metric Cards */}
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-center">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                       <span className="text-[11px] font-semibold uppercase text-slate-500">Total Rows</span>
-                      <div className="text-xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+                      <div className="text-xl font-bold text-slate-900 mt-0.5">
                         {onboardingSummary.totalRows}
                       </div>
                     </div>
-                    <div className="p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-center">
-                      <span className="text-[11px] font-semibold uppercase text-emerald-700 dark:text-emerald-400">
+                    <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-center">
+                      <span className="text-[11px] font-semibold uppercase text-emerald-700">
                         Valid for Creation
                       </span>
-                      <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
+                      <div className="text-xl font-bold text-emerald-600 mt-0.5">
                         {onboardingSummary.validCount}
                       </div>
                     </div>
-                    <div className="p-3.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-center">
-                      <span className="text-[11px] font-semibold uppercase text-rose-700 dark:text-rose-400">
+                    <div className="p-3.5 rounded-xl bg-rose-50/60 border border-rose-200 text-center">
+                      <span className="text-[11px] font-semibold uppercase text-rose-700">
                         Errors / Skipped
                       </span>
-                      <div className="text-xl font-bold text-rose-600 dark:text-rose-400 mt-0.5">
+                      <div className="text-xl font-bold text-rose-600 mt-0.5">
                         {onboardingSummary.errorCount}
                       </div>
                     </div>
                   </div>
 
                   {/* Preview Table */}
-                  <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+                  <div className="border border-slate-200 rounded-xl overflow-hidden">
                     <div className="max-h-80 overflow-y-auto">
                       <table className="w-full text-left text-xs">
-                        <thead className="bg-slate-50 dark:bg-slate-800/80 sticky top-0 border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                        <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                           <tr>
                             <th className="px-4 py-2.5">Row</th>
                             <th className="px-4 py-2.5">Name</th>
@@ -497,20 +497,20 @@ export function AdminImportExportView() {
                             <th className="px-4 py-2.5">Validation Details</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tbody className="divide-y divide-slate-100">
                           {onboardingRows.map((row) => (
                             <tr
                               key={row.rowNumber}
                               className={row.isValid ? "hover:bg-slate-50/60" : "bg-rose-50/20 hover:bg-rose-50/40"}
                             >
                               <td className="px-4 py-2 font-mono text-slate-400">{row.rowNumber}</td>
-                              <td className="px-4 py-2 font-semibold text-slate-800 dark:text-slate-200">
+                              <td className="px-4 py-2 font-semibold text-slate-800">
                                 {row.name}
                               </td>
-                              <td className="px-4 py-2 text-slate-600 dark:text-slate-300 font-mono text-[11px]">
+                              <td className="px-4 py-2 text-slate-600 font-mono text-[11px]">
                                 {row.email}
                               </td>
-                              <td className="px-4 py-2 text-slate-600 dark:text-slate-300 font-mono text-[11px]">
+                              <td className="px-4 py-2 text-slate-600 font-mono text-[11px]">
                                 {row.phone}
                               </td>
                               <td className="px-4 py-2">
@@ -591,21 +591,21 @@ export function AdminImportExportView() {
               )}
 
               {enrollmentUpdateResult && (
-                <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-200 font-bold text-sm">
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
                     <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span>Enrollment Numbers Updated Successfully</span>
                   </div>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                  <p className="text-xs text-emerald-700">
                     Updated official regimental enrollment numbers for <strong>{enrollmentUpdateResult.updatedCount}</strong> cadets.
                   </p>
                 </div>
               )}
 
               {/* Upload Dropzone */}
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 sm:p-8 text-center hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition">
+              <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 sm:p-8 text-center hover:bg-slate-50/50 transition">
                 <input
                   type="file"
                   id="enrollment-upload"
@@ -617,12 +617,12 @@ export function AdminImportExportView() {
                   htmlFor="enrollment-upload"
                   className="cursor-pointer flex flex-col items-center gap-2"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
                   </div>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  <span className="text-sm font-semibold text-slate-800">
                     {enrollmentFile ? enrollmentFile.name : "Select Enrollment Spreadsheet (.xlsx)"}
                   </span>
                   <span className="text-xs text-slate-400">
@@ -642,29 +642,29 @@ export function AdminImportExportView() {
               {enrollmentSummary && enrollmentRows && (
                 <div className="space-y-4 pt-2">
                   <div className="grid grid-cols-4 gap-3 text-center">
-                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                       <span className="text-[10px] font-semibold uppercase text-slate-500">Total</span>
-                      <div className="text-lg font-bold text-slate-900 dark:text-slate-100">{enrollmentSummary.totalRows}</div>
+                      <div className="text-lg font-bold text-slate-900">{enrollmentSummary.totalRows}</div>
                     </div>
-                    <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-                      <span className="text-[10px] font-semibold uppercase text-emerald-700 dark:text-emerald-400">Exact Match</span>
-                      <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{enrollmentSummary.exactCount}</div>
+                    <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200">
+                      <span className="text-[10px] font-semibold uppercase text-emerald-700">Exact Match</span>
+                      <div className="text-lg font-bold text-emerald-600">{enrollmentSummary.exactCount}</div>
                     </div>
-                    <div className="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800">
-                      <span className="text-[10px] font-semibold uppercase text-amber-700 dark:text-amber-400">Ambiguous</span>
-                      <div className="text-lg font-bold text-amber-600 dark:text-amber-400">{enrollmentSummary.ambiguousCount}</div>
+                    <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200">
+                      <span className="text-[10px] font-semibold uppercase text-amber-700">Ambiguous</span>
+                      <div className="text-lg font-bold text-amber-600">{enrollmentSummary.ambiguousCount}</div>
                     </div>
-                    <div className="p-3 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800">
-                      <span className="text-[10px] font-semibold uppercase text-rose-700 dark:text-rose-400">Unmatched / Error</span>
-                      <div className="text-lg font-bold text-rose-600 dark:text-rose-400">{enrollmentSummary.unmatchedCount + enrollmentSummary.invalidCount}</div>
+                    <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200">
+                      <span className="text-[10px] font-semibold uppercase text-rose-700">Unmatched / Error</span>
+                      <div className="text-lg font-bold text-rose-600">{enrollmentSummary.unmatchedCount + enrollmentSummary.invalidCount}</div>
                     </div>
                   </div>
 
                   {/* Matching Table */}
-                  <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+                  <div className="border border-slate-200 rounded-xl overflow-hidden">
                     <div className="max-h-80 overflow-y-auto">
                       <table className="w-full text-left text-xs">
-                        <thead className="bg-slate-50 dark:bg-slate-800/80 sticky top-0 border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                        <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                           <tr>
                             <th className="px-4 py-2.5">Row</th>
                             <th className="px-4 py-2.5">Name in Sheet</th>
@@ -673,12 +673,12 @@ export function AdminImportExportView() {
                             <th className="px-4 py-2.5">Matched Cadet / Disambiguation</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tbody className="divide-y divide-slate-100">
                           {enrollmentRows.map((row) => (
                             <tr key={row.rowNumber} className="hover:bg-slate-50/60">
                               <td className="px-4 py-2 font-mono text-slate-400">{row.rowNumber}</td>
-                              <td className="px-4 py-2 font-semibold text-slate-800 dark:text-slate-200">{row.name}</td>
-                              <td className="px-4 py-2 font-mono font-bold text-slate-900 dark:text-slate-100">{row.enrollmentNo}</td>
+                              <td className="px-4 py-2 font-semibold text-slate-800">{row.name}</td>
+                              <td className="px-4 py-2 font-mono font-bold text-slate-900">{row.enrollmentNo}</td>
                               <td className="px-4 py-2">
                                 <Badge
                                   variant={
@@ -695,7 +695,7 @@ export function AdminImportExportView() {
                               </td>
                               <td className="px-4 py-2">
                                 {row.matchStatus === "exact" && (
-                                  <span className="font-mono text-slate-700 dark:text-slate-300 font-medium">
+                                  <span className="font-mono text-slate-700 font-medium">
                                     {row.matchedCadetId} ({row.candidateCadets?.[0]?.rank} • {row.candidateCadets?.[0]?.wing})
                                   </span>
                                 )}
@@ -780,15 +780,15 @@ export function AdminImportExportView() {
               )}
 
               {/* Filters Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Wing Filter
                   </label>
                   <select
                     value={exportWing}
                     onChange={(e) => setExportWing(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
                   >
                     <option value="all">All Service Wings</option>
                     <option value="Army">Army Wing</option>
@@ -798,13 +798,13 @@ export function AdminImportExportView() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Status Filter
                   </label>
                   <select
                     value={exportStatus}
                     onChange={(e) => setExportStatus(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
                   >
                     <option value="all">All Statuses</option>
                     <option value="active">Active Only</option>
@@ -814,7 +814,7 @@ export function AdminImportExportView() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Search Keyword
                   </label>
                   <input
@@ -822,7 +822,7 @@ export function AdminImportExportView() {
                     placeholder="Search name, ID, or enrollment..."
                     value={exportSearch}
                     onChange={(e) => setExportSearch(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
                   />
                 </div>
               </div>
@@ -830,7 +830,7 @@ export function AdminImportExportView() {
               {/* Column Selection */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  <span className="text-xs font-bold text-slate-800">
                     Select Columns to Include in Export ({selectedFieldIds.length} selected)
                   </span>
                   <div className="flex items-center gap-2">
@@ -855,7 +855,7 @@ export function AdminImportExportView() {
                 {Object.entries(groupedFields).map(([categoryName, fields]) => (
                   <div
                     key={categoryName}
-                    className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5"
+                    className="p-4 rounded-xl border border-slate-200 space-y-2.5"
                   >
                     <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                       {categoryName}
@@ -868,8 +868,8 @@ export function AdminImportExportView() {
                             key={f.id}
                             className={`flex items-center gap-2 p-2 rounded-lg border text-xs cursor-pointer transition ${
                               isChecked
-                                ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 font-medium"
-                                : "border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50"
+                                ? "border-blue-500 bg-blue-50/50 text-blue-900 font-medium"
+                                : "border-slate-200 text-slate-700 hover:bg-slate-50"
                             }`}
                           >
                             <input

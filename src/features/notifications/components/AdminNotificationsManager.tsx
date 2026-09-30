@@ -190,13 +190,13 @@ export function AdminNotificationsManager() {
   return (
     <div className="space-y-6">
       {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2">
+      <div className="flex border-b border-slate-200 gap-2">
         <button
           onClick={() => setActiveTab("compose")}
           className={`py-3 px-4 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === "compose"
-              ? "border-blue-600 text-blue-600 dark:text-blue-400"
-              : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+              ? "border-blue-600 text-blue-600"
+              : "border-transparent text-slate-500 hover:text-slate-700"
           }`}
         >
           Compose Broadcast
@@ -205,8 +205,8 @@ export function AdminNotificationsManager() {
           onClick={() => setActiveTab("history")}
           className={`py-3 px-4 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === "history"
-              ? "border-blue-600 text-blue-600 dark:text-blue-400"
-              : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+              ? "border-blue-600 text-blue-600"
+              : "border-transparent text-slate-500 hover:text-slate-700"
           }`}
         >
           Broadcast History
@@ -215,8 +215,8 @@ export function AdminNotificationsManager() {
           onClick={() => setActiveTab("inbox")}
           className={`py-3 px-4 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
             activeTab === "inbox"
-              ? "border-blue-600 text-blue-600 dark:text-blue-400"
-              : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+              ? "border-blue-600 text-blue-600"
+              : "border-transparent text-slate-500 hover:text-slate-700"
           }`}
         >
           Admin System Alerts
@@ -228,8 +228,8 @@ export function AdminNotificationsManager() {
         <div
           className={`p-4 rounded-xl border text-sm flex items-center justify-between ${
             statusMessage.type === "success"
-              ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200"
-              : "bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+              : "bg-rose-50 border-rose-200 text-rose-800"
           }`}
         >
           <span>{statusMessage.text}</span>
@@ -247,7 +247,7 @@ export function AdminNotificationsManager() {
         <Card>
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-lg font-bold text-slate-900">
                 Dispatch Broadcast Notification
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -257,7 +257,7 @@ export function AdminNotificationsManager() {
 
             {/* Target Selector */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
                 Target Audience <span className="text-rose-500">*</span>
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -277,11 +277,11 @@ export function AdminNotificationsManager() {
                     }
                     className={`p-3 rounded-xl border text-left transition cursor-pointer ${
                       targetGroup === item.id
-                        ? "border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-slate-900 dark:text-white ring-2 ring-blue-500/20"
-                        : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-600 dark:text-slate-400"
+                        ? "border-blue-600 bg-blue-50/50 text-slate-900 ring-2 ring-blue-500/20"
+                        : "border-slate-200 hover:border-slate-300 text-slate-600"
                     }`}
                   >
-                    <div className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                    <div className="text-xs font-bold text-slate-900">
                       {item.label}
                     </div>
                     <div className="text-[11px] text-slate-500 mt-0.5">{item.desc}</div>
@@ -292,8 +292,8 @@ export function AdminNotificationsManager() {
 
             {/* Specific User ID Input */}
             {targetGroup === "specific_user" && (
-              <div className="space-y-1.5 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <div className="space-y-1.5 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <label className="block text-xs font-semibold text-slate-700">
                   Target User UID or Cadet ID <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -301,16 +301,16 @@ export function AdminNotificationsManager() {
                   value={targetUserId}
                   onChange={(e) => setTargetUserId(e.target.value)}
                   placeholder="e.g. CADET_0001 or Firebase UID"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
 
             {/* Selected Cadets Picker */}
             {targetGroup === "selected_cadets" && (
-              <div className="space-y-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
+              <div className="space-y-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  <div className="text-xs font-semibold text-slate-700">
                     Select Cadets ({targetCadetIds.length} selected)
                   </div>
                   <div className="flex items-center gap-2">
@@ -319,7 +319,7 @@ export function AdminNotificationsManager() {
                       value={cadetSearch}
                       onChange={(e) => setCadetSearch(e.target.value)}
                       placeholder="Search cadets..."
-                      className="px-2.5 py-1 text-xs rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                      className="px-2.5 py-1 text-xs rounded-md border border-slate-300 bg-white"
                     />
                     <Button
                       type="button"
@@ -333,7 +333,7 @@ export function AdminNotificationsManager() {
                   </div>
                 </div>
 
-                <div className="max-h-48 overflow-y-auto space-y-1.5 border border-slate-200 dark:border-slate-700/60 rounded-lg p-2 bg-white dark:bg-slate-900">
+                <div className="max-h-48 overflow-y-auto space-y-1.5 border border-slate-200 rounded-lg p-2 bg-white">
                   {filteredCadetOptions.length === 0 ? (
                     <div className="text-xs text-slate-400 text-center py-4">No matching cadets found.</div>
                   ) : (
@@ -342,8 +342,8 @@ export function AdminNotificationsManager() {
                       return (
                         <label
                           key={cadet.cadetId}
-                          className={`flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer text-xs ${
-                            selected ? "bg-blue-50/60 dark:bg-blue-950/40 font-medium" : ""
+                          className={`flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 cursor-pointer text-xs ${
+                            selected ? "bg-blue-50/60 font-medium" : ""
                           }`}
                         >
                           <input
@@ -367,7 +367,7 @@ export function AdminNotificationsManager() {
 
             {/* Importance */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
                 Importance Level
               </label>
               <div className="flex items-center gap-3">
@@ -382,7 +382,7 @@ export function AdminNotificationsManager() {
                   />
                   <span>Normal</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-amber-600 dark:text-amber-400">
+                <label className="flex items-center gap-2 cursor-pointer text-sm font-semibold text-amber-600">
                   <input
                     type="radio"
                     name="importance"
@@ -398,7 +398,7 @@ export function AdminNotificationsManager() {
 
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
                 Notification Title <span className="text-rose-500">*</span>
               </label>
               <input
@@ -408,13 +408,13 @@ export function AdminNotificationsManager() {
                 placeholder="e.g. Annual Training Camp Attendance Required"
                 maxLength={150}
                 required
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             {/* Message Body */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
                 Message Body <span className="text-rose-500">*</span>
               </label>
               <textarea
@@ -424,13 +424,13 @@ export function AdminNotificationsManager() {
                 rows={4}
                 maxLength={2000}
                 required
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             {/* Optional In-App Link */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
                 In-App Destination Link (Optional)
               </label>
               <input
@@ -438,12 +438,12 @@ export function AdminNotificationsManager() {
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
                 placeholder="e.g. /cadet/profile or /cadet/data-requests"
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
               <Button
                 type="submit"
                 disabled={sending}
@@ -462,7 +462,7 @@ export function AdminNotificationsManager() {
           <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                <h3 className="text-base font-bold text-slate-900">
                   Sent Broadcasts Log
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -496,7 +496,7 @@ export function AdminNotificationsManager() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                    <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                       <th className="py-2.5 px-3">Title</th>
                       <th className="py-2.5 px-3">Target</th>
                       <th className="py-2.5 px-3">Recipients</th>
@@ -505,11 +505,11 @@ export function AdminNotificationsManager() {
                       <th className="py-2.5 px-3">Date</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                  <tbody className="divide-y divide-slate-100">
                     {history.map((item) => (
-                      <tr key={item.broadcastId} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                      <tr key={item.broadcastId} className="hover:bg-slate-50/50">
                         <td className="py-3 px-3">
-                          <div className="font-semibold text-slate-900 dark:text-slate-100">
+                          <div className="font-semibold text-slate-900">
                             {item.title}
                           </div>
                           <div className="text-slate-400 text-[11px] truncate max-w-xs">
@@ -517,16 +517,16 @@ export function AdminNotificationsManager() {
                           </div>
                         </td>
                         <td className="py-3 px-3">
-                          <span className="capitalize px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
+                          <span className="capitalize px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
                             {item.targetGroup.replace("_", " ")}
                           </span>
                         </td>
-                        <td className="py-3 px-3 font-semibold text-slate-700 dark:text-slate-300">
+                        <td className="py-3 px-3 font-semibold text-slate-700">
                           {item.recipientCount}
                         </td>
                         <td className="py-3 px-3">
                           <div className="flex items-center gap-1.5">
-                            <span className="font-medium text-emerald-600 dark:text-emerald-400">
+                            <span className="font-medium text-emerald-600">
                               {item.readCount} read
                             </span>
                             <span className="text-slate-400">

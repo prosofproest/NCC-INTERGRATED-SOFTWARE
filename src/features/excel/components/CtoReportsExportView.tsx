@@ -104,7 +104,7 @@ export function CtoReportsExportView() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Reports &amp; Excel Export
             </h1>
             <Badge variant="primary" size="sm">
@@ -114,7 +114,7 @@ export function CtoReportsExportView() {
               CTO Scope
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Generate and export authorized company nominal rolls and attendance spreadsheets.
           </p>
         </div>
@@ -140,15 +140,15 @@ export function CtoReportsExportView() {
           )}
 
           {/* Filter Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Service Wing
               </label>
               <select
                 value={exportWing}
                 onChange={(e) => setExportWing(e.target.value)}
-                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
               >
                 <option value="all">All Wings</option>
                 <option value="Army">Army Wing</option>
@@ -158,13 +158,13 @@ export function CtoReportsExportView() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Rank Progression
               </label>
               <select
                 value={exportRank}
                 onChange={(e) => setExportRank(e.target.value)}
-                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
               >
                 <option value="all">All Ranks</option>
                 <option value="Cadet">Cadet</option>
@@ -176,7 +176,7 @@ export function CtoReportsExportView() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Cadet Search
               </label>
               <input
@@ -184,7 +184,7 @@ export function CtoReportsExportView() {
                 placeholder="Search cadet name, ID, or enrollment..."
                 value={exportSearch}
                 onChange={(e) => setExportSearch(e.target.value)}
-                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
               />
             </div>
           </div>
@@ -192,7 +192,7 @@ export function CtoReportsExportView() {
           {/* Field Selector */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-xs font-bold text-slate-800">
                 Authorized Export Columns ({selectedFieldIds.length} selected)
               </span>
               <div className="flex items-center gap-2">
@@ -215,7 +215,7 @@ export function CtoReportsExportView() {
             </div>
 
             {Object.entries(groupedFields).map(([catName, fields]) => (
-              <div key={catName} className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+              <div key={catName} className="p-3.5 rounded-xl border border-slate-200 space-y-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
                   {catName}
                 </span>
@@ -227,8 +227,8 @@ export function CtoReportsExportView() {
                         key={f.id}
                         className={`flex items-center gap-2 p-2 rounded-lg border text-xs cursor-pointer transition ${
                           isChecked
-                            ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 font-medium"
-                            : "border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50"
+                            ? "border-blue-500 bg-blue-50/50 text-blue-900 font-medium"
+                            : "border-slate-200 text-slate-700 hover:bg-slate-50"
                         }`}
                       >
                         <input

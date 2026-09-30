@@ -138,7 +138,7 @@ export function AdminChangeRequestDetailView({
       <div className="space-y-6">
         <Link
           href="/admin/change-requests"
-          className="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+          className="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-slate-900"
         >
           &larr; Back to Change Requests
         </Link>
@@ -155,17 +155,17 @@ export function AdminChangeRequestDetailView({
       <div className="space-y-6">
         <Link
           href="/admin/change-requests"
-          className="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+          className="inline-flex items-center text-xs font-semibold text-slate-500 hover:text-slate-900"
         >
           &larr; Back to Change Requests
         </Link>
         <Card className="p-8 text-center space-y-4">
-          <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-600 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+          <h2 className="text-base font-bold text-slate-900">
             Change Request Not Found
           </h2>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
@@ -190,12 +190,12 @@ export function AdminChangeRequestDetailView({
         <div>
           <Link
             href="/admin/change-requests"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 mb-2"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-900 mb-2"
           >
             &larr; Back to All Change Requests
           </Link>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-mono">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-mono">
               {changeRequest.changeRequestId}
             </h1>
             <Badge variant={getStatusVariant(changeRequest.status)} size="md">
@@ -217,7 +217,7 @@ export function AdminChangeRequestDetailView({
       </div>
 
       {actionSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs sm:text-sm text-emerald-800 dark:text-emerald-200 font-medium">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-800 font-medium">
           {actionSuccess}
         </div>
       )}
@@ -243,19 +243,19 @@ export function AdminChangeRequestDetailView({
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                 <div className="space-y-1">
                   <span className="text-slate-400 font-medium">Full Name</span>
-                  <p className="font-semibold text-slate-900 dark:text-slate-100">
+                  <p className="font-semibold text-slate-900">
                     {cadet?.fullName || changeRequest.cadetName || "—"}
                   </p>
                 </div>
                 <div className="space-y-1">
                   <span className="text-slate-400 font-medium">Rank &amp; Wing</span>
-                  <p className="font-medium text-slate-800 dark:text-slate-200">
+                  <p className="font-medium text-slate-800">
                     {cadet?.rank || "—"} • {cadet?.wing || "—"}
                   </p>
                 </div>
                 <div className="space-y-1">
                   <span className="text-slate-400 font-medium">Unit</span>
-                  <p className="font-medium text-slate-800 dark:text-slate-200">
+                  <p className="font-medium text-slate-800">
                     {cadet?.unit || "—"}
                   </p>
                 </div>
@@ -283,11 +283,11 @@ export function AdminChangeRequestDetailView({
             </CardHeader>
             <CardContent className="space-y-5">
               {/* Field Target Header */}
-              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-medium">Target Field:</span>
-                    <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                    <span className="text-sm font-bold text-slate-900">
                       {changeRequest.fieldLabel}
                     </span>
                     {field && (
@@ -308,7 +308,7 @@ export function AdminChangeRequestDetailView({
                       Cat: {field.categoryId}
                     </span>
                   )}
-                  <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                  <span className="font-mono text-xs text-slate-500">
                     ID: {changeRequest.fieldId}
                   </span>
                 </div>
@@ -317,16 +317,16 @@ export function AdminChangeRequestDetailView({
               {/* Side by side diff */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 {/* Previous Value */}
-                <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-2">
+                <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500 font-semibold uppercase tracking-wider text-[10px]">
                       Previous / Current Value
                     </span>
                     <span className="text-[10px] text-slate-400">In Database</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 min-h-[48px] flex items-center">
+                  <div className="p-3 rounded-lg bg-white border border-slate-200 min-h-[48px] flex items-center">
                     {changeRequest.oldValue ? (
-                      <span className="font-mono text-slate-600 dark:text-slate-300 line-through">
+                      <span className="font-mono text-slate-600 line-through">
                         {String(changeRequest.oldValue)}
                       </span>
                     ) : (
@@ -336,15 +336,15 @@ export function AdminChangeRequestDetailView({
                 </div>
 
                 {/* Proposed New Value */}
-                <div className="p-4 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/40 dark:bg-blue-950/20 space-y-2">
+                <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/40 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider text-[10px]">
+                    <span className="text-blue-600 font-semibold uppercase tracking-wider text-[10px]">
                       Proposed New Value
                     </span>
                     <span className="text-[10px] text-blue-600 font-medium">To be applied</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-800 min-h-[48px] flex items-center">
-                    <span className="font-mono font-bold text-blue-700 dark:text-blue-300">
+                  <div className="p-3 rounded-lg bg-white border border-blue-200 min-h-[48px] flex items-center">
+                    <span className="font-mono font-bold text-blue-700">
                       {String(changeRequest.newValue)}
                     </span>
                   </div>
@@ -352,11 +352,11 @@ export function AdminChangeRequestDetailView({
               </div>
 
               {/* Cadet Stated Reason */}
-              <div className="p-4 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40 space-y-1.5 text-xs">
-                <span className="text-amber-800 dark:text-amber-400 font-semibold block text-[11px] uppercase tracking-wider">
+              <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-200/80 space-y-1.5 text-xs">
+                <span className="text-amber-800 font-semibold block text-[11px] uppercase tracking-wider">
                   Cadet Stated Justification
                 </span>
-                <p className="text-slate-800 dark:text-slate-200 italic leading-relaxed">
+                <p className="text-slate-800 italic leading-relaxed">
                   &ldquo;{changeRequest.reason}&rdquo;
                 </p>
               </div>
@@ -367,7 +367,7 @@ export function AdminChangeRequestDetailView({
         {/* Right 1 Column: Adjudication Action / History Status */}
         <div className="space-y-6">
           {isPending ? (
-            <Card className="border-2 border-slate-900 dark:border-slate-100 shadow-sm">
+            <Card className="border-2 border-slate-900 shadow-sm">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-bold">Admin Adjudication</CardTitle>
                 <CardDescription className="text-xs">
@@ -384,7 +384,7 @@ export function AdminChangeRequestDetailView({
 
                   {/* Decision Toggle */}
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <label className="block text-xs font-semibold text-slate-700">
                       Determination
                     </label>
                     <div className="grid grid-cols-2 gap-2">
@@ -393,8 +393,8 @@ export function AdminChangeRequestDetailView({
                         onClick={() => setReviewAction("approve")}
                         className={`p-3 rounded-xl border text-xs font-semibold text-center transition cursor-pointer ${
                           reviewAction === "approve"
-                            ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 ring-2 ring-emerald-500/20"
-                            : "border-slate-200 dark:border-slate-700 text-slate-600 hover:bg-slate-50"
+                            ? "border-emerald-600 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-500/20"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                         }`}
                       >
                         ✓ Approve
@@ -404,8 +404,8 @@ export function AdminChangeRequestDetailView({
                         onClick={() => setReviewAction("reject")}
                         className={`p-3 rounded-xl border text-xs font-semibold text-center transition cursor-pointer ${
                           reviewAction === "reject"
-                            ? "border-rose-600 bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-200 ring-2 ring-rose-500/20"
-                            : "border-slate-200 dark:border-slate-700 text-slate-600 hover:bg-slate-50"
+                            ? "border-rose-600 bg-rose-50 text-rose-800 ring-2 ring-rose-500/20"
+                            : "border-slate-200 text-slate-600 hover:bg-slate-50"
                         }`}
                       >
                         ✕ Reject
@@ -415,7 +415,7 @@ export function AdminChangeRequestDetailView({
 
                   {/* Comments Box */}
                   <div className="space-y-1">
-                    <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <label className="block text-xs font-semibold text-slate-700">
                       {reviewAction === "reject" ? (
                         <span>
                           Rejection Reason <span className="text-rose-500">* (Mandatory)</span>
@@ -434,7 +434,7 @@ export function AdminChangeRequestDetailView({
                           : "Optional administrative note or reference..."
                       }
                       required={reviewAction === "reject"}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     {reviewAction === "reject" && (
                       <p className="text-[10px] text-slate-400">
@@ -444,11 +444,11 @@ export function AdminChangeRequestDetailView({
                   </div>
 
                   {/* Impact Notice */}
-                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-[11px] text-slate-500 leading-relaxed border border-slate-200 dark:border-slate-700">
+                  <div className="p-3 rounded-xl bg-slate-50 text-[11px] text-slate-500 leading-relaxed border border-slate-200">
                     {reviewAction === "approve" ? (
                       <span>
                         Approving will immediately update the cadet&apos;s dynamic profile data for{" "}
-                        <strong className="text-slate-800 dark:text-slate-200">{changeRequest.fieldLabel}</strong>{" "}
+                        <strong className="text-slate-800">{changeRequest.fieldLabel}</strong>{" "}
                         and recompute their profile completion score.
                       </span>
                     ) : (
@@ -475,7 +475,7 @@ export function AdminChangeRequestDetailView({
               </CardContent>
             </Card>
           ) : (
-            <Card className="border border-slate-200 dark:border-slate-800">
+            <Card className="border border-slate-200">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-bold">
                   {changeRequest.status === "approved" ? "Request Approved" : "Request Rejected"}
@@ -486,52 +486,52 @@ export function AdminChangeRequestDetailView({
               </CardHeader>
               <CardContent className="space-y-4 text-xs">
                 {changeRequest.status === "approved" ? (
-                  <div className="p-4 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 space-y-2">
-                    <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-sm">
+                  <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+                    <div className="flex items-center gap-2 text-emerald-800 font-semibold text-sm">
                       <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       Applied to Master Record
                     </div>
-                    <p className="text-emerald-700 dark:text-emerald-400 text-xs">
+                    <p className="text-emerald-700 text-xs">
                       The dynamic data field <strong>{changeRequest.fieldLabel}</strong> was updated to &ldquo;{String(changeRequest.newValue)}&rdquo;.
                     </p>
                   </div>
                 ) : (
-                  <div className="p-4 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/60 space-y-2">
-                    <div className="flex items-center gap-2 text-rose-800 dark:text-rose-300 font-semibold text-sm">
+                  <div className="p-4 rounded-xl bg-rose-50/60 border border-rose-200 space-y-2">
+                    <div className="flex items-center gap-2 text-rose-800 font-semibold text-sm">
                       <svg className="w-5 h-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                       Request Rejected
                     </div>
-                    <p className="text-rose-700 dark:text-rose-400 text-xs">
+                    <p className="text-rose-700 text-xs">
                       The profile value remains unchanged. This record is preserved in history per Section 11 regulations.
                     </p>
                   </div>
                 )}
 
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                   <div className="flex justify-between">
                     <span className="text-slate-400">Reviewed By:</span>
-                    <span className="font-semibold text-slate-800 dark:text-slate-200">
+                    <span className="font-semibold text-slate-800">
                       {changeRequest.reviewedByEmail || changeRequest.reviewedBy || "Administrator"}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Reviewed On:</span>
-                    <span className="text-slate-700 dark:text-slate-300">
+                    <span className="text-slate-700">
                       {formatDate(changeRequest.reviewedAt)}
                     </span>
                   </div>
                 </div>
 
                 {changeRequest.reviewerComments && (
-                  <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 space-y-1">
+                  <div className="p-3 rounded-xl bg-slate-100 space-y-1">
                     <span className="text-slate-500 font-semibold text-[11px] block uppercase tracking-wider">
                       Reviewer Reason / Comments:
                     </span>
-                    <p className="text-slate-800 dark:text-slate-200 italic font-medium">
+                    <p className="text-slate-800 italic font-medium">
                       &ldquo;{changeRequest.reviewerComments}&rdquo;
                     </p>
                   </div>
@@ -550,25 +550,25 @@ export function AdminChangeRequestDetailView({
             <CardContent className="space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-400">Request Document ID:</span>
-                <span className="font-mono text-slate-600 dark:text-slate-400">
+                <span className="font-mono text-slate-600">
                   {changeRequest.changeRequestId}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Cadet Permanent ID:</span>
-                <span className="font-mono text-slate-600 dark:text-slate-400">
+                <span className="font-mono text-slate-600">
                   {changeRequest.cadetId}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Created:</span>
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600">
                   {formatDate(changeRequest.createdAt)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Last Modified:</span>
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600">
                   {formatDate(changeRequest.updatedAt)}
                 </span>
               </div>

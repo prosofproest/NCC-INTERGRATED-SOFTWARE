@@ -115,14 +115,14 @@ export default function AdminCadetsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
             Cadets Directory
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Master records for all enrolled cadets. Filter by status, wing, or search by ID, name, or enrollment.
           </p>
         </div>
-        <div className="text-xs text-slate-500 dark:text-slate-400 self-start sm:self-auto font-medium">
+        <div className="text-xs text-slate-500 self-start sm:self-auto font-medium">
           Showing {cadets.length} of {total} cadets
         </div>
       </div>
@@ -148,12 +148,12 @@ export default function AdminCadetsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by name, cadet ID, enrollment, email..."
-                className="w-full pl-10 pr-9 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                className="w-full pl-10 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -170,7 +170,7 @@ export default function AdminCadetsPage() {
                   setStatusFilter(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
               >
                 <option value="all">All Statuses</option>
                 <option value="active">Active</option>
@@ -188,7 +188,7 @@ export default function AdminCadetsPage() {
                   setWingFilter(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
               >
                 <option value="all">All Wings</option>
                 <option value="Army">Army Wing</option>
@@ -202,7 +202,7 @@ export default function AdminCadetsPage() {
 
       {/* Error state */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-700">
           {error}
         </div>
       )}
@@ -212,7 +212,7 @@ export default function AdminCadetsPage() {
         <Card>
           <div className="p-12 text-center text-slate-400 flex flex-col items-center gap-3">
             <svg
-              className="animate-spin h-6 w-6 text-slate-600 dark:text-slate-400"
+              className="animate-spin h-6 w-6 text-slate-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -230,12 +230,12 @@ export default function AdminCadetsPage() {
       ) : cadets.length === 0 ? (
         <Card>
           <div className="p-12 text-center text-slate-500 space-y-3">
-            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             </div>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">No Cadets Found</h3>
+            <h3 className="text-sm font-semibold text-slate-900">No Cadets Found</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
               No cadet records match your current filter or search criteria. Try modifying your search query or reset filters.
             </p>
@@ -260,7 +260,7 @@ export default function AdminCadetsPage() {
             <Card className="overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                  <thead className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                     <tr>
                       <th className="px-6 py-3.5">Cadet ID</th>
                       <th className="px-6 py-3.5">Name &amp; Email</th>
@@ -272,31 +272,31 @@ export default function AdminCadetsPage() {
                       <th className="px-6 py-3.5 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
                     {cadets.map((cadet) => (
                       <tr
                         key={cadet.cadetId}
-                        className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+                        className="hover:bg-slate-50/60 transition-colors"
                       >
-                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                        <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                           {cadet.cadetId}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="font-semibold text-slate-900 dark:text-slate-100 text-sm">
+                          <div className="font-semibold text-slate-900 text-sm">
                             {cadet.fullName}
                           </div>
                           <div className="text-xs text-slate-400 font-normal">
                             {cadet.email}
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-xs font-mono text-slate-600 dark:text-slate-400">
+                        <td className="px-6 py-4 text-xs font-mono text-slate-600">
                           {cadet.enrollmentNo || (
                             <span className="italic text-slate-400 font-sans">Pending</span>
                           )}
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
+                            <span className="text-xs font-medium text-slate-800">
                               {cadet.rank}
                             </span>
                             <Badge variant={getWingVariant(cadet.wing)} size="sm">
@@ -304,7 +304,7 @@ export default function AdminCadetsPage() {
                             </Badge>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400">
+                        <td className="px-6 py-4 text-xs text-slate-600">
                           {cadet.unit}
                         </td>
                         <td className="px-6 py-4">
@@ -314,7 +314,7 @@ export default function AdminCadetsPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2.5">
-                            <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                            <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
                               <div
                                 className="bg-emerald-500 h-1.5 rounded-full"
                                 style={{ width: `${cadet.completionPercentage || 0}%` }}
@@ -328,7 +328,7 @@ export default function AdminCadetsPage() {
                         <td className="px-6 py-4 text-right">
                           <Link
                             href={`/admin/cadets/${cadet.cadetId}`}
-                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 transition"
                           >
                             Details &rarr;
                           </Link>
@@ -350,7 +350,7 @@ export default function AdminCadetsPage() {
                     <span className="text-xs font-mono font-bold text-slate-500">
                       {cadet.cadetId}
                     </span>
-                    <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    <h3 className="text-sm font-semibold text-slate-900">
                       {cadet.fullName}
                     </h3>
                     <p className="text-xs text-slate-400">{cadet.email}</p>
@@ -360,11 +360,11 @@ export default function AdminCadetsPage() {
                   </Badge>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 text-xs pt-1 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex flex-wrap items-center gap-2 text-xs pt-1 border-t border-slate-100">
                   <Badge variant={getWingVariant(cadet.wing)} size="sm">
                     {cadet.wing}
                   </Badge>
-                  <span className="text-slate-600 dark:text-slate-400 font-medium">
+                  <span className="text-slate-600 font-medium">
                     {cadet.rank}
                   </span>
                   <span className="text-slate-400">&bull;</span>
@@ -374,20 +374,20 @@ export default function AdminCadetsPage() {
                 <div className="flex items-center justify-between text-xs pt-2">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400">Profile:</span>
-                    <div className="w-14 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-14 bg-slate-200 rounded-full h-1.5 overflow-hidden">
                       <div
                         className="bg-emerald-500 h-1.5 rounded-full"
                         style={{ width: `${cadet.completionPercentage || 0}%` }}
                       />
                     </div>
-                    <span className="font-semibold text-slate-600 dark:text-slate-300">
+                    <span className="font-semibold text-slate-600">
                       {cadet.completionPercentage || 0}%
                     </span>
                   </div>
 
                   <Link
                     href={`/admin/cadets/${cadet.cadetId}`}
-                    className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                    className="text-xs font-semibold text-blue-600 hover:underline"
                   >
                     View Record &rarr;
                   </Link>

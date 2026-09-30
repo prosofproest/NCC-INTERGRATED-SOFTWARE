@@ -221,69 +221,69 @@ export function AuditLogsView() {
     <div className="space-y-6">
       {/* 1. Header Overview Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+        <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-4 sm:p-5 flex items-center justify-between">
             <div className="space-y-1">
               <span className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
                 Total Audit Events
               </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="text-2xl font-bold text-slate-900">
                 {stats.totalLogs}
               </div>
               <p className="text-[10px] text-slate-500">Immutable recorded actions</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200 text-lg">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 text-lg">
               🛡️
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+        <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-4 sm:p-5 flex items-center justify-between">
             <div className="space-y-1">
-              <span className="text-[11px] font-semibold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase">
+              <span className="text-[11px] font-semibold tracking-wider text-emerald-600 uppercase">
                 Cadet Operations
               </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="text-2xl font-bold text-slate-900">
                 {stats.cadetLogs}
               </div>
               <p className="text-[10px] text-slate-500">Profile edits & requests</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
               👥
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+        <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-4 sm:p-5 flex items-center justify-between">
             <div className="space-y-1">
-              <span className="text-[11px] font-semibold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+              <span className="text-[11px] font-semibold tracking-wider text-indigo-600 uppercase">
                 Document Audits
               </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="text-2xl font-bold text-slate-900">
                 {stats.documentLogs}
               </div>
               <p className="text-[10px] text-slate-500">Uploads & verifications</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
               📄
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+        <Card className="border-slate-200/80 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-4 sm:p-5 flex items-center justify-between">
             <div className="space-y-1">
-              <span className="text-[11px] font-semibold tracking-wider text-amber-600 dark:text-amber-400 uppercase">
+              <span className="text-[11px] font-semibold tracking-wider text-amber-600 uppercase">
                 User / Role Events
               </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="text-2xl font-bold text-slate-900">
                 {stats.userLogs}
               </div>
               <p className="text-[10px] text-slate-500">Logins, roles & CTO accounts</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
               🔑
             </div>
           </CardContent>
@@ -291,13 +291,13 @@ export function AuditLogsView() {
       </div>
 
       {/* 2. Filter Bar */}
-      <Card className="border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
+      <Card className="border-slate-200/80 bg-white shadow-xs">
         <CardContent className="p-5">
           <form onSubmit={handleApplyFilters} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               {/* Actor Search */}
               <div className="lg:col-span-2 space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-600 uppercase tracking-wide">
                   Actor (Email / UID)
                 </label>
                 <input
@@ -305,19 +305,19 @@ export function AuditLogsView() {
                   placeholder="Search by email or UID..."
                   value={actorSearch}
                   onChange={(e) => setActorSearch(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Action Type */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-600 uppercase tracking-wide">
                   Action Type
                 </label>
                 <select
                   value={actionFilter}
                   onChange={(e) => setActionFilter(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Actions</option>
                   {COMMON_ACTION_TYPES.map((act) => (
@@ -330,13 +330,13 @@ export function AuditLogsView() {
 
               {/* Entity Type */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-600 uppercase tracking-wide">
                   Entity Type
                 </label>
                 <select
                   value={entityTypeFilter}
                   onChange={(e) => setEntityTypeFilter(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Entities</option>
                   {ALL_ENTITY_TYPES.map((ent) => (
@@ -349,13 +349,13 @@ export function AuditLogsView() {
 
               {/* Actor Role */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-600 uppercase tracking-wide">
                   Actor Role
                 </label>
                 <select
                   value={actorRoleFilter}
                   onChange={(e) => setActorRoleFilter(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Admin</option>
@@ -367,13 +367,13 @@ export function AuditLogsView() {
 
               {/* Page Size */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-600 uppercase tracking-wide">
                   Page Size
                 </label>
                 <select
                   value={pageSize}
                   onChange={(e) => setPageSize(Number(e.target.value))}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <option value={15}>15 rows</option>
                   <option value={25}>25 rows</option>
@@ -383,7 +383,7 @@ export function AuditLogsView() {
             </div>
 
             {/* Date Range & Buttons Row */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-semibold text-slate-500 uppercase">
                   Date Range:
@@ -392,14 +392,14 @@ export function AuditLogsView() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="px-2 py-1 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100"
+                  className="px-2 py-1 rounded border border-slate-300 bg-white text-xs text-slate-900"
                 />
                 <span className="text-slate-400 text-xs">to</span>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="px-2 py-1 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100"
+                  className="px-2 py-1 rounded border border-slate-300 bg-white text-xs text-slate-900"
                 />
               </div>
 
@@ -407,13 +407,13 @@ export function AuditLogsView() {
                 <button
                   type="button"
                   onClick={handleClearFilters}
-                  className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-600 hover:bg-slate-100 transition cursor-pointer"
                 >
                   Clear Filters
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-semibold hover:bg-slate-800 dark:hover:bg-white transition cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition cursor-pointer"
                 >
                   Apply Filters
                 </button>
@@ -425,7 +425,7 @@ export function AuditLogsView() {
 
       {/* Error Alert */}
       {errorMessage && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center justify-between">
           <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage(null)}
@@ -437,11 +437,11 @@ export function AuditLogsView() {
       )}
 
       {/* 3. Audit Logs Data Table / Card View */}
-      <Card className="border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs overflow-hidden">
+      <Card className="border-slate-200/80 bg-white shadow-xs overflow-hidden">
         {/* Table Header Controls */}
-        <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-2">
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-sm font-semibold text-slate-900">
               Audit History Log
             </h2>
             <Badge variant="outline" size="sm">
@@ -456,12 +456,12 @@ export function AuditLogsView() {
             <span className="text-slate-400 hidden sm:inline">
               Sorted newest first
             </span>
-            <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-800 p-0.5">
+            <div className="inline-flex rounded-lg border border-slate-200 p-0.5">
               <button
                 type="button"
                 onClick={handlePrevPage}
                 disabled={currentPage <= 1 || isLoading}
-                className="px-2.5 py-1 text-xs rounded font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                className="px-2.5 py-1 text-xs rounded font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
               >
                 &larr; Prev
               </button>
@@ -469,7 +469,7 @@ export function AuditLogsView() {
                 type="button"
                 onClick={handleNextPage}
                 disabled={!hasMore || isLoading}
-                className="px-2.5 py-1 text-xs rounded font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                className="px-2.5 py-1 text-xs rounded font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
               >
                 Next &rarr;
               </button>
@@ -487,7 +487,7 @@ export function AuditLogsView() {
           /* Empty State */
           <div className="p-12 text-center space-y-3">
             <div className="text-3xl">🔍</div>
-            <h3 className="text-sm font-medium text-slate-800 dark:text-slate-200">
+            <h3 className="text-sm font-medium text-slate-800">
               No audit records match the current filters
             </h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
@@ -495,7 +495,7 @@ export function AuditLogsView() {
             </p>
             <button
               onClick={handleClearFilters}
-              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-slate-100 text-xs font-semibold text-slate-700 hover:bg-slate-200 transition cursor-pointer"
             >
               Reset Filters
             </button>
@@ -506,7 +506,7 @@ export function AuditLogsView() {
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
                     <th className="py-3 px-4">Log ID & Time</th>
                     <th className="py-3 px-4">Actor</th>
                     <th className="py-3 px-4">Action</th>
@@ -515,17 +515,17 @@ export function AuditLogsView() {
                     <th className="py-3 px-4 text-right">Inspection</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody className="divide-y divide-slate-100">
                   {logs.map((log) => {
                     const hasDiff = Boolean(log.previousState || log.newState);
                     return (
                       <tr
                         key={log.logId}
-                        className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
+                        className="hover:bg-slate-50/70 transition-colors"
                       >
                         {/* Log ID & Time */}
                         <td className="py-3 px-4 whitespace-nowrap">
-                          <div className="font-mono font-medium text-slate-900 dark:text-slate-100">
+                          <div className="font-mono font-medium text-slate-900">
                             {log.logId}
                           </div>
                           <div className="text-[11px] text-slate-500">
@@ -540,14 +540,14 @@ export function AuditLogsView() {
                               {log.actorRole.toUpperCase()}
                             </Badge>
                           </div>
-                          <div className="text-slate-700 dark:text-slate-300 max-w-[160px] truncate" title={log.actorEmail}>
+                          <div className="text-slate-700 max-w-[160px] truncate" title={log.actorEmail}>
                             {log.actorEmail}
                           </div>
                         </td>
 
                         {/* Action */}
                         <td className="py-3 px-4">
-                          <span className="font-mono font-semibold text-[11px] text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                          <span className="font-mono font-semibold text-[11px] text-slate-800 bg-slate-100 px-2 py-0.5 rounded">
                             {log.action}
                           </span>
                         </td>
@@ -559,7 +559,7 @@ export function AuditLogsView() {
                               {log.entityType}
                             </Badge>
                           </div>
-                          <div className="font-mono text-slate-600 dark:text-slate-400 max-w-[140px] truncate" title={log.entityId}>
+                          <div className="font-mono text-slate-600 max-w-[140px] truncate" title={log.entityId}>
                             {log.entityId}
                           </div>
                         </td>
@@ -567,7 +567,7 @@ export function AuditLogsView() {
                         {/* State Changes */}
                         <td className="py-3 px-4">
                           {hasDiff ? (
-                            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-medium">
+                            <span className="inline-flex items-center gap-1 text-emerald-700 font-medium">
                               <span>✓</span> State Recorded
                             </span>
                           ) : (
@@ -580,7 +580,7 @@ export function AuditLogsView() {
                           <button
                             type="button"
                             onClick={() => openDetailModal(log)}
-                            className="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-medium transition cursor-pointer text-xs"
+                            className="px-3 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700 font-medium transition cursor-pointer text-xs"
                           >
                             View Details &rarr;
                           </button>
@@ -593,12 +593,12 @@ export function AuditLogsView() {
             </div>
 
             {/* Mobile Card Fallback */}
-            <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="md:hidden divide-y divide-slate-100">
               {logs.map((log) => (
                 <div key={log.logId} className="p-4 space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="font-mono font-bold text-slate-900 dark:text-slate-100 text-xs">
+                      <span className="font-mono font-bold text-slate-900 text-xs">
                         {log.logId}
                       </span>
                       <p className="text-[11px] text-slate-500">
@@ -611,13 +611,13 @@ export function AuditLogsView() {
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap text-xs">
-                    <span className="font-mono font-semibold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-[11px]">
+                    <span className="font-mono font-semibold bg-slate-100 px-2 py-0.5 rounded text-[11px]">
                       {log.action}
                     </span>
                     <Badge variant="primary" size="sm">
                       {log.entityType}
                     </Badge>
-                    <span className="font-mono text-slate-600 dark:text-slate-400 text-[11px] truncate max-w-[140px]">
+                    <span className="font-mono text-slate-600 text-[11px] truncate max-w-[140px]">
                       {log.entityId}
                     </span>
                   </div>
@@ -629,7 +629,7 @@ export function AuditLogsView() {
                     <button
                       type="button"
                       onClick={() => openDetailModal(log)}
-                      className="text-blue-600 dark:text-blue-400 font-medium hover:underline cursor-pointer"
+                      className="text-blue-600 font-medium hover:underline cursor-pointer"
                     >
                       View Details &rarr;
                     </button>
@@ -641,7 +641,7 @@ export function AuditLogsView() {
         )}
 
         {/* Footer Pagination */}
-        <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <div className="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
           <div>
             Page {currentPage} {hasMore ? "• More records available" : "• End of results"}
           </div>
@@ -650,7 +650,7 @@ export function AuditLogsView() {
               type="button"
               onClick={handlePrevPage}
               disabled={currentPage <= 1 || isLoading}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
             >
               Previous
             </button>
@@ -658,7 +658,7 @@ export function AuditLogsView() {
               type="button"
               onClick={handleNextPage}
               disabled={!hasMore || isLoading}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
             >
               Next
             </button>

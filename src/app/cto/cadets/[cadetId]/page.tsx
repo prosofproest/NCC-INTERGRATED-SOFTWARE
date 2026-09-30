@@ -103,7 +103,7 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Unable to load cadet</h2>
+        <h2 className="text-lg font-bold text-slate-900">Unable to load cadet</h2>
         <p className="text-sm text-slate-500">{error}</p>
         <Link href="/cto/cadets">
           <Button variant="outline" size="sm">
@@ -121,16 +121,16 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
   return (
     <div className="space-y-6">
       {/* Navigation Breadcrumbs */}
-      <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-        <Link href="/cto/cadets" className="hover:text-slate-900 dark:hover:text-white transition">
+      <div className="flex items-center gap-2 text-xs text-slate-500">
+        <Link href="/cto/cadets" className="hover:text-slate-900 transition">
           Cadets Directory
         </Link>
         <span>/</span>
-        <span className="font-semibold text-slate-900 dark:text-slate-200">{cadetId}</span>
+        <span className="font-semibold text-slate-900">{cadetId}</span>
       </div>
 
       {/* Hero Cadet Profile Header */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start sm:items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-bold text-xl tracking-wider shadow-sm shrink-0">
             {cadet?.fullName
@@ -142,7 +142,7 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
           </div>
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 {cadet?.fullName}
               </h1>
               <Badge variant={getWingVariant(cadet?.wing)} size="sm">
@@ -153,7 +153,7 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
               </Badge>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-              <span className="font-mono bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+              <span className="font-mono bg-slate-100 px-2 py-0.5 rounded">
                 {cadet?.cadetId}
               </span>
               <span>&bull;</span>
@@ -164,29 +164,29 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
           </div>
         </div>
 
-        <div className="flex items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+        <div className="flex items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
           <div className="flex flex-col items-start sm:items-end">
             <span className="text-xs text-slate-500 font-medium">Profile Completion</span>
             <div className="flex items-center gap-2 mt-1">
-              <div className="w-24 bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+              <div className="w-24 bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
                   className="bg-emerald-500 h-2 rounded-full"
                   style={{ width: `${cadet?.completionPercentage || 0}%` }}
                 />
               </div>
-              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800">
                 {cadet?.completionPercentage || 0}%
               </span>
             </div>
           </div>
-          <Badge variant="outline" size="md" className="font-semibold text-amber-700 dark:text-amber-300">
+          <Badge variant="outline" size="md" className="font-semibold text-amber-700">
             Officer Read-Only
           </Badge>
         </div>
       </div>
 
       {/* Officer Read-Only Access Notice */}
-      <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between text-xs text-amber-800 dark:text-amber-300">
+      <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between text-xs text-amber-800">
         <div className="flex items-center gap-2">
           <svg className="w-4 h-4 text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -210,29 +210,29 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Full Name</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.fullName}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.fullName}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Regimental Enrollment No</span>
-              <p className="text-sm font-mono font-semibold text-slate-900 dark:text-slate-100">
+              <p className="text-sm font-mono font-semibold text-slate-900">
                 {cadet?.enrollmentNo || <span className="text-slate-400 italic font-sans">Pending</span>}
               </p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Rank</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.rank}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.rank}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">NCC Wing</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.wing}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.wing}</p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Battalion / Unit</span>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{cadet?.unit}</p>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.unit}</p>
             </div>
 
             <div className="space-y-1">
@@ -277,7 +277,7 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
                   return (
                     <div key={field.fieldId} className="space-y-1">
                       <span className="text-xs text-slate-500 font-medium">{field.label}</span>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      <p className="text-sm font-semibold text-slate-900">
                         {displayVal}
                       </p>
                       <div className="pt-0.5">

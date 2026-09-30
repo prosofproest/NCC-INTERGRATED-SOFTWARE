@@ -180,18 +180,18 @@ export function DataRequestDetailView({
           <div className="flex items-center gap-2">
             <Link
               href={basePath}
-              className="text-xs font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+              className="text-xs font-medium text-slate-500 hover:text-slate-900"
             >
               &larr; Data Requests
             </Link>
-            <span className="text-slate-300 dark:text-slate-700">/</span>
-            <span className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <span className="text-slate-300">/</span>
+            <span className="font-mono text-xs font-semibold text-slate-700">
               {dataRequest.requestId}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 mt-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               {dataRequest.title}
             </h1>
             <Badge variant={statusBadgeVariant} size="sm">
@@ -234,34 +234,34 @@ export function DataRequestDetailView({
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Purpose &amp; Instructions
               </span>
-              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1 whitespace-pre-wrap">
+              <p className="text-sm text-slate-800 mt-1 whitespace-pre-wrap">
                 {dataRequest.purpose}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100 text-xs">
               <div>
                 <span className="text-slate-500 block">Created By</span>
-                <span className="font-medium text-slate-900 dark:text-slate-100">
+                <span className="font-medium text-slate-900">
                   {dataRequest.requesterEmail || dataRequest.requestedBy}
                 </span>
               </div>
               <div>
                 <span className="text-slate-500 block">Created On</span>
-                <span className="font-medium text-slate-900 dark:text-slate-100">
+                <span className="font-medium text-slate-900">
                   {formatDate(dataRequest.createdAt)}
                 </span>
               </div>
               <div>
                 <span className="text-slate-500 block">Deadline</span>
-                <span className="font-medium text-slate-900 dark:text-slate-100">
+                <span className="font-medium text-slate-900">
                   {dataRequest.deadline ? formatDate(dataRequest.deadline) : "No deadline"}
                 </span>
               </div>
             </div>
 
             {/* Requested Fields Tags */}
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+            <div className="pt-3 border-t border-slate-100">
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-2">
                 Requested Fields ({fields.length})
               </span>
@@ -269,7 +269,7 @@ export function DataRequestDetailView({
                 {fields.map((f) => (
                   <span
                     key={f.fieldId}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs bg-slate-100 text-slate-800 border border-slate-200"
                   >
                     <span className="font-medium">{f.label}</span>
                     <span className="text-[10px] text-slate-400 font-mono">({f.fieldId})</span>
@@ -288,7 +288,7 @@ export function DataRequestDetailView({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center py-2">
-              <div className="text-4xl font-bold tracking-tight text-blue-600 dark:text-blue-400">
+              <div className="text-4xl font-bold tracking-tight text-blue-600">
                 {summary.completionRate}%
               </div>
               <p className="text-xs text-slate-500 mt-1">
@@ -296,7 +296,7 @@ export function DataRequestDetailView({
               </p>
             </div>
 
-            <div className="w-full h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
                   summary.completionRate === 100 ? "bg-emerald-500" : "bg-blue-600"
@@ -306,17 +306,17 @@ export function DataRequestDetailView({
             </div>
 
             <div className="grid grid-cols-2 gap-2 pt-2 text-center text-xs">
-              <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/50">
-                <span className="text-emerald-700 dark:text-emerald-300 font-semibold block text-base">
+              <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200/50">
+                <span className="text-emerald-700 font-semibold block text-base">
                   {summary.completedCount}
                 </span>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400">Completed</span>
+                <span className="text-[11px] text-emerald-600">Completed</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50">
-                <span className="text-amber-700 dark:text-amber-300 font-semibold block text-base">
+              <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/50">
+                <span className="text-amber-700 font-semibold block text-base">
                   {summary.pendingCount}
                 </span>
-                <span className="text-[11px] text-amber-600 dark:text-amber-400">Pending</span>
+                <span className="text-[11px] text-amber-600">Pending</span>
               </div>
             </div>
           </CardContent>
@@ -341,17 +341,17 @@ export function DataRequestDetailView({
                 placeholder="Search cadet or ID..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
               />
 
-              <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-50 dark:bg-slate-800">
+              <div className="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
                 {(["all", "completed", "pending"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setStatusFilter(tab)}
                     className={`px-2.5 py-1 text-xs rounded-md capitalize font-medium transition cursor-pointer ${
                       statusFilter === tab
-                        ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
+                        ? "bg-white text-slate-900 shadow-xs"
                         : "text-slate-500 hover:text-slate-900"
                     }`}
                   >
@@ -365,7 +365,7 @@ export function DataRequestDetailView({
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+              <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="px-6 py-3">Cadet ID</th>
                   <th className="px-6 py-3">Cadet Name</th>
@@ -374,7 +374,7 @@ export function DataRequestDetailView({
                   <th className="px-6 py-3 text-right">Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100">
                 {filteredCadets.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-8 text-center text-slate-400">
@@ -388,11 +388,11 @@ export function DataRequestDetailView({
 
                     return (
                       <React.Fragment key={cadetId}>
-                        <tr className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition">
-                          <td className="px-6 py-4 font-mono font-semibold text-slate-900 dark:text-slate-100">
+                        <tr className="hover:bg-slate-50/60 transition">
+                          <td className="px-6 py-4 font-mono font-semibold text-slate-900">
                             {cadetId}
                           </td>
-                          <td className="px-6 py-4 font-medium text-slate-800 dark:text-slate-200">
+                          <td className="px-6 py-4 font-medium text-slate-800">
                             {response.cadetName || cadetId}
                           </td>
                           <td className="px-6 py-4">
@@ -420,10 +420,10 @@ export function DataRequestDetailView({
 
                         {/* Expandable Values Panel */}
                         {isExpanded && (
-                          <tr className="bg-slate-50/80 dark:bg-slate-950/60">
-                            <td colSpan={5} className="px-6 py-4 border-t border-b border-slate-200/60 dark:border-slate-800">
+                          <tr className="bg-slate-50/80">
+                            <td colSpan={5} className="px-6 py-4 border-t border-b border-slate-200/60">
                               <div className="space-y-3">
-                                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                <div className="text-xs font-semibold text-slate-700">
                                   {isCompleted
                                     ? "Submitted Field Values:"
                                     : "Fields Missing From Cadet (Required to Fill):"}
@@ -437,12 +437,12 @@ export function DataRequestDetailView({
                                         return (
                                           <div
                                             key={fId}
-                                            className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-1"
+                                            className="p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1"
                                           >
                                             <span className="text-[11px] text-slate-400 font-medium">
                                               {fDef?.label || fId}
                                             </span>
-                                            <p className="font-semibold text-slate-900 dark:text-slate-100">
+                                            <p className="font-semibold text-slate-900">
                                               {String(val ?? "—")}
                                             </p>
                                           </div>
@@ -461,7 +461,7 @@ export function DataRequestDetailView({
                                       return (
                                         <span
                                           key={fId}
-                                          className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 text-xs font-medium"
+                                          className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 text-xs font-medium"
                                         >
                                           {fDef?.label || fId}
                                         </span>
@@ -495,11 +495,11 @@ export function DataRequestDetailView({
         title="Close Data Request"
       >
         <div className="space-y-4">
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+          <p className="text-xs sm:text-sm text-slate-600">
             Are you sure you want to close this data request? Once closed, cadets will no longer be able to submit responses.
           </p>
 
-          <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 text-amber-800 dark:text-amber-300 text-xs">
+          <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs">
             <strong>Current Progress:</strong> {summary.completedCount} of {summary.totalTargeted} cadets completed ({summary.completionRate}%).
           </div>
 

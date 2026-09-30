@@ -13,13 +13,13 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary:
     "bg-[#0071E3] text-white hover:bg-[#0077ED] active:scale-[0.98] shadow-sm font-medium",
   secondary:
-    "bg-black/[0.05] text-[#1D1D1F] hover:bg-black/[0.08] dark:bg-white/[0.1] dark:text-[#F5F5F7] dark:hover:bg-white/[0.15] active:scale-[0.98]",
+    "bg-black/[0.05] text-[#1D1D1F] hover:bg-black/[0.08] active:scale-[0.98]",
   danger:
     "bg-[#FF3B30] text-white hover:bg-[#D70015] active:scale-[0.98] shadow-sm font-medium",
   ghost:
-    "bg-transparent text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.04] dark:text-[#86868B] dark:hover:text-white dark:hover:bg-white/[0.06] active:scale-[0.98]",
+    "bg-transparent text-[#6E6E73] hover:text-[#1D1D1F] hover:bg-black/[0.04] active:scale-[0.98]",
   outline:
-    "bg-white/60 dark:bg-black/20 backdrop-blur-md text-[#1D1D1F] dark:text-[#F5F5F7] border border-black/[0.08] dark:border-white/[0.1] hover:bg-white/90 dark:hover:bg-white/10 active:scale-[0.98]",
+    "bg-white/60 backdrop-blur-md text-[#1D1D1F] border border-black/[0.08] hover:bg-white/90 active:scale-[0.98]",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

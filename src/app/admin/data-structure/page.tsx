@@ -362,10 +362,10 @@ export default function AdminDataStructurePage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
             Data Structure Configuration
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Configure profile categories, dynamic fields, validation constraints, and granular visibility rules.
           </p>
         </div>
@@ -385,13 +385,13 @@ export default function AdminDataStructurePage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab("categories")}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer ${
             activeTab === "categories"
-              ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           Categories ({categories.length})
@@ -400,8 +400,8 @@ export default function AdminDataStructurePage() {
           onClick={() => setActiveTab("fields")}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer ${
             activeTab === "fields"
-              ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "text-slate-600 hover:text-slate-900"
           }`}
         >
           Dynamic Fields ({fields.length})
@@ -410,14 +410,14 @@ export default function AdminDataStructurePage() {
 
       {/* Notification Banners */}
       {successMessage && (
-        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs sm:text-sm text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-800 flex items-center justify-between">
           <span>{successMessage}</span>
           <button onClick={() => setSuccessMessage(null)}>&times;</button>
         </div>
       )}
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-700 flex items-center justify-between">
           <span>{error}</span>
           <button onClick={() => setError(null)}>&times;</button>
         </div>
@@ -440,7 +440,7 @@ export default function AdminDataStructurePage() {
           <Card className="overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                <thead className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-3.5">Category ID</th>
                     <th className="px-6 py-3.5">Name</th>
@@ -451,19 +451,19 @@ export default function AdminDataStructurePage() {
                     <th className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {categories.map((cat) => (
-                    <tr key={cat.categoryId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
-                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                    <tr key={cat.categoryId} className="hover:bg-slate-50/60">
+                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                         {cat.categoryId}
                       </td>
-                      <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
+                      <td className="px-6 py-4 font-semibold text-slate-900">
                         {cat.name}
                       </td>
                       <td className="px-6 py-4 text-xs text-slate-500 max-w-xs truncate">
                         {cat.description || "—"}
                       </td>
-                      <td className="px-6 py-4 font-mono text-xs text-slate-600 dark:text-slate-400">
+                      <td className="px-6 py-4 font-mono text-xs text-slate-600">
                         {cat.sortOrder}
                       </td>
                       <td className="px-6 py-4">
@@ -486,7 +486,7 @@ export default function AdminDataStructurePage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditCatModal(cat)}
-                            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                            className="text-xs font-semibold text-blue-600 hover:underline cursor-pointer"
                           >
                             Edit
                           </button>
@@ -517,15 +517,15 @@ export default function AdminDataStructurePage() {
            ============================================================== */
         <div className="space-y-4">
           {/* Category Filter & Notice */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-100/70 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-100/70 p-4 rounded-2xl border border-slate-200/80">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <span className="text-xs font-semibold text-slate-700">
                 Filter by Category:
               </span>
               <select
                 value={selectedCategoryFilter}
                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                className="px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-slate-100"
+                className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900"
               >
                 <option value="all">All Categories ({fields.length} fields)</option>
                 {categories.map((c) => (
@@ -537,7 +537,7 @@ export default function AdminDataStructurePage() {
             </div>
 
             <div className="text-[11px] text-slate-500 max-w-md">
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Note: </span>
+              <span className="font-semibold text-slate-700">Note: </span>
               Fields cannot be hard-deleted to maintain historic cadet data integrity. Deactivate fields instead.
             </div>
           </div>
@@ -546,7 +546,7 @@ export default function AdminDataStructurePage() {
           <Card className="overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                <thead className="bg-slate-50/80 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-3.5">Field ID</th>
                     <th className="px-6 py-3.5">Label</th>
@@ -558,13 +558,13 @@ export default function AdminDataStructurePage() {
                     <th className="px-6 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {filteredFields.map((field) => (
-                    <tr key={field.fieldId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
-                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900 dark:text-slate-100">
+                    <tr key={field.fieldId} className="hover:bg-slate-50/60">
+                      <td className="px-6 py-4 font-mono font-medium text-xs text-slate-900">
                         {field.fieldId}
                       </td>
-                      <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
+                      <td className="px-6 py-4 font-semibold text-slate-900">
                         {field.label}
                       </td>
                       <td className="px-6 py-4 text-xs text-slate-500">
@@ -587,8 +587,8 @@ export default function AdminDataStructurePage() {
                           <span
                             className={`px-1.5 py-0.5 rounded ${
                               field.permissions?.cadetEditable
-                                ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-500"
+                                ? "bg-emerald-100 text-emerald-700"
+                                : "bg-slate-100 text-slate-500"
                             }`}
                           >
                             Cadet: {field.permissions?.cadetEditable ? "Edit" : "CR"}
@@ -596,8 +596,8 @@ export default function AdminDataStructurePage() {
                           <span
                             className={`px-1.5 py-0.5 rounded ${
                               field.permissions?.ctoVisible
-                                ? "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-500"
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-slate-100 text-slate-500"
                             }`}
                           >
                             CTO: {field.permissions?.ctoVisible ? "View" : "Hide"}
@@ -613,7 +613,7 @@ export default function AdminDataStructurePage() {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditFieldModal(field)}
-                            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                            className="text-xs font-semibold text-blue-600 hover:underline cursor-pointer"
                           >
                             Edit
                           </button>
@@ -649,7 +649,7 @@ export default function AdminDataStructurePage() {
       >
         <form onSubmit={handleSaveCategory} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Category Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -658,12 +658,12 @@ export default function AdminDataStructurePage() {
               value={catName}
               onChange={(e) => setCatName(e.target.value)}
               placeholder="e.g. Physical & Medical"
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Description
             </label>
             <textarea
@@ -671,23 +671,23 @@ export default function AdminDataStructurePage() {
               value={catDesc}
               onChange={(e) => setCatDesc(e.target.value)}
               placeholder="Brief explanation of what information is captured in this category."
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Sort Order
             </label>
             <input
               type="number"
               value={catSortOrder}
               onChange={(e) => setCatSortOrder(Number(e.target.value))}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
             <Button
               type="button"
               variant="outline"
@@ -717,14 +717,14 @@ export default function AdminDataStructurePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Category Select (disabled if editing) */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Parent Category <span className="text-rose-500">*</span>
               </label>
               <select
                 disabled={Boolean(editingField)}
                 value={fieldCategoryId}
                 onChange={(e) => setFieldCategoryId(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 disabled:opacity-50"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 disabled:opacity-50"
               >
                 {categories.map((c) => (
                   <option key={c.categoryId} value={c.categoryId}>
@@ -736,7 +736,7 @@ export default function AdminDataStructurePage() {
 
             {/* Field Label */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Field Label <span className="text-rose-500">*</span>
               </label>
               <input
@@ -745,20 +745,20 @@ export default function AdminDataStructurePage() {
                 value={fieldLabel}
                 onChange={(e) => setFieldLabel(e.target.value)}
                 placeholder="e.g. Identification Mark"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
               />
             </div>
 
             {/* Field Type (disabled if editing) */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Field Type <span className="text-rose-500">*</span>
               </label>
               <select
                 disabled={Boolean(editingField)}
                 value={fieldType}
                 onChange={(e) => setFieldType(e.target.value as FieldType)}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 disabled:opacity-50"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 disabled:opacity-50"
               >
                 <option value="text">Text (Single-line)</option>
                 <option value="number">Number</option>
@@ -772,14 +772,14 @@ export default function AdminDataStructurePage() {
 
             {/* Sort Order */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Sort Order
               </label>
               <input
                 type="number"
                 value={fieldSortOrder}
                 onChange={(e) => setFieldSortOrder(Number(e.target.value))}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
               />
             </div>
           </div>
@@ -787,7 +787,7 @@ export default function AdminDataStructurePage() {
           {/* Options if select/multiselect */}
           {(fieldType === "select" || fieldType === "multiselect") && (
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Select Options (comma-separated) <span className="text-rose-500">*</span>
               </label>
               <input
@@ -796,14 +796,14 @@ export default function AdminDataStructurePage() {
                 value={fieldOptions}
                 onChange={(e) => setFieldOptions(e.target.value)}
                 placeholder="e.g. A+, A-, B+, B-, O+, O-, AB+, AB-"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900"
               />
             </div>
           )}
 
           {/* Validation Options */}
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2 border border-slate-100 dark:border-slate-800">
-            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Validation Rules</span>
+          <div className="p-3 bg-slate-50 rounded-xl space-y-2 border border-slate-100">
+            <span className="text-xs font-bold text-slate-700">Validation Rules</span>
             <div className="flex flex-wrap items-center gap-4 text-xs">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -823,7 +823,7 @@ export default function AdminDataStructurePage() {
                       type="number"
                       value={fieldMin}
                       onChange={(e) => setFieldMin(e.target.value)}
-                      className="w-16 px-2 py-1 bg-white dark:bg-slate-900 border rounded text-xs"
+                      className="w-16 px-2 py-1 bg-white border rounded text-xs"
                     />
                   </div>
                   <div className="flex items-center gap-1">
@@ -832,7 +832,7 @@ export default function AdminDataStructurePage() {
                       type="number"
                       value={fieldMax}
                       onChange={(e) => setFieldMax(e.target.value)}
-                      className="w-16 px-2 py-1 bg-white dark:bg-slate-900 border rounded text-xs"
+                      className="w-16 px-2 py-1 bg-white border rounded text-xs"
                     />
                   </div>
                 </>
@@ -841,8 +841,8 @@ export default function AdminDataStructurePage() {
           </div>
 
           {/* Permissions Options */}
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl space-y-2 border border-slate-100 dark:border-slate-800">
-            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+          <div className="p-3 bg-slate-50 rounded-xl space-y-2 border border-slate-100">
+            <span className="text-xs font-bold text-slate-700">
               Role Access &amp; Permissions
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
@@ -887,14 +887,14 @@ export default function AdminDataStructurePage() {
                   onChange={(e) => setFieldActive(e.target.checked)}
                   className="rounded-sm border-slate-300 text-slate-900 focus:ring-slate-900"
                 />
-                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                <span className="font-semibold text-slate-800">
                   Field is Active (uncheck to soft-deactivate)
                 </span>
               </label>
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
             <Button
               type="button"
               variant="outline"

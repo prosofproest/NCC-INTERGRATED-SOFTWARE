@@ -149,7 +149,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
     return (
       <div className="p-16 text-center text-slate-400 flex flex-col items-center gap-3">
         <svg
-          className="animate-spin h-6 w-6 text-slate-600 dark:text-slate-400"
+          className="animate-spin h-6 w-6 text-slate-600"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -169,12 +169,12 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
   if (error && !cadet) {
     return (
       <Card className="p-8 text-center space-y-4">
-        <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/50 flex items-center justify-center mx-auto text-rose-600">
+        <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mx-auto text-rose-600">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Unable to load cadet</h2>
+        <h2 className="text-lg font-bold text-slate-900">Unable to load cadet</h2>
         <p className="text-sm text-slate-500">{error}</p>
         <Link href="/admin/cadets">
           <Button variant="outline" size="sm">
@@ -192,18 +192,18 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
   return (
     <form onSubmit={handleSave} className="space-y-6">
       {/* Navigation Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-        <Link href="/admin/cadets" className="hover:text-slate-900 dark:hover:text-white transition">
+      <div className="flex items-center gap-2 text-xs text-slate-500">
+        <Link href="/admin/cadets" className="hover:text-slate-900 transition">
           Cadets Directory
         </Link>
         <span>/</span>
-        <span className="font-semibold text-slate-900 dark:text-slate-200">{cadetId}</span>
+        <span className="font-semibold text-slate-900">{cadetId}</span>
       </div>
 
       {/* Hero Cadet Card */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start sm:items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-bold text-xl tracking-wider shadow-sm shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-xl tracking-wider shadow-sm shrink-0">
             {fullName
               .split(" ")
               .slice(-2)
@@ -213,7 +213,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
           </div>
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 {fullName}
               </h1>
               <Badge variant={getWingVariant(wing)} size="sm">
@@ -224,7 +224,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
               </Badge>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-              <span className="font-mono bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+              <span className="font-mono bg-slate-100 px-2 py-0.5 rounded">
                 {cadetId}
               </span>
               <span>&bull;</span>
@@ -239,17 +239,17 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
           <div className="flex flex-col items-start sm:items-end">
             <span className="text-xs text-slate-500 font-medium">Profile Completion</span>
             <div className="flex items-center gap-2 mt-1">
-              <div className="w-24 bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+              <div className="w-24 bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
                   className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${cadet?.completionPercentage || 0}%` }}
                 />
               </div>
-              <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+              <span className="text-sm font-bold text-slate-800">
                 {cadet?.completionPercentage || 0}%
               </span>
             </div>
@@ -263,7 +263,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
 
       {/* Notifications */}
       {successMessage && (
-        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs sm:text-sm text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -273,7 +273,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
           <button
             type="button"
             onClick={() => setSuccessMessage(null)}
-            className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800"
+            className="text-emerald-600 hover:text-emerald-800"
           >
             &times;
           </button>
@@ -281,7 +281,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
       )}
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-700 dark:text-rose-300">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm text-rose-700">
           {error}
         </div>
       )}
@@ -298,7 +298,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Full Name */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Full Name <span className="text-rose-500">*</span>
               </label>
               <input
@@ -306,13 +306,13 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
               />
             </div>
 
             {/* Regimental Enrollment Number */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Enrollment Number
               </label>
               <input
@@ -320,13 +320,13 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                 value={enrollmentNo}
                 onChange={(e) => setEnrollmentNo(e.target.value)}
                 placeholder="e.g. KA24SDA100101"
-                className="w-full px-3 py-2 font-mono bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                className="w-full px-3 py-2 font-mono bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
               />
             </div>
 
             {/* Rank */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Rank <span className="text-rose-500">*</span>
               </label>
               <input
@@ -335,13 +335,13 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                 value={rank}
                 onChange={(e) => setRank(e.target.value)}
                 placeholder="e.g. Cadet, Corporal, Sergeant"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
               />
             </div>
 
             {/* Unit */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Unit <span className="text-rose-500">*</span>
               </label>
               <input
@@ -350,19 +350,19 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 placeholder="e.g. 1 Kar Air Sqn NCC"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
               />
             </div>
 
             {/* Wing */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Wing <span className="text-rose-500">*</span>
               </label>
               <select
                 value={wing}
                 onChange={(e) => setWing(e.target.value as CadetWing)}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
               >
                 <option value="Army">Army</option>
                 <option value="Navy">Navy</option>
@@ -372,13 +372,13 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
 
             {/* Account Status */}
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Account Status <span className="text-rose-500">*</span>
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as CadetStatus)}
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
               >
                 <option value="active">Active (Operational)</option>
                 <option value="inactive">Inactive</option>
@@ -417,7 +417,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                   return (
                     <div key={field.fieldId} className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        <label className="block text-xs font-semibold text-slate-700">
                           {field.label}
                           {field.validation?.required && (
                             <span className="text-rose-500 ml-0.5">*</span>
@@ -435,7 +435,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                         <select
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition cursor-pointer"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
                         >
                           <option value="">-- Select option --</option>
                           {field.options?.map((opt) => (
@@ -449,7 +449,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                           rows={2}
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
                         />
                       ) : field.type === "boolean" ? (
                         <div className="pt-2 flex items-center gap-2">
@@ -459,7 +459,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                             onChange={(e) => handleDynamicChange(field.fieldId, e.target.checked)}
                             className="w-4 h-4 rounded-sm border-slate-300 text-slate-900 focus:ring-slate-900"
                           />
-                          <span className="text-xs text-slate-600 dark:text-slate-400">
+                          <span className="text-xs text-slate-600">
                             {Boolean(val) ? "Yes / Confirmed" : "No / Not Applicable"}
                           </span>
                         </div>
@@ -468,7 +468,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                           type="date"
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
                         />
                       ) : field.type === "number" ? (
                         <input
@@ -482,14 +482,14 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                           }
                           min={field.validation?.min}
                           max={field.validation?.max}
-                          className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
                         />
                       ) : (
                         <input
                           type="text"
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
                         />
                       )}
 
@@ -498,7 +498,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                         <span className="text-[10px] text-slate-400">
                           Cadet edit: {field.permissions?.cadetEditable ? "Enabled" : "Locked (CR required)"}
                         </span>
-                        <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+                        <span className="text-slate-300">&bull;</span>
                         <span className="text-[10px] text-slate-400">
                           CTO: {field.permissions?.ctoVisible ? "Visible" : "Hidden"}
                         </span>
@@ -538,7 +538,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
       </Card>
 
       {/* Bottom Sticky Action Bar */}
-      <div className="sticky bottom-4 z-20 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg flex items-center justify-between">
+      <div className="sticky bottom-4 z-20 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-lg flex items-center justify-between">
         <span className="text-xs text-slate-500">
           Any modifications will be recorded in the immutable system audit log.
         </span>
