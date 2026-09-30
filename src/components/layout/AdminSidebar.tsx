@@ -4,6 +4,7 @@ import React from "react";
 import { SidebarShell, NavSectionConfig } from "./SidebarShell";
 import {
   AuditLogsIcon,
+  BackupsIcon,
   CadetsIcon,
   ChangeRequestsIcon,
   CtoIcon,
@@ -98,6 +99,12 @@ const adminSections: NavSectionConfig[] = [
         label: "System Health",
         exact: false,
         icon: SystemHealthIcon,
+      },
+      {
+        href: "/admin/backups",
+        label: "Backups & Recovery",
+        exact: false,
+        icon: BackupsIcon,
       },
     ],
   },

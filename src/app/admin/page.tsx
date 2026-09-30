@@ -146,6 +146,12 @@ export default async function AdminDashboardPage() {
           >
             System Health
           </Link>
+          <Link
+            href="/admin/backups"
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/[0.04] text-[#1D1D1F] hover:bg-black/[0.08] border border-black/[0.06] font-medium text-xs sm:text-sm transition cursor-pointer"
+          >
+            Backups & Recovery
+          </Link>
         </div>
       </div>
 
