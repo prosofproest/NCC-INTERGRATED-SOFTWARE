@@ -72,6 +72,20 @@ export async function GET() {
         ctoExportable: true,
       },
       {
+        id: "core_trainingYear",
+        label: "Training Year",
+        category: "Regimental Info",
+        isCore: true,
+        ctoExportable: true,
+      },
+      {
+        id: "core_division",
+        label: "Division (SD/SW)",
+        category: "Regimental Info",
+        isCore: true,
+        ctoExportable: true,
+      },
+      {
         id: "core_unit",
         label: "Unit",
         category: "Regimental Info",

@@ -13,7 +13,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase().trim() || "";
     const status = searchParams.get("status") || "all";
-    const wing = searchParams.get("wing") || "all";
+    const trainingYear = searchParams.get("trainingYear") || "all";
+    const division = searchParams.get("division") || "all";
     const rank = searchParams.get("rank") || "all";
     const unit = searchParams.get("unit") || "all";
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
@@ -30,8 +31,12 @@ export async function GET(request: Request) {
       allCadets = allCadets.filter((c) => c.status === status);
     }
 
-    if (wing !== "all") {
-      allCadets = allCadets.filter((c) => c.wing === wing);
+    if (trainingYear !== "all") {
+      allCadets = allCadets.filter((c) => c.trainingYear === trainingYear);
+    }
+
+    if (division !== "all") {
+      allCadets = allCadets.filter((c) => c.division === division);
     }
 
     if (rank !== "all") {

@@ -54,7 +54,8 @@ export function AdminImportExportView() {
   // ==========================================
   const [exportFields, setExportFields] = useState<ExportFieldOption[]>([]);
   const [selectedFieldIds, setSelectedFieldIds] = useState<string[]>([]);
-  const [exportWing, setExportWing] = useState("all");
+  const [exportYear, setExportYear] = useState("all");
+  const [exportDivision, setExportDivision] = useState("all");
   const [exportStatus, setExportStatus] = useState("all");
   const [exportSearch, setExportSearch] = useState("");
   const [isExporting, setIsExporting] = useState(false);
@@ -123,7 +124,13 @@ export function AdminImportExportView() {
     if (!onboardingRows) return;
     const validCadets = onboardingRows
       .filter((r) => r.isValid)
-      .map((r) => ({ name: r.name, email: r.email, phone: r.phone }));
+      .map((r) => ({
+        name: r.name,
+        email: r.email,
+        phone: r.phone,
+        trainingYear: r.trainingYear,
+        division: r.division,
+      }));
 
     if (validCadets.length === 0) return;
 
@@ -275,7 +282,8 @@ export function AdminImportExportView() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           selectedFieldIds,
-          wing: exportWing !== "all" ? exportWing : undefined,
+          trainingYear: exportYear !== "all" ? exportYear : undefined,
+          division: exportDivision !== "all" ? exportDivision : undefined,
           status: exportStatus !== "all" ? exportStatus : undefined,
           search: exportSearch.trim() || undefined,
         }),
@@ -381,7 +389,7 @@ export function AdminImportExportView() {
                     Initial Cadet Account Ingestion
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Upload an Excel file with columns <code>Name | Email | Phone</code> to provision cadet accounts.
+                    Upload an Excel file with columns <code>Name | Email | Phone | Training Year | Division</code> to provision cadet accounts.
                   </CardDescription>
                 </div>
                 <a href="/api/admin/excel/templates?type=onboarding" download>
@@ -493,6 +501,8 @@ export function AdminImportExportView() {
                             <th className="px-4 py-2.5">Name</th>
                             <th className="px-4 py-2.5">Email</th>
                             <th className="px-4 py-2.5">Phone</th>
+                            <th className="px-4 py-2.5">Year</th>
+                            <th className="px-4 py-2.5">Division</th>
                             <th className="px-4 py-2.5">Status</th>
                             <th className="px-4 py-2.5">Validation Details</th>
                           </tr>
@@ -512,6 +522,12 @@ export function AdminImportExportView() {
                               </td>
                               <td className="px-4 py-2 text-slate-600 font-mono text-[11px]">
                                 {row.phone}
+                              </td>
+                              <td className="px-4 py-2 font-medium text-slate-700">
+                                {row.trainingYear || "-"}
+                              </td>
+                              <td className="px-4 py-2 font-medium text-slate-700">
+                                {row.division || "-"}
                               </td>
                               <td className="px-4 py-2">
                                 <Badge variant={row.isValid ? "success" : "danger"} size="sm">
@@ -780,20 +796,35 @@ export function AdminImportExportView() {
               )}
 
               {/* Filters Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Wing Filter
+                    Training Year
                   </label>
                   <select
-                    value={exportWing}
-                    onChange={(e) => setExportWing(e.target.value)}
+                    value={exportYear}
+                    onChange={(e) => setExportYear(e.target.value)}
                     className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
                   >
-                    <option value="all">All Service Wings</option>
-                    <option value="Army">Army Wing</option>
-                    <option value="Navy">Navy Wing</option>
-                    <option value="Air">Air Wing</option>
+                    <option value="all">All Training Years</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Division
+                  </label>
+                  <select
+                    value={exportDivision}
+                    onChange={(e) => setExportDivision(e.target.value)}
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
+                  >
+                    <option value="all">All Divisions (SD / SW)</option>
+                    <option value="SD">SD (Senior Division - Male)</option>
+                    <option value="SW">SW (Senior Wing - Female)</option>
                   </select>
                 </div>
 

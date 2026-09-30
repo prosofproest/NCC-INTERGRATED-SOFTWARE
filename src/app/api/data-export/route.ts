@@ -33,10 +33,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { selectedFieldIds, wing, status, rank, search } = parseResult.data;
+    const { selectedFieldIds, trainingYear, division, wing, status, rank, search } = parseResult.data;
 
     // 1. Build Firestore Query
     let query: FirebaseFirestore.Query = adminDb.collection("cadets");
+
+    if (trainingYear && trainingYear !== "all") {
+      query = query.where("trainingYear", "==", trainingYear);
+    }
+
+    if (division && division !== "all") {
+      query = query.where("division", "==", division);
+    }
 
     if (wing && wing !== "all") {
       query = query.where("wing", "==", wing);

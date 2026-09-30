@@ -66,7 +66,19 @@ export async function generateCadetExportWorkbook(
       id: "core_wing",
       header: "Wing",
       width: 14,
-      getValue: (c) => c.wing,
+      getValue: (c) => c.wing || "Air",
+    },
+    core_trainingYear: {
+      id: "core_trainingYear",
+      header: "Training Year",
+      width: 16,
+      getValue: (c) => c.trainingYear || "1st Year",
+    },
+    core_division: {
+      id: "core_division",
+      header: "Division",
+      width: 14,
+      getValue: (c) => c.division || "SD",
     },
     core_unit: {
       id: "core_unit",

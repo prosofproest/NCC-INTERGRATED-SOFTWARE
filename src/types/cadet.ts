@@ -1,6 +1,9 @@
 export type CadetStatus = "active" | "passed_out" | "inactive" | "suspended";
 
-export type CadetWing = "Army" | "Navy" | "Air";
+export type CadetWing = "Air";
+
+export type CadetTrainingYear = "1st Year" | "2nd Year" | "3rd Year";
+export type CadetDivision = "SD" | "SW";
 
 export interface CadetRecord {
   cadetId: string; // Permanent primary key (e.g. CADET_0001)
@@ -11,6 +14,8 @@ export interface CadetRecord {
   rank: string; // e.g. "Cadet", "Corporal", "Sergeant", "CSUO"
   unit: string; // e.g. "1 Kar Air Sqn NCC"
   wing: CadetWing;
+  trainingYear: CadetTrainingYear;
+  division: CadetDivision;
   status: CadetStatus;
   driveFolderId: string | null; // e.g. "1A2B3C..." Google Shared Drive folder ID
   driveFolderName?: string; // "[CADET_0001] John Doe"
@@ -28,6 +33,8 @@ export interface CadetSummary {
   rank: string;
   unit: string;
   wing: CadetWing;
+  trainingYear: CadetTrainingYear;
+  division: CadetDivision;
   status: CadetStatus;
   completionPercentage: number;
 }

@@ -18,6 +18,11 @@ export default async function AdminDashboardPage() {
   let totalCategories = 0;
   let totalFields = 0;
   let pendingChangeRequests = 0;
+  let firstYearCount = 0;
+  let secondYearCount = 0;
+  let thirdYearCount = 0;
+  let sdCount = 0;
+  let swCount = 0;
   let recentCadets: CadetRecord[] = [];
 
   try {
@@ -29,6 +34,11 @@ export default async function AdminDashboardPage() {
       fieldsSnap,
       pendingChangeRequestsSnap,
       recentCadetsSnap,
+      firstYearSnap,
+      secondYearSnap,
+      thirdYearSnap,
+      sdSnap,
+      swSnap,
     ] = await Promise.all([
       adminDb.collection("cadets").count().get(),
       adminDb.collection("cadets").where("status", "==", "active").count().get(),
@@ -37,6 +47,11 @@ export default async function AdminDashboardPage() {
       adminDb.collection("fields").count().get(),
       adminDb.collection("change_requests").where("status", "==", "pending").count().get(),
       adminDb.collection("cadets").limit(5).get(),
+      adminDb.collection("cadets").where("trainingYear", "==", "1st Year").count().get(),
+      adminDb.collection("cadets").where("trainingYear", "==", "2nd Year").count().get(),
+      adminDb.collection("cadets").where("trainingYear", "==", "3rd Year").count().get(),
+      adminDb.collection("cadets").where("division", "==", "SD").count().get(),
+      adminDb.collection("cadets").where("division", "==", "SW").count().get(),
     ]);
 
     totalCadets = totalCadetsSnap.data().count;
@@ -46,6 +61,11 @@ export default async function AdminDashboardPage() {
     totalCategories = categoriesSnap.data().count;
     totalFields = fieldsSnap.data().count;
     pendingChangeRequests = pendingChangeRequestsSnap.data().count;
+    firstYearCount = firstYearSnap.data().count;
+    secondYearCount = secondYearSnap.data().count;
+    thirdYearCount = thirdYearSnap.data().count;
+    sdCount = sdSnap.data().count;
+    swCount = swSnap.data().count;
 
     recentCadets = recentCadetsSnap.docs.map((doc) => doc.data() as CadetRecord);
   } catch (error) {
@@ -242,6 +262,99 @@ export default async function AdminDashboardPage() {
         </Card>
       </div>
 
+      {/* Regimental Breakdown Grid: Training Year & Division (Air Wing Only) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Training Year Breakdown */}
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-base font-bold">Air Wing Cadets by Training Year</CardTitle>
+                <CardDescription className="text-xs">
+                  Cadet strength segregated by progressive training syllabus.
+                </CardDescription>
+              </div>
+              <Badge variant="air" size="sm">
+                Air Wing Unit
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="p-3.5 rounded-2xl bg-sky-50/70 border border-sky-200/60">
+                <span className="text-[11px] font-semibold uppercase text-sky-800 tracking-wider">
+                  1st Year
+                </span>
+                <div className="text-2xl font-bold text-sky-950 mt-1">
+                  {firstYearCount}
+                </div>
+                <p className="text-[10px] text-sky-700/80 mt-0.5">Fresh Entrants</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/60">
+                <span className="text-[11px] font-semibold uppercase text-indigo-800 tracking-wider">
+                  2nd Year
+                </span>
+                <div className="text-2xl font-bold text-indigo-950 mt-1">
+                  {secondYearCount}
+                </div>
+                <p className="text-[10px] text-indigo-700/80 mt-0.5">Intermediate</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 border border-purple-200/60">
+                <span className="text-[11px] font-semibold uppercase text-purple-800 tracking-wider">
+                  3rd Year
+                </span>
+                <div className="text-2xl font-bold text-purple-950 mt-1">
+                  {thirdYearCount}
+                </div>
+                <p className="text-[10px] text-purple-700/80 mt-0.5">Senior Cadets</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Division Breakdown (SD / SW) */}
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-base font-bold">Cadets by NCC Division</CardTitle>
+                <CardDescription className="text-xs">
+                  Segregation across Senior Division (SD) and Senior Wing (SW).
+                </CardDescription>
+              </div>
+              <Badge variant="outline" size="sm">
+                SD / SW
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-3 text-center">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <div className="flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase text-slate-700 tracking-wider">
+                  <span>Senior Division (SD)</span>
+                </div>
+                <div className="text-2xl font-bold text-slate-900 mt-1">
+                  {sdCount}
+                </div>
+                <p className="text-[10px] text-slate-500 mt-0.5">Male Cadets</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <div className="flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase text-slate-700 tracking-wider">
+                  <span>Senior Wing (SW)</span>
+                </div>
+                <div className="text-2xl font-bold text-slate-900 mt-1">
+                  {swCount}
+                </div>
+                <p className="text-[10px] text-slate-500 mt-0.5">Female Cadets</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Quick Navigation Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link href="/admin/cadets" className="group">
@@ -259,7 +372,7 @@ export default async function AdminDashboardPage() {
               </div>
               <CardTitle className="mt-4 text-base font-bold">Cadets Directory</CardTitle>
               <CardDescription>
-                Search, filter, and review cadet master records across Army, Navy, and Air Wings with direct field editing privileges.
+                Search, filter, and edit enrolled Air Wing cadets by training year, division (SD/SW), and account status.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -278,9 +391,9 @@ export default async function AdminDashboardPage() {
                   Configure Schema &rarr;
                 </span>
               </div>
-              <CardTitle className="mt-4 text-base font-bold">Data Structure Management</CardTitle>
+              <CardTitle className="mt-4 text-base font-bold">Data Structure</CardTitle>
               <CardDescription>
-                Define categories, dynamic profile fields, validation constraints, and granular visibility rules for Cadet and CTO portals.
+                Create and manage categories, dynamic custom fields, and access permissions for Cadet and CTO portals.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -306,9 +419,9 @@ export default async function AdminDashboardPage() {
                   </span>
                 </div>
               </div>
-              <CardTitle className="mt-4 text-base font-bold">Change Requests Review</CardTitle>
+              <CardTitle className="mt-4 text-base font-bold">Change Requests</CardTitle>
               <CardDescription>
-                Adjudicate profile modification requests submitted by cadets for protected regimental attributes with transaction-safe updates.
+                Review and approve cadet requests to update protected profile information with full audit tracking.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -321,21 +434,41 @@ export default async function AdminDashboardPage() {
           <div>
             <CardTitle>Recent Cadets Overview</CardTitle>
             <CardDescription>
-              Showing the latest enrolled master cadet records in the system.
+              Showing the latest enrolled Air Wing cadet records in your squadron.
             </CardDescription>
           </div>
-          <Link
-            href="/admin/cadets"
-            className="text-xs font-semibold text-slate-700 hover:text-slate-900 underline underline-offset-4"
-          >
-            View all {totalCadets} cadets &rarr;
-          </Link>
+          {totalCadets > 0 && (
+            <Link
+              href="/admin/cadets"
+              className="text-xs font-semibold text-slate-700 hover:text-slate-900 underline underline-offset-4"
+            >
+              View all {totalCadets} cadets &rarr;
+            </Link>
+          )}
         </CardHeader>
 
         <CardContent className="p-0">
           {recentCadets.length === 0 ? (
-            <div className="p-8 text-center text-slate-500 text-sm">
-              No cadet records found in the database.
+            <div className="p-12 text-center space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-bold text-slate-900">No Cadets Enrolled Yet</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Get started by importing your Air Wing squadron cadets using the standardized Excel template with Year and Division tagging.
+                </p>
+              </div>
+              <Link href="/admin/import-export">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0071E3] text-white hover:bg-[#0077ED] transition shadow-xs cursor-pointer"
+                >
+                  Import Your First Cadets &rarr;
+                </button>
+              </Link>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -345,7 +478,8 @@ export default async function AdminDashboardPage() {
                     <th className="px-6 py-3.5">Cadet ID</th>
                     <th className="px-6 py-3.5">Name</th>
                     <th className="px-6 py-3.5">Enrollment No</th>
-                    <th className="px-6 py-3.5">Rank &amp; Wing</th>
+                    <th className="px-6 py-3.5">Year &amp; Div</th>
+                    <th className="px-6 py-3.5">Rank</th>
                     <th className="px-6 py-3.5">Status</th>
                     <th className="px-6 py-3.5">Completion</th>
                     <th className="px-6 py-3.5 text-right">Action</th>
@@ -353,12 +487,6 @@ export default async function AdminDashboardPage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-slate-700">
                   {recentCadets.map((cadet) => {
-                    const wingVariant =
-                      cadet.wing === "Army"
-                        ? "army"
-                        : cadet.wing === "Navy"
-                        ? "navy"
-                        : "air";
                     const statusVariant =
                       cadet.status === "active"
                         ? "success"
@@ -381,12 +509,17 @@ export default async function AdminDashboardPage() {
                           {cadet.enrollmentNo || "Pending"}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium">{cadet.rank}</span>
-                            <Badge variant={wingVariant} size="sm">
-                              {cadet.wing}
+                          <div className="flex items-center gap-1.5">
+                            <Badge variant="outline" size="sm">
+                              {cadet.trainingYear || "1st Year"}
+                            </Badge>
+                            <Badge variant="outline" size="sm">
+                              {cadet.division || "SD"}
                             </Badge>
                           </div>
+                        </td>
+                        <td className="px-6 py-4 text-xs font-medium text-slate-700">
+                          {cadet.rank}
                         </td>
                         <td className="px-6 py-4">
                           <Badge variant={statusVariant} size="sm">

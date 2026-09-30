@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const CadetStatusSchema = z.enum(["active", "passed_out", "inactive", "suspended"]);
-export const CadetWingSchema = z.enum(["Army", "Navy", "Air"]);
+export const CadetWingSchema = z.enum(["Air"]);
+export const CadetTrainingYearSchema = z.enum(["1st Year", "2nd Year", "3rd Year"]);
+export const CadetDivisionSchema = z.enum(["SD", "SW"]);
 
 export const CadetRecordSchema = z.object({
   cadetId: z.string().regex(/^CADET_\d{4,}$/, "Invalid Cadet ID format"),
@@ -11,7 +13,9 @@ export const CadetRecordSchema = z.object({
   enrollmentNo: z.string().nullable().optional(),
   rank: z.string().min(1, "Rank is required"),
   unit: z.string().min(1, "Unit is required"),
-  wing: CadetWingSchema,
+  wing: CadetWingSchema.default("Air"),
+  trainingYear: CadetTrainingYearSchema.default("1st Year"),
+  division: CadetDivisionSchema.default("SD"),
   status: CadetStatusSchema.default("active"),
   driveFolderId: z.string().nullable().optional(),
   driveFolderName: z.string().optional(),
@@ -27,7 +31,9 @@ export const CreateCadetInputSchema = z.object({
   enrollmentNo: z.string().nullable().optional(),
   rank: z.string().default("Cadet"),
   unit: z.string().min(1, "Unit is required"),
-  wing: CadetWingSchema,
+  wing: CadetWingSchema.default("Air"),
+  trainingYear: CadetTrainingYearSchema.default("1st Year"),
+  division: CadetDivisionSchema.default("SD"),
   status: CadetStatusSchema.default("active"),
   dynamicData: z.record(z.string(), z.unknown()).optional(),
 });
@@ -38,6 +44,8 @@ export const UpdateCadetInputSchema = z.object({
   rank: z.string().optional(),
   unit: z.string().optional(),
   wing: CadetWingSchema.optional(),
+  trainingYear: CadetTrainingYearSchema.optional(),
+  division: CadetDivisionSchema.optional(),
   status: CadetStatusSchema.optional(),
   dynamicData: z.record(z.string(), z.unknown()).optional(),
 });

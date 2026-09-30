@@ -87,7 +87,15 @@ export async function PUT(request: Request, { params }: RouteParams) {
         : existingCadet.enrollmentNo;
     const rank = typeof body.rank === "string" ? body.rank.trim() : existingCadet.rank;
     const unit = typeof body.unit === "string" ? body.unit.trim() : existingCadet.unit;
-    const wing = body.wing && ["Army", "Navy", "Air"].includes(body.wing) ? body.wing : existingCadet.wing;
+    const wing = "Air";
+    const trainingYear =
+      body.trainingYear && ["1st Year", "2nd Year", "3rd Year"].includes(body.trainingYear)
+        ? body.trainingYear
+        : existingCadet.trainingYear || "1st Year";
+    const division =
+      body.division && ["SD", "SW"].includes(body.division)
+        ? body.division
+        : existingCadet.division || "SD";
     const status =
       body.status && ["active", "inactive", "suspended", "passed_out"].includes(body.status)
         ? body.status
@@ -103,13 +111,15 @@ export async function PUT(request: Request, { params }: RouteParams) {
     const activeFields = fieldsSnap.docs.map((d) => d.data() as FieldDefinition);
 
     const requiredActiveFields = activeFields.filter((f) => f.validation?.required);
-    const totalRequiredCount = 4 + requiredActiveFields.length; // core: fullName, rank, unit, wing
+    const totalRequiredCount = 6 + requiredActiveFields.length; // core: fullName, rank, unit, wing, trainingYear, division
 
     let filledCount = 0;
     if (fullName) filledCount++;
     if (rank) filledCount++;
     if (unit) filledCount++;
     if (wing) filledCount++;
+    if (trainingYear) filledCount++;
+    if (division) filledCount++;
 
     for (const field of requiredActiveFields) {
       const val = dynamicData[field.fieldId];
@@ -128,6 +138,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
       rank,
       unit,
       wing,
+      trainingYear,
+      division,
       status,
       dynamicData,
       completionPercentage,
@@ -136,7 +148,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
     await cadetRef.set(updatedCadet);
 
-    // Audit Log Entry (§ Stage 5 & 6)
+    // Audit Log Entry
     await logAuditEvent({
       actorId: session.uid,
       actorEmail: session.email,
@@ -150,6 +162,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
         rank: existingCadet.rank,
         unit: existingCadet.unit,
         wing: existingCadet.wing,
+        trainingYear: existingCadet.trainingYear,
+        division: existingCadet.division,
         status: existingCadet.status,
         dynamicData: existingCadet.dynamicData,
       },
@@ -159,6 +173,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
         rank: updatedCadet.rank,
         unit: updatedCadet.unit,
         wing: updatedCadet.wing,
+        trainingYear: updatedCadet.trainingYear,
+        division: updatedCadet.division,
         status: updatedCadet.status,
         dynamicData: updatedCadet.dynamicData,
       },

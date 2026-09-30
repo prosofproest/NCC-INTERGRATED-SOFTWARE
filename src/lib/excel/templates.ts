@@ -18,6 +18,8 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
     { header: "Name", key: "name", width: 32 },
     { header: "Email", key: "email", width: 38 },
     { header: "Phone", key: "phone", width: 22 },
+    { header: "Training Year", key: "trainingYear", width: 20 },
+    { header: "Division", key: "division", width: 16 },
   ];
 
   // Header Style
@@ -49,11 +51,15 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
     name: "Aarav Sharma",
     email: "aarav.sharma@example.com",
     phone: "9876543210",
+    trainingYear: "1st Year",
+    division: "SD",
   });
   sheet.addRow({
     name: "Priya Patel",
     email: "priya.patel@example.com",
     phone: "9812345678",
+    trainingYear: "2nd Year",
+    division: "SW",
   });
 
   // Style data rows
@@ -111,9 +117,19 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
     spec: "10-digit Indian mobile number (e.g. 9876543210). Optional +91 prefix accepted.",
   });
   infoSheet.addRow({
+    field: "Training Year",
+    requirement: "Mandatory",
+    spec: "Cadet training year. Accepted values: '1st Year', '2nd Year', or '3rd Year'.",
+  });
+  infoSheet.addRow({
+    field: "Division",
+    requirement: "Mandatory",
+    spec: "NCC wing division. Accepted values: 'SD' (Senior Division / male) or 'SW' (Senior Wing / female).",
+  });
+  infoSheet.addRow({
     field: "Security Note",
     requirement: "System Policy",
-    spec: "Cadets will receive a secure activation link via email to establish their permanent password upon onboarding.",
+    spec: "Cadets will receive a secure activation link via email to establish their permanent password upon onboarding. System is strictly dedicated to Air Wing NCC.",
   });
 
   const buffer = await workbook.xlsx.writeBuffer();

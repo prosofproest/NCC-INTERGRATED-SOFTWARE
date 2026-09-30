@@ -19,7 +19,8 @@ export default function AdminCadetsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [wingFilter, setWingFilter] = useState("all");
+  const [yearFilter, setYearFilter] = useState("all");
+  const [divisionFilter, setDivisionFilter] = useState("all");
 
   // Debounce search input
   useEffect(() => {
@@ -30,14 +31,15 @@ export default function AdminCadetsPage() {
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const fetchCadetsData = useCallback(async (p: number, s: string, status: string, wing: string) => {
+  const fetchCadetsData = useCallback(async (p: number, s: string, status: string, year: string, div: string) => {
     try {
       const params = new URLSearchParams({
         page: String(p),
         limit: "10",
         search: s,
         status: status,
-        wing: wing,
+        trainingYear: year,
+        division: div,
       });
 
       const res = await fetch(`/api/admin/cadets?${params.toString()}`);
@@ -60,7 +62,7 @@ export default function AdminCadetsPage() {
   useEffect(() => {
     let ignore = false;
 
-    fetchCadetsData(page, debouncedSearch, statusFilter, wingFilter)
+    fetchCadetsData(page, debouncedSearch, statusFilter, yearFilter, divisionFilter)
       .then((data) => {
         if (!ignore) {
           setCadets(data.cadets);
@@ -80,20 +82,9 @@ export default function AdminCadetsPage() {
     return () => {
       ignore = true;
     };
-  }, [page, debouncedSearch, statusFilter, wingFilter, fetchCadetsData]);
+  }, [page, debouncedSearch, statusFilter, yearFilter, divisionFilter, fetchCadetsData]);
 
-  const getWingVariant = (wing: string): BadgeVariant => {
-    switch (wing) {
-      case "Army":
-        return "army";
-      case "Navy":
-        return "navy";
-      case "Air":
-        return "air";
-      default:
-        return "default";
-    }
-  };
+
 
   const getStatusVariant = (status: string): BadgeVariant => {
     switch (status) {
@@ -132,7 +123,7 @@ export default function AdminCadetsPage() {
         <CardContent className="p-4 sm:p-5">
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
             {/* Search Input */}
-            <div className="sm:col-span-6 relative">
+            <div className="sm:col-span-5 relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -163,7 +154,7 @@ export default function AdminCadetsPage() {
             </div>
 
             {/* Status Filter */}
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-2">
               <select
                 value={statusFilter}
                 onChange={(e) => {
@@ -180,20 +171,36 @@ export default function AdminCadetsPage() {
               </select>
             </div>
 
-            {/* Wing Filter */}
+            {/* Training Year Filter */}
             <div className="sm:col-span-3">
               <select
-                value={wingFilter}
+                value={yearFilter}
                 onChange={(e) => {
-                  setWingFilter(e.target.value);
+                  setYearFilter(e.target.value);
                   setPage(1);
                 }}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
               >
-                <option value="all">All Wings</option>
-                <option value="Army">Army Wing</option>
-                <option value="Navy">Navy Wing</option>
-                <option value="Air">Air Wing</option>
+                <option value="all">All Training Years</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+              </select>
+            </div>
+
+            {/* Division Filter */}
+            <div className="sm:col-span-2">
+              <select
+                value={divisionFilter}
+                onChange={(e) => {
+                  setDivisionFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
+              >
+                <option value="all">All Divisions</option>
+                <option value="SD">SD (Senior Div)</option>
+                <option value="SW">SW (Senior Wing)</option>
               </select>
             </div>
           </div>
@@ -229,28 +236,47 @@ export default function AdminCadetsPage() {
         </Card>
       ) : cadets.length === 0 ? (
         <Card>
-          <div className="p-12 text-center text-slate-500 space-y-3">
-            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+          <div className="p-12 text-center text-slate-500 space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto text-blue-600">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             </div>
-            <h3 className="text-sm font-semibold text-slate-900">No Cadets Found</h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              No cadet records match your current filter or search criteria. Try modifying your search query or reset filters.
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setSearchTerm("");
-                setStatusFilter("all");
-                setWingFilter("all");
-                setPage(1);
-              }}
-            >
-              Reset Filters
-            </Button>
+            {searchTerm || statusFilter !== "all" || yearFilter !== "all" || divisionFilter !== "all" ? (
+              <>
+                <h3 className="text-sm font-semibold text-slate-900">No Cadets Found</h3>
+                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                  No cadet records match your current filter or search criteria. Try modifying your search query or reset filters.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setStatusFilter("all");
+                    setYearFilter("all");
+                    setDivisionFilter("all");
+                    setPage(1);
+                  }}
+                >
+                  Reset Filters
+                </Button>
+              </>
+            ) : (
+              <>
+                <h3 className="text-base font-semibold text-slate-900">No Cadets Enrolled Yet</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Get started by onboarding your Air Wing cadets via Excel spreadsheet or manual entry.
+                </p>
+                <div className="pt-2">
+                  <Link href="/admin/import-export">
+                    <Button variant="primary" size="sm" className="bg-[#0071E3] hover:bg-[#0077ED] text-white">
+                      Import Your First Cadets &rarr;
+                    </Button>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </Card>
       ) : (
@@ -265,7 +291,8 @@ export default function AdminCadetsPage() {
                       <th className="px-6 py-3.5">Cadet ID</th>
                       <th className="px-6 py-3.5">Name &amp; Email</th>
                       <th className="px-6 py-3.5">Enrollment No</th>
-                      <th className="px-6 py-3.5">Rank &amp; Wing</th>
+                      <th className="px-6 py-3.5">Rank</th>
+                      <th className="px-6 py-3.5">Year &amp; Div</th>
                       <th className="px-6 py-3.5">Unit</th>
                       <th className="px-6 py-3.5">Status</th>
                       <th className="px-6 py-3.5">Profile %</th>
@@ -295,13 +322,18 @@ export default function AdminCadetsPage() {
                           )}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-slate-800">
-                              {cadet.rank}
+                          <span className="text-xs font-medium text-slate-800">
+                            {cadet.rank}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                              {cadet.trainingYear || "1st Year"}
                             </span>
-                            <Badge variant={getWingVariant(cadet.wing)} size="sm">
-                              {cadet.wing}
-                            </Badge>
+                            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
+                              {cadet.division || "SD"}
+                            </span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-xs text-slate-600">
@@ -361,9 +393,12 @@ export default function AdminCadetsPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 text-xs pt-1 border-t border-slate-100">
-                  <Badge variant={getWingVariant(cadet.wing)} size="sm">
-                    {cadet.wing}
-                  </Badge>
+                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                    {cadet.trainingYear || "1st Year"}
+                  </span>
+                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
+                    {cadet.division || "SD"}
+                  </span>
                   <span className="text-slate-600 font-medium">
                     {cadet.rank}
                   </span>

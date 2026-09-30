@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge, type BadgeVariant } from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/Badge";
 import type { CategoryDefinition, FieldDefinition } from "@/types/fields";
 import type { CadetSummary } from "@/types/cadet";
 
@@ -33,7 +33,8 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
 
   // Cadets Filter
   const [cadetSearch, setCadetSearch] = useState("");
-  const [cadetWingFilter, setCadetWingFilter] = useState<string>("all");
+  const [cadetYearFilter, setCadetYearFilter] = useState<string>("all");
+  const [cadetDivisionFilter, setCadetDivisionFilter] = useState<string>("all");
 
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,7 +65,10 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
 
   // Filtered Cadets for Specific selection
   const filteredCadets = cadets.filter((c) => {
-    if (cadetWingFilter !== "all" && c.wing !== cadetWingFilter) {
+    if (cadetYearFilter !== "all" && c.trainingYear !== cadetYearFilter) {
+      return false;
+    }
+    if (cadetDivisionFilter !== "all" && c.division !== cadetDivisionFilter) {
       return false;
     }
     if (cadetSearch.trim()) {
@@ -162,11 +166,7 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
     }
   };
 
-  const getWingBadgeVariant = (wing: string): BadgeVariant => {
-    if (wing === "Army") return "army";
-    if (wing === "Navy") return "navy";
-    return "air";
-  };
+
 
   if (isLoadingOptions) {
     return (
@@ -188,9 +188,6 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Create Data Request
             </h1>
-            <Badge variant="primary" size="sm">
-              Stage 9
-            </Badge>
             <Badge variant={userRole === "admin" ? "default" : "warning"} size="sm">
               {userRole === "admin" ? "Admin Authoring" : "Officer Authoring"}
             </Badge>
@@ -329,14 +326,23 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                   className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
                 />
                 <select
-                  value={cadetWingFilter}
-                  onChange={(e) => setCadetWingFilter(e.target.value)}
+                  value={cadetYearFilter}
+                  onChange={(e) => setCadetYearFilter(e.target.value)}
                   className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
                 >
-                  <option value="all">All Wings</option>
-                  <option value="Army">Army Wing</option>
-                  <option value="Navy">Navy Wing</option>
-                  <option value="Air">Air Wing</option>
+                  <option value="all">All Training Years</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                </select>
+                <select
+                  value={cadetDivisionFilter}
+                  onChange={(e) => setCadetDivisionFilter(e.target.value)}
+                  className="px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white"
+                >
+                  <option value="all">All Divisions</option>
+                  <option value="SD">SD (Senior Division)</option>
+                  <option value="SW">SW (Senior Wing)</option>
                 </select>
                 <div className="flex items-center gap-1.5">
                   <Button
@@ -392,9 +398,14 @@ export function CreateDataRequestForm({ basePath, userRole }: CreateDataRequestF
                             </div>
                           </div>
                         </div>
-                        <Badge variant={getWingBadgeVariant(cadet.wing)} size="sm">
-                          {cadet.wing}
-                        </Badge>
+                        <div className="flex items-center gap-1.5">
+                          <Badge variant="outline" size="sm">
+                            {cadet.trainingYear || "1st Year"}
+                          </Badge>
+                          <Badge variant="outline" size="sm">
+                            {cadet.division || "SD"}
+                          </Badge>
+                        </div>
                       </label>
                     );
                   })

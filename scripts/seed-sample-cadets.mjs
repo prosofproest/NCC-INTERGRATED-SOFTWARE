@@ -15,7 +15,7 @@ const db = getFirestore(app);
 
 async function seedData() {
   console.log("==================================================");
-  console.log("🌱 SEEDING TEST DATA FOR STAGE 6: ADMIN FOUNDATION");
+  console.log("🌱 SEEDING TEST DATA FOR ADMIN FOUNDATION");
   console.log("==================================================");
 
   const timestamp = new Date().toISOString();
@@ -188,6 +188,8 @@ async function seedData() {
       rank: "Cadet",
       unit: "1 Kar Air Sqn NCC",
       wing: "Air",
+      trainingYear: "1st Year",
+      division: "SD",
       status: "active",
       driveFolderId: null,
       completionPercentage: 88,
@@ -211,8 +213,10 @@ async function seedData() {
       fullName: "Cpl. Priya Patel",
       enrollmentNo: "KA23SWA100205",
       rank: "Corporal",
-      unit: "2 Kar Bn NCC",
-      wing: "Army",
+      unit: "1 Kar Air Sqn NCC",
+      wing: "Air",
+      trainingYear: "2nd Year",
+      division: "SW",
       status: "active",
       driveFolderId: null,
       completionPercentage: 94,
@@ -236,8 +240,10 @@ async function seedData() {
       fullName: "Sgt. Rohan Verma",
       enrollmentNo: null, // Pending regimental code
       rank: "Sergeant",
-      unit: "1 Kar Naval Unit",
-      wing: "Navy",
+      unit: "1 Kar Air Sqn NCC",
+      wing: "Air",
+      trainingYear: "3rd Year",
+      division: "SD",
       status: "inactive",
       driveFolderId: null,
       completionPercentage: 55,

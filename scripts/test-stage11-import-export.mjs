@@ -83,10 +83,16 @@ async function runTests() {
       cadetsSheet.getCell("A1").value,
       cadetsSheet.getCell("B1").value,
       cadetsSheet.getCell("C1").value,
+      cadetsSheet.getCell("D1").value,
+      cadetsSheet.getCell("E1").value,
     ];
     assert(
-      headers[0] === "Name" && headers[1] === "Email" && headers[2] === "Phone",
-      "Headers match required schema: Name | Email | Phone"
+      headers[0] === "Name" &&
+        headers[1] === "Email" &&
+        headers[2] === "Phone" &&
+        headers[3] === "Training Year" &&
+        headers[4] === "Division",
+      "Headers match required schema: Name | Email | Phone | Training Year | Division"
     );
 
     // Verify Enrollment Template
@@ -113,11 +119,11 @@ async function runTests() {
     // Row 5: Duplicate email in same batch
     const testWb = new ExcelJS.Workbook();
     const testSheet = testWb.addWorksheet("Cadets");
-    testSheet.addRow(["Name", "Email", "Phone"]);
-    testSheet.addRow(["Valid Cadet", "valid.cadet.test@example.com", "9876543210"]);
-    testSheet.addRow(["Bad Email Cadet", "not-an-email", "9876543211"]);
-    testSheet.addRow(["Bad Phone Cadet", "badphone@example.com", "12345"]);
-    testSheet.addRow(["Duplicate Cadet", "valid.cadet.test@example.com", "9876543212"]); // Dup of Row 2
+    testSheet.addRow(["Name", "Email", "Phone", "Training Year", "Division"]);
+    testSheet.addRow(["Valid Cadet", "valid.cadet.test@example.com", "9876543210", "1st Year", "SD"]);
+    testSheet.addRow(["Bad Email Cadet", "not-an-email", "9876543211", "1st Year", "SD"]);
+    testSheet.addRow(["Bad Phone Cadet", "badphone@example.com", "12345", "2nd Year", "SW"]);
+    testSheet.addRow(["Duplicate Cadet", "valid.cadet.test@example.com", "9876543212", "1st Year", "SD"]); // Dup of Row 2
 
     const testBuf = Buffer.from(await testWb.xlsx.writeBuffer());
     const parseResult = await parseCadetOnboardingFile(testBuf);
@@ -159,8 +165,10 @@ async function runTests() {
       email: EXISTING_EMAIL,
       fullName: "Pre-existing Cadet",
       rank: "Cadet",
-      wing: "Army",
-      unit: "1 Kar Bn NCC",
+      wing: "Air",
+      unit: "1 Kar Air Sqn NCC",
+      trainingYear: "1st Year",
+      division: "SD",
       status: "active",
       dynamicData: {},
       completionPercentage: 50,
@@ -172,8 +180,8 @@ async function runTests() {
     // Now test a workbook containing this email
     const dbDupWb = new ExcelJS.Workbook();
     const dbDupSheet = dbDupWb.addWorksheet("Cadets");
-    dbDupSheet.addRow(["Name", "Email", "Phone"]);
-    dbDupSheet.addRow(["Colliding Cadet", EXISTING_EMAIL, "9876543210"]);
+    dbDupSheet.addRow(["Name", "Email", "Phone", "Training Year", "Division"]);
+    dbDupSheet.addRow(["Colliding Cadet", EXISTING_EMAIL, "9876543210", "1st Year", "SD"]);
 
     const dbDupBuf = Buffer.from(await dbDupWb.xlsx.writeBuffer());
     const dbDupResult = await parseCadetOnboardingFile(dbDupBuf);
@@ -201,8 +209,10 @@ async function runTests() {
       cadetId: CADET_A_ID,
       fullName: SHARED_NAME,
       rank: "Cadet",
-      wing: "Army",
-      unit: "1 Kar Bn NCC",
+      wing: "Air",
+      trainingYear: "1st Year",
+      division: "SD",
+      unit: "1 Kar Air Sqn NCC",
       enrollmentNo: null,
       status: "active",
       email: `cadetA_${Date.now()}@ncc.test`,
@@ -216,8 +226,10 @@ async function runTests() {
       cadetId: CADET_B_ID,
       fullName: SHARED_NAME,
       rank: "Corporal",
-      wing: "Navy",
-      unit: "1 Kar Naval Unit",
+      wing: "Air",
+      trainingYear: "2nd Year",
+      division: "SW",
+      unit: "1 Kar Air Sqn NCC",
       enrollmentNo: null,
       status: "active",
       email: `cadetB_${Date.now()}@ncc.test`,
@@ -256,7 +268,7 @@ async function runTests() {
       "matchedCadetId left null until manual administrative disambiguation"
     );
 
-    // Now simulate administrator resolving to CADET_B_ID (the Navy Corporal)
+    // Now simulate administrator resolving to CADET_B_ID (the Corporal)
     await db.collection("cadets").doc(CADET_B_ID).update({
       enrollmentNo: "KA24SDA999111",
       updatedAt: new Date().toISOString(),

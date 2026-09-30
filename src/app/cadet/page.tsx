@@ -153,12 +153,6 @@ export default async function CadetDashboardPage() {
     // Safe fallback
   }
 
-  const wingVariant: BadgeVariant =
-    cadet.wing === "Army"
-      ? "army"
-      : cadet.wing === "Navy"
-      ? "navy"
-      : "air";
 
   const statusVariant: BadgeVariant =
     cadet.status === "active"
@@ -185,8 +179,14 @@ export default async function CadetDashboardPage() {
             Welcome to your unified cadet portal. Manage your regimental details, review profile completion, and track official data requests.
           </p>
           <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-            <Badge variant={wingVariant} size="sm">
-              {cadet.wing} Wing
+            <Badge variant="air" size="sm">
+              Air Wing
+            </Badge>
+            <Badge variant="outline" size="sm">
+              {cadet.trainingYear || "1st Year"}
+            </Badge>
+            <Badge variant="outline" size="sm">
+              {cadet.division || "SD"}
             </Badge>
             <Badge variant={statusVariant} size="sm">
               {cadet.status}
@@ -296,7 +296,7 @@ export default async function CadetDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Active Data Requests (Stage 9 Placeholder) */}
+        {/* Active Data Requests */}
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -318,7 +318,7 @@ export default async function CadetDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Documents (Stage 12 Placeholder) */}
+        {/* Documents */}
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -335,7 +335,7 @@ export default async function CadetDashboardPage() {
               <span className="text-3xl font-bold tracking-tight text-slate-900">
                 0
               </span>
-              <p className="text-xs text-slate-500 mt-1">Attached certificates (Stage 12)</p>
+              <p className="text-xs text-slate-500 mt-1">Attached certificates &amp; records</p>
             </div>
           </CardContent>
         </Card>
@@ -374,13 +374,25 @@ export default async function CadetDashboardPage() {
             </div>
 
             <div className="space-y-1">
+              <span className="text-xs text-slate-500 font-medium">Training Year &amp; Division</span>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" size="sm">
+                  {cadet.trainingYear || "1st Year"}
+                </Badge>
+                <Badge variant="outline" size="sm">
+                  {cadet.division || "SD"} ({cadet.division === "SW" ? "Senior Wing" : "Senior Division"})
+                </Badge>
+              </div>
+            </div>
+
+            <div className="space-y-1">
               <span className="text-xs text-slate-500 font-medium">Rank &amp; Wing</span>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold text-slate-900">
                   {cadet.rank}
                 </span>
-                <Badge variant={wingVariant} size="sm">
-                  {cadet.wing}
+                <Badge variant="air" size="sm">
+                  Air Wing
                 </Badge>
               </div>
             </div>
@@ -468,12 +480,12 @@ export default async function CadetDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Notifications Placeholder (Stage 13) */}
+        {/* Notifications */}
         <Card className="h-full">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-semibold">Notifications</CardTitle>
-              <Badge variant="outline" size="sm">Stage 13</Badge>
+              <Badge variant="outline" size="sm">Alerts</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-2">

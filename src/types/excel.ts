@@ -1,5 +1,5 @@
 /**
- * Types for Stage 11: Excel Import and Export Operations (Spec Sections 16, 17, 18)
+ * Types for Excel Import and Export Operations (Spec Sections 16, 17, 18)
  */
 
 export interface CadetImportRow {
@@ -7,6 +7,8 @@ export interface CadetImportRow {
   name: string;
   email: string;
   phone: string;
+  trainingYear: "1st Year" | "2nd Year" | "3rd Year";
+  division: "SD" | "SW";
   isValid: boolean;
   errors: string[];
   isDuplicateInFile?: boolean;
@@ -57,6 +59,8 @@ export interface ExportFieldOption {
 }
 
 export interface ExportFilterOptions {
+  trainingYear?: string;
+  division?: string;
   wing?: string;
   status?: string;
   rank?: string;

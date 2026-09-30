@@ -41,6 +41,8 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
   let nameColIdx = -1;
   let emailColIdx = -1;
   let phoneColIdx = -1;
+  let yearColIdx = -1;
+  let divisionColIdx = -1;
 
   const headerRow = sheet.getRow(1);
   headerRow.eachCell((cell, colNumber) => {
@@ -51,14 +53,30 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
       emailColIdx = colNumber;
     } else if (header === "phone" || header === "phone number" || header === "mobile" || header === "mobile number") {
       phoneColIdx = colNumber;
+    } else if (
+      header === "training year" ||
+      header === "year" ||
+      header === "cadet year" ||
+      header === "trainingyear"
+    ) {
+      yearColIdx = colNumber;
+    } else if (
+      header === "division" ||
+      header === "div" ||
+      header === "sd/sw" ||
+      header === "sd / sw"
+    ) {
+      divisionColIdx = colNumber;
     }
   });
 
-  if (nameColIdx === -1 || emailColIdx === -1 || phoneColIdx === -1) {
+  if (nameColIdx === -1 || emailColIdx === -1 || phoneColIdx === -1 || yearColIdx === -1 || divisionColIdx === -1) {
     const missing: string[] = [];
     if (nameColIdx === -1) missing.push("Name");
     if (emailColIdx === -1) missing.push("Email");
     if (phoneColIdx === -1) missing.push("Phone");
+    if (yearColIdx === -1) missing.push("Training Year");
+    if (divisionColIdx === -1) missing.push("Division");
     throw new Error(
       `Invalid spreadsheet structure. Missing required column headers: ${missing.join(", ")}. Please use the official template.`
     );
@@ -75,9 +93,11 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
     const rawName = cleanCellValue(row.getCell(nameColIdx).value);
     const rawEmail = cleanCellValue(row.getCell(emailColIdx).value).toLowerCase();
     let rawPhone = cleanCellValue(row.getCell(phoneColIdx).value);
+    let rawTrainingYear = cleanCellValue(row.getCell(yearColIdx).value);
+    let rawDivision = cleanCellValue(row.getCell(divisionColIdx).value).toUpperCase();
 
     // Skip empty trailing rows
-    if (!rawName && !rawEmail && !rawPhone) {
+    if (!rawName && !rawEmail && !rawPhone && !rawTrainingYear && !rawDivision) {
       return;
     }
 
@@ -86,6 +106,23 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
     if (rawPhone.startsWith("0")) rawPhone = rawPhone.slice(1).trim();
     rawPhone = rawPhone.replace(/[\s\-]/g, "");
 
+    // Normalize Training Year casing if recognizable
+    const yearLower = rawTrainingYear.toLowerCase().trim();
+    if (yearLower === "1st year" || yearLower === "1" || yearLower === "1st") {
+      rawTrainingYear = "1st Year";
+    } else if (yearLower === "2nd year" || yearLower === "2" || yearLower === "2nd") {
+      rawTrainingYear = "2nd Year";
+    } else if (yearLower === "3rd year" || yearLower === "3" || yearLower === "3rd") {
+      rawTrainingYear = "3rd Year";
+    }
+
+    // Normalize Division
+    if (rawDivision === "SENIOR DIVISION" || rawDivision === "MALE") {
+      rawDivision = "SD";
+    } else if (rawDivision === "SENIOR WING" || rawDivision === "FEMALE") {
+      rawDivision = "SW";
+    }
+
     const errors: string[] = [];
 
     // Zod schema validation
@@ -93,6 +130,8 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
       name: rawName,
       email: rawEmail,
       phone: rawPhone,
+      trainingYear: rawTrainingYear,
+      division: rawDivision,
     });
 
     if (!parsed.success) {
@@ -119,6 +158,8 @@ export async function parseCadetOnboardingFile(buffer: Buffer): Promise<{
       name: rawName,
       email: rawEmail,
       phone: rawPhone,
+      trainingYear: (rawTrainingYear as "1st Year" | "2nd Year" | "3rd Year") || "1st Year",
+      division: (rawDivision as "SD" | "SW") || "SD",
       isValid: errors.length === 0,
       errors,
       isDuplicateInFile,

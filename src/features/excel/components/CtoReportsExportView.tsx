@@ -9,7 +9,8 @@ import type { ExportFieldOption } from "@/types/excel";
 export function CtoReportsExportView() {
   const [exportFields, setExportFields] = useState<ExportFieldOption[]>([]);
   const [selectedFieldIds, setSelectedFieldIds] = useState<string[]>([]);
-  const [exportWing, setExportWing] = useState("all");
+  const [exportYear, setExportYear] = useState("all");
+  const [exportDivision, setExportDivision] = useState("all");
   const [exportRank, setExportRank] = useState("all");
   const [exportSearch, setExportSearch] = useState("");
   const [isExporting, setIsExporting] = useState(false);
@@ -63,7 +64,8 @@ export function CtoReportsExportView() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           selectedFieldIds,
-          wing: exportWing !== "all" ? exportWing : undefined,
+          trainingYear: exportYear !== "all" ? exportYear : undefined,
+          division: exportDivision !== "all" ? exportDivision : undefined,
           rank: exportRank !== "all" ? exportRank : undefined,
           search: exportSearch.trim() || undefined,
         }),
@@ -140,20 +142,35 @@ export function CtoReportsExportView() {
           )}
 
           {/* Filter Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Service Wing
+                Training Year
               </label>
               <select
-                value={exportWing}
-                onChange={(e) => setExportWing(e.target.value)}
+                value={exportYear}
+                onChange={(e) => setExportYear(e.target.value)}
                 className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
               >
-                <option value="all">All Wings</option>
-                <option value="Army">Army Wing</option>
-                <option value="Navy">Navy Wing</option>
-                <option value="Air">Air Wing</option>
+                <option value="all">All Training Years</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Division
+              </label>
+              <select
+                value={exportDivision}
+                onChange={(e) => setExportDivision(e.target.value)}
+                className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white"
+              >
+                <option value="all">All Divisions (SD / SW)</option>
+                <option value="SD">SD (Senior Division - Male)</option>
+                <option value="SW">SW (Senior Wing - Female)</option>
               </select>
             </div>
 

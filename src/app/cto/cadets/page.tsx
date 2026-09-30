@@ -19,7 +19,8 @@ export default function CtoCadetsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [wingFilter, setWingFilter] = useState("all");
+  const [yearFilter, setYearFilter] = useState("all");
+  const [divisionFilter, setDivisionFilter] = useState("all");
 
   // Debounce search input
   useEffect(() => {
@@ -30,14 +31,15 @@ export default function CtoCadetsPage() {
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const fetchCadetsData = useCallback(async (p: number, s: string, status: string, wing: string) => {
+  const fetchCadetsData = useCallback(async (p: number, s: string, status: string, year: string, div: string) => {
     try {
       const params = new URLSearchParams({
         page: String(p),
         limit: "10",
         search: s,
         status,
-        wing,
+        trainingYear: year,
+        division: div,
       });
 
       const res = await fetch(`/api/cto/cadets?${params.toString()}`);
@@ -60,7 +62,7 @@ export default function CtoCadetsPage() {
   useEffect(() => {
     let ignore = false;
 
-    fetchCadetsData(page, debouncedSearch, statusFilter, wingFilter)
+    fetchCadetsData(page, debouncedSearch, statusFilter, yearFilter, divisionFilter)
       .then((data) => {
         if (!ignore) {
           setCadets(data.cadets);
@@ -80,19 +82,10 @@ export default function CtoCadetsPage() {
     return () => {
       ignore = true;
     };
-  }, [page, debouncedSearch, statusFilter, wingFilter, fetchCadetsData]);
+  }, [page, debouncedSearch, statusFilter, yearFilter, divisionFilter, fetchCadetsData]);
 
   const getWingVariant = (wing: string): BadgeVariant => {
-    switch (wing) {
-      case "Army":
-        return "army";
-      case "Navy":
-        return "navy";
-      case "Air":
-        return "air";
-      default:
-        return "default";
-    }
+    return wing === "Air" ? "air" : "default";
   };
 
   const getStatusVariant = (status: string): BadgeVariant => {
@@ -158,7 +151,7 @@ export default function CtoCadetsPage() {
             </div>
 
             {/* Status Filter */}
-            <div className="sm:col-span-3">
+            <div className="sm:col-span-2">
               <select
                 value={statusFilter}
                 onChange={(e) => {
@@ -175,20 +168,36 @@ export default function CtoCadetsPage() {
               </select>
             </div>
 
-            {/* Wing Filter */}
+            {/* Training Year Filter */}
             <div className="sm:col-span-3">
               <select
-                value={wingFilter}
+                value={yearFilter}
                 onChange={(e) => {
-                  setWingFilter(e.target.value);
+                  setYearFilter(e.target.value);
                   setPage(1);
                 }}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-amber-500 transition cursor-pointer"
               >
-                <option value="all">All Wings</option>
-                <option value="Army">Army Wing</option>
-                <option value="Navy">Navy Wing</option>
-                <option value="Air">Air Wing</option>
+                <option value="all">All Training Years</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+              </select>
+            </div>
+
+            {/* Division Filter */}
+            <div className="sm:col-span-2">
+              <select
+                value={divisionFilter}
+                onChange={(e) => {
+                  setDivisionFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-amber-500 transition cursor-pointer"
+              >
+                <option value="all">All Divisions</option>
+                <option value="SD">SD (Senior Div)</option>
+                <option value="SW">SW (Senior Wing)</option>
               </select>
             </div>
           </div>
@@ -231,7 +240,8 @@ export default function CtoCadetsPage() {
               onClick={() => {
                 setSearchTerm("");
                 setStatusFilter("all");
-                setWingFilter("all");
+                setYearFilter("all");
+                setDivisionFilter("all");
                 setPage(1);
               }}
             >
@@ -251,7 +261,8 @@ export default function CtoCadetsPage() {
                       <th className="px-6 py-3.5">Cadet ID</th>
                       <th className="px-6 py-3.5">Name</th>
                       <th className="px-6 py-3.5">Enrollment No</th>
-                      <th className="px-6 py-3.5">Rank &amp; Wing</th>
+                      <th className="px-6 py-3.5">Rank</th>
+                      <th className="px-6 py-3.5">Year &amp; Div</th>
                       <th className="px-6 py-3.5">Unit</th>
                       <th className="px-6 py-3.5">Status</th>
                       <th className="px-6 py-3.5">Profile %</th>
@@ -274,13 +285,18 @@ export default function CtoCadetsPage() {
                           {cadet.enrollmentNo || <span className="italic text-slate-400">Pending</span>}
                         </td>
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-slate-800">
-                              {cadet.rank}
+                          <span className="text-xs font-medium text-slate-800">
+                            {cadet.rank}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200">
+                              {cadet.trainingYear || "1st Year"}
                             </span>
-                            <Badge variant={getWingVariant(cadet.wing)} size="sm">
-                              {cadet.wing}
-                            </Badge>
+                            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
+                              {cadet.division || "SD"}
+                            </span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-xs text-slate-600">

@@ -102,7 +102,7 @@ export async function PUT() {
   try {
     await requireCto();
 
-    // CTO cannot edit cadet fields per Section 27 and Stage 5
+    // CTO cannot edit cadet fields directly per security policy
     return NextResponse.json(
       {
         error: "Access denied. Caretaker Officers (CTO) have read-only access and cannot edit cadet records.",

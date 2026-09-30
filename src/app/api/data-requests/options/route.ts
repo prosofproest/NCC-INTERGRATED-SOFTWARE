@@ -41,6 +41,8 @@ export async function GET() {
           rank: c.rank,
           unit: c.unit,
           wing: c.wing,
+          trainingYear: c.trainingYear || "1st Year",
+          division: c.division || "SD",
           status: c.status,
           completionPercentage: c.completionPercentage || 0,
         };

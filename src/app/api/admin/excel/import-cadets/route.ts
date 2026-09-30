@@ -97,8 +97,10 @@ export async function POST(req: NextRequest) {
           fullName: item.name.trim(),
           enrollmentNo: null,
           rank: "Cadet",
-          wing: "Army",
-          unit: "1 Kar Bn NCC",
+          wing: "Air",
+          unit: "1 Kar Air Sqn NCC",
+          trainingYear: item.trainingYear || "1st Year",
+          division: item.division || "SD",
           status: "active",
           driveFolderId: null,
           dynamicData: {

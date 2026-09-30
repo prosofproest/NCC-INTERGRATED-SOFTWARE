@@ -55,18 +55,7 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
     };
   }, [cadetId]);
 
-  const getWingVariant = (w?: string): BadgeVariant => {
-    switch (w) {
-      case "Army":
-        return "army";
-      case "Navy":
-        return "navy";
-      case "Air":
-        return "air";
-      default:
-        return "default";
-    }
-  };
+
 
   const getStatusVariant = (s?: string): BadgeVariant => {
     switch (s) {
@@ -145,8 +134,14 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 {cadet?.fullName}
               </h1>
-              <Badge variant={getWingVariant(cadet?.wing)} size="sm">
-                {cadet?.wing} Wing
+              <Badge variant="air" size="sm">
+                Air Wing
+              </Badge>
+              <Badge variant="outline" size="sm">
+                {cadet?.trainingYear || "1st Year"}
+              </Badge>
+              <Badge variant="outline" size="sm">
+                {cadet?.division || "SD"}
               </Badge>
               <Badge variant={getStatusVariant(cadet?.status)} size="sm">
                 {cadet?.status}
@@ -226,8 +221,20 @@ export default function CtoCadetDetailsPage({ params }: CtoCadetDetailsPageProps
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs text-slate-500 font-medium">NCC Wing</span>
-              <p className="text-sm font-semibold text-slate-900">{cadet?.wing}</p>
+              <span className="text-xs text-slate-500 font-medium">Training Year</span>
+              <p className="text-sm font-semibold text-slate-900">{cadet?.trainingYear || "1st Year"}</p>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-slate-500 font-medium">Division</span>
+              <p className="text-sm font-semibold text-slate-900">
+                {cadet?.division === "SW" ? "SW (Senior Wing - Female)" : "SD (Senior Division - Male)"}
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-slate-500 font-medium">Wing</span>
+              <p className="text-sm font-semibold text-slate-900">Air Wing</p>
             </div>
 
             <div className="space-y-1">
