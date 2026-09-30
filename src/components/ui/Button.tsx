@@ -23,9 +23,9 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "text-xs px-3 py-1.5 rounded-lg",
-  md: "text-sm px-4 py-2 rounded-xl font-medium",
-  lg: "text-base px-5 py-2.5 rounded-2xl font-medium",
+  sm: "text-xs px-3 py-1.5 min-h-[36px] sm:min-h-[32px] rounded-lg",
+  md: "text-sm px-4 py-2 min-h-[44px] sm:min-h-[38px] rounded-xl font-medium",
+  lg: "text-base px-5 py-2.5 min-h-[48px] rounded-2xl font-medium",
 };
 
 export function Button({
@@ -40,7 +40,7 @@ export function Button({
   return (
     <button
       disabled={disabled || isLoading}
-      className={`inline-flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed select-none ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed select-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] focus-visible:ring-offset-2 ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       {...props}
     >
       {isLoading && (

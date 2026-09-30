@@ -164,7 +164,7 @@ export function SidebarShell({
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all group ${
+                  className={`flex items-center gap-3 px-3 py-2 min-h-[40px] rounded-xl text-xs sm:text-sm transition-all group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] ${
                     active ? getActiveItemClasses() : getInactiveItemClasses()
                   }`}
                 >
@@ -231,7 +231,7 @@ export function SidebarShell({
               router.refresh();
             }
           }}
-          className="mt-2.5 w-full flex items-center justify-center gap-2 py-1.5 px-3 rounded-xl border border-black/[0.06] text-xs font-medium text-[#48484A] hover:bg-red-500/10 hover:text-[#FF3B30] hover:border-red-500/20 transition cursor-pointer"
+          className="mt-2.5 w-full min-h-[40px] flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-black/[0.06] text-xs font-medium text-[#48484A] hover:bg-red-500/10 hover:text-[#FF3B30] hover:border-red-500/20 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#FF3B30] transition cursor-pointer"
         >
           <LogoutIcon className="w-3.5 h-3.5" />
           <span>Sign Out</span>
@@ -257,13 +257,13 @@ export function SidebarShell({
           <button
             type="button"
             onClick={() => setIsMobileOpen(true)}
-            className="p-1.5 -ml-1.5 rounded-lg text-[#1D1D1F] hover:bg-black/[0.05] transition"
+            className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center -ml-2 rounded-xl text-[#1D1D1F] hover:bg-black/[0.05] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] transition"
             aria-label="Open Navigation Menu"
           >
             <MenuIcon className="w-5 h-5" />
           </button>
 
-          <Link href={brand.href} className="flex items-center gap-2">
+          <Link href={brand.href} className="flex items-center gap-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] rounded-lg">
             <div
               className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-[11px] tracking-wider shadow-xs ${brand.badgeBg}`}
             >
@@ -279,12 +279,12 @@ export function SidebarShell({
           {/* Mobile Notifications Button */}
           <Link
             href={notificationsHref}
-            className="relative p-2 rounded-lg text-[#1D1D1F] hover:bg-black/[0.05] transition"
-            title="Notifications"
+            className="relative p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#1D1D1F] hover:bg-black/[0.05] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] transition"
+            aria-label="View notifications"
           >
             <NotificationsIcon className="w-5 h-5" />
             {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-bold text-white bg-[#FF3B30] rounded-full shadow-xs animate-pulse">
+              <span className="absolute top-1.5 right-1.5 flex items-center justify-center min-w-[16px] h-[16px] px-1 text-[9px] font-bold text-white bg-[#FF3B30] rounded-full shadow-xs animate-pulse">
                 {unreadCount > 99 ? "99+" : unreadCount}
               </span>
             )}
@@ -292,7 +292,7 @@ export function SidebarShell({
 
           {/* User Initial Badge */}
           <div
-            className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] text-white shadow-xs ${user.avatarBg}`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[11px] text-white shadow-xs ${user.avatarBg}`}
             title={`${user.email} (${user.role})`}
           >
             {(user.name || user.email).charAt(0).toUpperCase()}
@@ -304,7 +304,7 @@ export function SidebarShell({
       {/* Mobile Slide-Out Drawer (with Backdrop Blur Overlay)      */}
       {/* ========================================================= */}
       {isMobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Navigation Menu">
           {/* Backdrop Blur Overlay */}
           <div
             className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
@@ -315,11 +315,11 @@ export function SidebarShell({
           {/* Drawer Container */}
           <div className="fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-white/95 backdrop-blur-2xl border-r border-black/[0.06] shadow-apple-modal flex flex-col z-50 animate-in slide-in-from-left duration-200">
             {/* Drawer Close Button */}
-            <div className="absolute top-3.5 right-3 z-10">
+            <div className="absolute top-2.5 right-2.5 z-10">
               <button
                 type="button"
                 onClick={() => setIsMobileOpen(false)}
-                className="p-1.5 rounded-lg text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.05] transition"
+                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#515154] hover:text-[#1D1D1F] hover:bg-black/[0.05] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] transition"
                 aria-label="Close Navigation Menu"
               >
                 <CloseIcon className="w-5 h-5" />

@@ -124,7 +124,7 @@ export default function AdminCadetsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
             {/* Search Input */}
             <div className="sm:col-span-5 relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500" aria-hidden="true">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
@@ -139,14 +139,17 @@ export default function AdminCadetsPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by name, cadet ID, enrollment, email..."
-                className="w-full pl-10 pr-9 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
+                aria-label="Search cadets by name, ID, enrollment, or email"
+                className="w-full pl-10 pr-9 py-2 min-h-[44px] sm:min-h-[38px] bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition"
               />
               {searchTerm && (
                 <button
+                  type="button"
                   onClick={() => setSearchTerm("")}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                  aria-label="Clear search input"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-700 min-h-[44px] min-w-[36px] justify-center cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] rounded-md"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -161,7 +164,8 @@ export default function AdminCadetsPage() {
                   setStatusFilter(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
+                aria-label="Filter cadets by enrollment status"
+                className="w-full px-3 py-2 min-h-[44px] sm:min-h-[38px] bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition cursor-pointer"
               >
                 <option value="all">All Statuses</option>
                 <option value="active">Active</option>
@@ -179,7 +183,8 @@ export default function AdminCadetsPage() {
                   setYearFilter(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
+                aria-label="Filter cadets by training year"
+                className="w-full px-3 py-2 min-h-[44px] sm:min-h-[38px] bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition cursor-pointer"
               >
                 <option value="all">All Training Years</option>
                 <option value="1st Year">1st Year</option>
@@ -196,7 +201,8 @@ export default function AdminCadetsPage() {
                   setDivisionFilter(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
+                aria-label="Filter cadets by division (SD / SW)"
+                className="w-full px-3 py-2 min-h-[44px] sm:min-h-[38px] bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition cursor-pointer"
               >
                 <option value="all">All Divisions</option>
                 <option value="SD">SD (Senior Div)</option>
@@ -312,13 +318,13 @@ export default function AdminCadetsPage() {
                           <div className="font-semibold text-slate-900 text-sm">
                             {cadet.fullName}
                           </div>
-                          <div className="text-xs text-slate-400 font-normal">
+                          <div className="text-xs text-slate-500 font-normal">
                             {cadet.email}
                           </div>
                         </td>
                         <td className="px-6 py-4 text-xs font-mono text-slate-600">
                           {cadet.enrollmentNo || (
-                            <span className="italic text-slate-400 font-sans">Pending</span>
+                            <span className="italic text-slate-500 font-sans">Pending</span>
                           )}
                         </td>
                         <td className="px-6 py-4">
@@ -346,13 +352,13 @@ export default function AdminCadetsPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2.5">
-                            <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                            <div className="w-16 bg-slate-200 rounded-full h-1.5 overflow-hidden" role="progressbar" aria-valuenow={cadet.completionPercentage || 0} aria-valuemin={0} aria-valuemax={100}>
                               <div
                                 className="bg-emerald-500 h-1.5 rounded-full"
                                 style={{ width: `${cadet.completionPercentage || 0}%` }}
                               />
                             </div>
-                            <span className="text-xs font-medium text-slate-500">
+                            <span className="text-xs font-medium text-slate-600">
                               {cadet.completionPercentage || 0}%
                             </span>
                           </div>
@@ -360,7 +366,8 @@ export default function AdminCadetsPage() {
                         <td className="px-6 py-4 text-right">
                           <Link
                             href={`/admin/cadets/${cadet.cadetId}`}
-                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 transition"
+                            className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] transition"
+                            aria-label={`View details for cadet ${cadet.fullName}`}
                           >
                             Details &rarr;
                           </Link>

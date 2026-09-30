@@ -194,8 +194,8 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
       </div>
 
       {/* Hero Cadet Card */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-start sm:items-center gap-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col xl:flex-row xl:items-center justify-between gap-6 min-w-0">
+        <div className="flex items-start sm:items-center gap-4 min-w-0">
           <div className="w-16 h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-xl tracking-wider shadow-sm shrink-0">
             {fullName
               .split(" ")
@@ -204,9 +204,9 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
               .join("")
               .toUpperCase()}
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 truncate">
                 {fullName}
               </h1>
               <Badge variant="air" size="sm">
@@ -227,7 +227,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                 {cadetId}
               </span>
               <span>&bull;</span>
-              <span>{cadet?.email}</span>
+              <span className="truncate">{cadet?.email}</span>
               {cadet?.updatedAt && (
                 <>
                   <span>&bull;</span>
@@ -238,11 +238,11 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-4 xl:pt-0 border-t xl:border-t-0 border-slate-100 shrink-0">
           <div className="flex flex-col items-start sm:items-end">
             <span className="text-xs text-slate-500 font-medium">Profile Completion</span>
             <div className="flex items-center gap-2 mt-1">
-              <div className="w-24 bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="w-24 bg-slate-200 rounded-full h-2 overflow-hidden" role="progressbar" aria-valuenow={cadet?.completionPercentage || 0} aria-valuemin={0} aria-valuemax={100}>
                 <div
                   className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${cadet?.completionPercentage || 0}%` }}
@@ -458,9 +458,11 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                       {/* Render input depending on field type */}
                       {field.type === "select" ? (
                         <select
+                          id={field.fieldId}
+                          aria-label={field.label}
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition cursor-pointer"
+                          className="w-full min-h-[44px] sm:min-h-[38px] px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition cursor-pointer"
                         >
                           <option value="">-- Select option --</option>
                           {field.options?.map((opt) => (
@@ -471,32 +473,40 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                         </select>
                       ) : field.type === "textarea" ? (
                         <textarea
+                          id={field.fieldId}
+                          aria-label={field.label}
                           rows={2}
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
+                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition"
                         />
                       ) : field.type === "boolean" ? (
-                        <div className="pt-2 flex items-center gap-2">
+                        <div className="pt-2 flex items-center gap-2 min-h-[44px] sm:min-h-[38px]">
                           <input
+                            id={field.fieldId}
+                            aria-label={field.label}
                             type="checkbox"
                             checked={Boolean(val)}
                             onChange={(e) => handleDynamicChange(field.fieldId, e.target.checked)}
-                            className="w-4 h-4 rounded-sm border-slate-300 text-slate-900 focus:ring-slate-900"
+                            className="w-5 h-5 rounded-sm border-slate-300 text-blue-600 focus:ring-[#0071E3] cursor-pointer"
                           />
-                          <span className="text-xs text-slate-600">
+                          <label htmlFor={field.fieldId} className="text-xs text-slate-700 cursor-pointer">
                             {Boolean(val) ? "Yes / Confirmed" : "No / Not Applicable"}
-                          </span>
+                          </label>
                         </div>
                       ) : field.type === "date" ? (
                         <input
+                          id={field.fieldId}
+                          aria-label={field.label}
                           type="date"
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
+                          className="w-full min-h-[44px] sm:min-h-[38px] px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition"
                         />
                       ) : field.type === "number" ? (
                         <input
+                          id={field.fieldId}
+                          aria-label={field.label}
                           type="number"
                           value={strVal}
                           onChange={(e) =>
@@ -507,14 +517,16 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
                           }
                           min={field.validation?.min}
                           max={field.validation?.max}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
+                          className="w-full min-h-[44px] sm:min-h-[38px] px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition"
                         />
                       ) : (
                         <input
+                          id={field.fieldId}
+                          aria-label={field.label}
                           type="text"
                           value={strVal}
                           onChange={(e) => handleDynamicChange(field.fieldId, e.target.value)}
-                          className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-slate-900 transition"
+                          className="w-full min-h-[44px] sm:min-h-[38px] px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3] transition"
                         />
                       )}
 

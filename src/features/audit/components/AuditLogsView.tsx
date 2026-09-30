@@ -384,22 +384,24 @@ export function AuditLogsView() {
 
             {/* Date Range & Buttons Row */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-semibold text-slate-500 uppercase">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-semibold text-slate-600 uppercase">
                   Date Range:
                 </span>
                 <input
                   type="date"
+                  aria-label="Filter audit logs by start date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="px-2 py-1 rounded border border-slate-300 bg-white text-xs text-slate-900"
+                  className="px-2 py-1.5 min-h-[38px] rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3]"
                 />
-                <span className="text-slate-400 text-xs">to</span>
+                <span className="text-slate-500 text-xs">to</span>
                 <input
                   type="date"
+                  aria-label="Filter audit logs by end date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="px-2 py-1 rounded border border-slate-300 bg-white text-xs text-slate-900"
+                  className="px-2 py-1.5 min-h-[38px] rounded-lg border border-slate-300 bg-white text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0071E3]"
                 />
               </div>
 
@@ -407,13 +409,15 @@ export function AuditLogsView() {
                 <button
                   type="button"
                   onClick={handleClearFilters}
-                  className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+                  aria-label="Reset all audit log filters"
+                  className="px-3 py-2 min-h-[38px] rounded-lg border border-slate-300 text-xs font-medium text-slate-700 hover:bg-slate-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] transition cursor-pointer"
                 >
                   Clear Filters
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition cursor-pointer"
+                  aria-label="Apply audit log filters"
+                  className="px-4 py-2 min-h-[38px] rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0071E3] focus-visible:ring-offset-2 transition cursor-pointer"
                 >
                   Apply Filters
                 </button>
