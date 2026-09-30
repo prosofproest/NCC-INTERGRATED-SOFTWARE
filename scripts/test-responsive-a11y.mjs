@@ -20,7 +20,6 @@ const BASE_URL = "http://localhost:3000";
 const REAL_ADMIN_EMAIL = "hruthwick17@gmail.com";
 const QA_CADET_EMAIL = "qa.cadet.test@ncc.test";
 const QA_CADET_ID = "CADET_QA_001";
-const QA_CTO_EMAIL = "qa.cto.test@ncc.test";
 
 const VIEWPORTS = [
   { width: 375, height: 812, name: "375_mobile", label: "375px (Mobile)" },
