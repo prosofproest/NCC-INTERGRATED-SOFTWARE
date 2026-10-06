@@ -76,7 +76,7 @@ export function SidebarShell({
     };
   }, [isMobileOpen]);
 
-  // Polling unread notifications count
+  // Polling unread notifications count (on mount + periodic 60s + visibilitychange)
   useEffect(() => {
     let isMounted = true;
 
@@ -93,12 +93,21 @@ export function SidebarShell({
     }
 
     loadUnreadCount();
-    const interval = setInterval(loadUnreadCount, 30000);
+    const interval = setInterval(loadUnreadCount, 60000);
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        loadUnreadCount();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       isMounted = false;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [pathname]);
+  }, []);
 
   const isActive = (item: NavItemConfig) => {
     if (item.exact) {

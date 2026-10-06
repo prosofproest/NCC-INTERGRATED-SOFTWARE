@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface NotificationBadgeProps {
   href: string;
@@ -10,7 +9,6 @@ interface NotificationBadgeProps {
 
 export function NotificationBadge({ href }: NotificationBadgeProps) {
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const pathname = usePathname();
 
   useEffect(() => {
     let isMounted = true;
@@ -28,13 +26,22 @@ export function NotificationBadge({ href }: NotificationBadgeProps) {
     }
 
     loadUnreadCount();
-    // Poll every 30 seconds
-    const interval = setInterval(loadUnreadCount, 30000);
+    // Poll every 60 seconds
+    const interval = setInterval(loadUnreadCount, 60000);
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        loadUnreadCount();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       isMounted = false;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [pathname]);
+  }, []);
 
   return (
     <Link
