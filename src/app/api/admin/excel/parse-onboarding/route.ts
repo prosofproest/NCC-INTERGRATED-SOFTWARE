@@ -16,6 +16,9 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
+    const sheetName = (formData.get("sheetName") as string) || undefined;
+    const trainingYear = (formData.get("trainingYear") as "1st Year" | "2nd Year" | "3rd Year") || undefined;
+    const division = (formData.get("division") as "SD" | "SW") || undefined;
 
     if (!file) {
       return NextResponse.json(
@@ -24,17 +27,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!file.name.endsWith(".xlsx") && !file.name.endsWith(".xls")) {
-      return NextResponse.json(
-        { error: "Invalid file format. Please upload an Excel (.xlsx) file." },
-        { status: 400 }
-      );
-    }
-
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await parseCadetOnboardingFile(buffer);
+    const result = await parseCadetOnboardingFile(buffer, {
+      sheetName,
+      defaultTrainingYear: trainingYear,
+      defaultDivision: division,
+    });
 
     return NextResponse.json({
       success: true,

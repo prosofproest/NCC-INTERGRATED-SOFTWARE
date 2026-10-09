@@ -16,10 +16,10 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
 
   sheet.columns = [
     { header: "Name", key: "name", width: 32 },
-    { header: "Email", key: "email", width: 38 },
+    { header: "Email", key: "email", width: 36 },
     { header: "Phone", key: "phone", width: 22 },
-    { header: "Training Year", key: "trainingYear", width: 20 },
-    { header: "Division", key: "division", width: 16 },
+    { header: "Enrollment ID", key: "enrollmentNo", width: 26 },
+    { header: "Gender", key: "gender", width: 16 },
   ];
 
   // Header Style
@@ -51,15 +51,15 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
     name: "Aarav Sharma",
     email: "aarav.sharma@example.com",
     phone: "9876543210",
-    trainingYear: "1st Year",
-    division: "SD",
+    enrollmentNo: "KA26SDA100101",
+    gender: "MALE",
   });
   sheet.addRow({
     name: "Priya Patel",
     email: "priya.patel@example.com",
     phone: "9812345678",
-    trainingYear: "2nd Year",
-    division: "SW",
+    enrollmentNo: "KA26SWA100205",
+    gender: "FEMALE",
   });
 
   // Style data rows
@@ -85,8 +85,8 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
 
   infoSheet.columns = [
     { header: "Field Name", key: "field", width: 24 },
-    { header: "Requirement", key: "requirement", width: 16 },
-    { header: "Specification / Description", key: "spec", width: 60 },
+    { header: "Requirement", key: "requirement", width: 18 },
+    { header: "Specification / Description", key: "spec", width: 68 },
   ];
 
   const infoHeader = infoSheet.getRow(1);
@@ -114,22 +114,27 @@ export async function generateCadetOnboardingTemplate(): Promise<Buffer> {
   infoSheet.addRow({
     field: "Phone",
     requirement: "Mandatory",
-    spec: "10-digit Indian mobile number (e.g. 9876543210). Optional +91 prefix accepted.",
+    spec: "10-digit Indian mobile number (e.g. 9876543210). Floating point numbers and +91 are handled automatically.",
+  });
+  infoSheet.addRow({
+    field: "Enrollment ID",
+    requirement: "Optional",
+    spec: "Official regimental number (e.g. KA26SDA100101). Stored in uppercase. If left blank, cadet can onboard via email and ID can be assigned later.",
+  });
+  infoSheet.addRow({
+    field: "Gender",
+    requirement: "Mandatory",
+    spec: "Values: MALE / M (derived as Senior Division SD) or FEMALE / F (derived as Senior Wing SW).",
   });
   infoSheet.addRow({
     field: "Training Year",
-    requirement: "Mandatory",
-    spec: "Cadet training year. Accepted values: '1st Year', '2nd Year', or '3rd Year'.",
+    requirement: "App Selection",
+    spec: "Training Year (1st, 2nd, or 3rd Year) is chosen directly in the web app during upload, or inferred if a Year column is provided.",
   });
   infoSheet.addRow({
-    field: "Division",
-    requirement: "Mandatory",
-    spec: "NCC wing division. Accepted values: 'SD' (Senior Division / male) or 'SW' (Senior Wing / female).",
-  });
-  infoSheet.addRow({
-    field: "Security Note",
-    requirement: "System Policy",
-    spec: "Cadets will receive a secure activation link via email to establish their permanent password upon onboarding. System is strictly dedicated to Air Wing NCC.",
+    field: "Security Policy",
+    requirement: "Strict Privacy",
+    spec: "Only mapped columns are read. All extraneous columns (DOB, parents, addresses) in wider sheets are automatically ignored and never stored.",
   });
 
   const buffer = await workbook.xlsx.writeBuffer();

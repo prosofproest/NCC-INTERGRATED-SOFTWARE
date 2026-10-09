@@ -19,16 +19,19 @@ export function AdminImportExportView() {
   // 1. Cadet Onboarding Import State
   // ==========================================
   const [onboardingFile, setOnboardingFile] = useState<File | null>(null);
+  const [uploadTrainingYear, setUploadTrainingYear] = useState<"1st Year" | "2nd Year" | "3rd Year">("1st Year");
+  const [selectedSheet, setSelectedSheet] = useState<string>("");
   const [isParsingOnboarding, setIsParsingOnboarding] = useState(false);
   const [onboardingRows, setOnboardingRows] = useState<CadetImportRow[] | null>(null);
   const [onboardingSummary, setOnboardingSummary] = useState<CadetImportSummary | null>(null);
   const [onboardingError, setOnboardingError] = useState<string | null>(null);
 
   const [isImportingCadets, setIsImportingCadets] = useState(false);
+  const [importProgress, setImportProgress] = useState<{ current: number; total: number; percent: number } | null>(null);
   const [importResult, setImportResult] = useState<{
     createdCount: number;
     failedCount: number;
-    createdCadets: Array<{ cadetId: string; email: string; fullName: string }>;
+    createdCadets: Array<{ cadetId: string; email: string; fullName: string; enrollmentNo: string | null; emailSent: boolean; emailError?: string }>;
     failedCadets: Array<{ email: string; name: string; error: string }>;
   } | null>(null);
 
@@ -86,18 +89,22 @@ export function AdminImportExportView() {
   // ------------------------------------------
   // Handlers: Cadet Onboarding
   // ------------------------------------------
-  const handleOnboardingFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setOnboardingFile(file);
+  const parseFileWithConfig = async (
+    file: File,
+    year: "1st Year" | "2nd Year" | "3rd Year",
+    sheet?: string
+  ) => {
+    setIsParsingOnboarding(true);
     setOnboardingError(null);
     setImportResult(null);
-    setIsParsingOnboarding(true);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("trainingYear", year);
+      if (sheet) {
+        formData.append("sheetName", sheet);
+      }
 
       const res = await fetch("/api/admin/excel/parse-onboarding", {
         method: "POST",
@@ -111,12 +118,34 @@ export function AdminImportExportView() {
 
       setOnboardingRows(data.rows);
       setOnboardingSummary(data.summary);
+      setSelectedSheet(data.summary.detectedSheet);
     } catch (err: unknown) {
       setOnboardingError((err as Error).message);
       setOnboardingRows(null);
       setOnboardingSummary(null);
     } finally {
       setIsParsingOnboarding(false);
+    }
+  };
+
+  const handleOnboardingFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setOnboardingFile(file);
+    await parseFileWithConfig(file, uploadTrainingYear);
+  };
+
+  const handleSheetChange = async (newSheet: string) => {
+    if (!onboardingFile) return;
+    setSelectedSheet(newSheet);
+    await parseFileWithConfig(onboardingFile, uploadTrainingYear, newSheet);
+  };
+
+  const handleTrainingYearChange = async (newYear: "1st Year" | "2nd Year" | "3rd Year") => {
+    setUploadTrainingYear(newYear);
+    if (onboardingFile) {
+      await parseFileWithConfig(onboardingFile, newYear, selectedSheet || undefined);
     }
   };
 
@@ -128,8 +157,10 @@ export function AdminImportExportView() {
         name: r.name,
         email: r.email,
         phone: r.phone,
+        enrollmentNo: r.enrollmentNo || null,
         trainingYear: r.trainingYear,
         division: r.division,
+        gender: r.gender || null,
       }));
 
     if (validCadets.length === 0) return;
@@ -138,18 +169,57 @@ export function AdminImportExportView() {
       setIsImportingCadets(true);
       setOnboardingError(null);
 
-      const res = await fetch("/api/admin/excel/import-cadets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cadets: validCadets }),
-      });
+      const CHUNK_SIZE = 15;
+      const totalCadets = validCadets.length;
+      let totalCreated = 0;
+      let totalFailed = 0;
+      const allCreatedCadets: Array<{
+        cadetId: string;
+        email: string;
+        fullName: string;
+        enrollmentNo: string | null;
+        emailSent: boolean;
+        emailError?: string;
+      }> = [];
+      const allFailedCadets: Array<{ email: string; name: string; error: string }> = [];
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to import cadets.");
+      for (let i = 0; i < totalCadets; i += CHUNK_SIZE) {
+        const chunk = validCadets.slice(i, i + CHUNK_SIZE);
+        const processed = Math.min(i + CHUNK_SIZE, totalCadets);
+        setImportProgress({
+          current: processed,
+          total: totalCadets,
+          percent: Math.round((processed / totalCadets) * 100),
+        });
+
+        const res = await fetch("/api/admin/excel/import-cadets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cadets: chunk }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to import batch.");
+        }
+
+        totalCreated += data.createdCount || 0;
+        totalFailed += data.failedCount || 0;
+        if (Array.isArray(data.createdCadets)) {
+          allCreatedCadets.push(...data.createdCadets);
+        }
+        if (Array.isArray(data.failedCadets)) {
+          allFailedCadets.push(...data.failedCadets);
+        }
       }
 
-      setImportResult(data);
+      setImportResult({
+        createdCount: totalCreated,
+        failedCount: totalFailed,
+        createdCadets: allCreatedCadets,
+        failedCadets: allFailedCadets,
+      });
+
       setOnboardingRows(null);
       setOnboardingSummary(null);
       setOnboardingFile(null);
@@ -157,6 +227,7 @@ export function AdminImportExportView() {
       setOnboardingError((err as Error).message);
     } finally {
       setIsImportingCadets(false);
+      setImportProgress(null);
     }
   };
 
@@ -294,7 +365,6 @@ export function AdminImportExportView() {
         throw new Error(err.error || "Failed to generate export file.");
       }
 
-      // Download file in browser
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -334,13 +404,13 @@ export function AdminImportExportView() {
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Perform bulk cadet onboarding, regimental enrollment matching, and customized nominal roll data exports.
+            Perform bulk cadet onboarding with smart sheet auto-detection, regimental enrollment assignment, and nominal roll data exports.
           </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab("onboarding")}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
@@ -359,7 +429,7 @@ export function AdminImportExportView() {
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
-          2. Enrollment Numbers
+          2. Add or fix Enrollment IDs for existing cadets
         </button>
         <button
           onClick={() => setActiveTab("export")}
@@ -383,10 +453,10 @@ export function AdminImportExportView() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <CardTitle className="text-base font-bold">
-                    Initial Cadet Account Ingestion
+                    Smart Cadet Account Ingestion
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Upload an Excel file with columns <code>Name | Email | Phone | Training Year | Division</code> to provision cadet accounts.
+                    Upload any Cadet spreadsheet. The system auto-detects sheets, headers, float phones, uppercase Enrollment IDs, and derives Division from Gender.
                   </CardDescription>
                 </div>
                 <a href="/api/admin/excel/templates?type=onboarding" download>
@@ -402,28 +472,67 @@ export function AdminImportExportView() {
             <CardContent className="space-y-4">
               {onboardingError && (
                 <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
-                  {onboardingError}
+                  <div className="font-bold mb-0.5">Spreadsheet Validation Notice</div>
+                  <div>{onboardingError}</div>
                 </div>
               )}
 
               {importResult && (
-                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2">
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-3">
                   <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
                     <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>Import Completed Successfully</span>
+                    <span>Import Completed</span>
                   </div>
-                  <p className="text-xs text-emerald-700">
-                    Successfully created <strong>{importResult.createdCount}</strong> cadet accounts. Secure activation and password setup emails have been dispatched.
+                  <p className="text-xs text-emerald-800">
+                    Successfully created <strong>{importResult.createdCount}</strong> cadet accounts.
                   </p>
+
+                  {/* Email failures list if any */}
+                  {importResult.createdCadets.some((c) => !c.emailSent) && (
+                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 space-y-1">
+                      <div className="font-semibold">⚠️ Some invite emails could not be sent immediately:</div>
+                      <div className="text-[11px] text-amber-700">
+                        {importResult.createdCadets
+                          .filter((c) => !c.emailSent)
+                          .map((c) => `${c.fullName} (${c.email})`)
+                          .join(", ")}
+                      </div>
+                      <div className="text-[10px] text-amber-600 italic">
+                        The cadet accounts exist and are fully functional. You can use the &quot;Resend Welcome Email&quot; button in Cadet Details at any time.
+                      </div>
+                    </div>
+                  )}
+
                   {importResult.failedCount > 0 && (
-                    <p className="text-xs text-amber-700 font-medium">
-                      Notice: {importResult.failedCount} rows encountered errors and were skipped without corrupting database state.
+                    <p className="text-xs text-rose-700 font-medium">
+                      Notice: {importResult.failedCount} rows encountered errors and were skipped.
                     </p>
                   )}
                 </div>
               )}
+
+              {/* Training Year selector at upload */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-800">
+                    Target Training Year for this Upload <span className="text-rose-500">*</span>
+                  </label>
+                  <p className="text-[11px] text-slate-500">
+                    Applied to all imported rows (if the spreadsheet has a Year column, the row value takes precedence).
+                  </p>
+                </div>
+                <select
+                  value={uploadTrainingYear}
+                  onChange={(e) => handleTrainingYearChange(e.target.value as "1st Year" | "2nd Year" | "3rd Year")}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-xl border border-slate-300 bg-white text-slate-900 cursor-pointer focus:ring-2 focus:ring-slate-900"
+                >
+                  <option value="1st Year">1st Year (New Cadets)</option>
+                  <option value="2nd Year">2nd Year Cadets</option>
+                  <option value="3rd Year">3rd Year Cadets</option>
+                </select>
+              </div>
 
               {/* Upload Dropzone */}
               <div className="border-2 border-dashed border-slate-300 rounded-2xl p-6 sm:p-8 text-center hover:bg-slate-50/50 transition">
@@ -447,7 +556,7 @@ export function AdminImportExportView() {
                     {onboardingFile ? onboardingFile.name : "Click to select or drop an Excel spreadsheet (.xlsx)"}
                   </span>
                   <span className="text-xs text-slate-400">
-                    Supported format: Microsoft Excel OpenXML (.xlsx). Maximum 500 rows per batch.
+                    Supported format: Genuine Microsoft Excel (.xlsx). Auto-scans all sheets and header variations.
                   </span>
                 </label>
               </div>
@@ -455,34 +564,103 @@ export function AdminImportExportView() {
               {isParsingOnboarding && (
                 <div className="p-6 text-center text-slate-400 space-y-2">
                   <div className="w-6 h-6 border-2 border-slate-300 border-t-slate-900 rounded-full animate-spin mx-auto" />
-                  <p className="text-xs">Inspecting spreadsheet structure and verifying constraints...</p>
+                  <p className="text-xs">Inspecting all sheets, matching columns, and verifying constraints...</p>
+                </div>
+              )}
+
+              {/* Chunked Progress Bar */}
+              {isImportingCadets && importProgress && (
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                  <div className="flex justify-between text-xs font-semibold text-slate-700">
+                    <span>Importing Cadet Accounts...</span>
+                    <span>{importProgress.current} of {importProgress.total} ({importProgress.percent}%)</span>
+                  </div>
+                  <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                    <div
+                      className="bg-emerald-600 h-2.5 rounded-full transition-all duration-300"
+                      style={{ width: `${importProgress.percent}%` }}
+                    />
+                  </div>
                 </div>
               )}
 
               {/* Validation Summary & Preview Table */}
               {onboardingSummary && onboardingRows && (
                 <div className="space-y-4 pt-2">
+                  {/* Sheet Selector & Column Mapping Banner */}
+                  <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-blue-900">
+                          Using sheet: &quot;{onboardingSummary.detectedSheet}&quot;
+                        </span>
+                        <Badge variant="outline" size="sm">
+                          Auto-Detected
+                        </Badge>
+                      </div>
+                      {onboardingSummary.allSheets.length > 1 && (
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-blue-800 font-medium">Switch sheet:</label>
+                          <select
+                            value={selectedSheet || onboardingSummary.detectedSheet}
+                            onChange={(e) => handleSheetChange(e.target.value)}
+                            className="px-2.5 py-1 text-xs rounded-lg border border-blue-300 bg-white font-medium text-slate-800 cursor-pointer"
+                          >
+                            {onboardingSummary.allSheets.map((s) => (
+                              <option key={s} value={s}>
+                                {s}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Column Mapping Badges */}
+                    <div className="text-xs text-slate-700">
+                      <div className="font-semibold text-slate-800 mb-1.5">Detected Column Mappings:</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {Object.entries(onboardingSummary.columnMapping).map(([key, colName]) => (
+                          <span
+                            key={key}
+                            className="px-2 py-0.5 rounded-md bg-white border border-blue-200 font-mono text-[11px] text-blue-900"
+                          >
+                            <span className="font-semibold uppercase text-slate-600">{key}:</span> {colName}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Summary Metric Cards */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <span className="text-[11px] font-semibold uppercase text-slate-500">Total Rows</span>
-                      <div className="text-xl font-bold text-slate-900 mt-0.5">
+                  <div className="grid grid-cols-4 gap-3">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <span className="text-[10px] font-semibold uppercase text-slate-500">Total Rows</span>
+                      <div className="text-lg font-bold text-slate-900 mt-0.5">
                         {onboardingSummary.totalRows}
                       </div>
                     </div>
-                    <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-center">
-                      <span className="text-[11px] font-semibold uppercase text-emerald-700">
-                        Valid for Creation
+                    <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200 text-center">
+                      <span className="text-[10px] font-semibold uppercase text-emerald-700">
+                        Ready to Create
                       </span>
-                      <div className="text-xl font-bold text-emerald-600 mt-0.5">
+                      <div className="text-lg font-bold text-emerald-600 mt-0.5">
                         {onboardingSummary.validCount}
                       </div>
                     </div>
-                    <div className="p-3.5 rounded-xl bg-rose-50/60 border border-rose-200 text-center">
-                      <span className="text-[11px] font-semibold uppercase text-rose-700">
-                        Errors / Skipped
+                    <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200 text-center">
+                      <span className="text-[10px] font-semibold uppercase text-amber-700">
+                        Warnings
                       </span>
-                      <div className="text-xl font-bold text-rose-600 mt-0.5">
+                      <div className="text-lg font-bold text-amber-600 mt-0.5">
+                        {onboardingSummary.warningCount}
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200 text-center">
+                      <span className="text-[10px] font-semibold uppercase text-rose-700">
+                        Errors (Skipped)
+                      </span>
+                      <div className="text-lg font-bold text-rose-600 mt-0.5">
                         {onboardingSummary.errorCount}
                       </div>
                     </div>
@@ -494,50 +672,73 @@ export function AdminImportExportView() {
                       <table className="w-full text-left text-xs">
                         <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                           <tr>
-                            <th className="px-4 py-2.5">Row</th>
-                            <th className="px-4 py-2.5">Name</th>
-                            <th className="px-4 py-2.5">Email</th>
-                            <th className="px-4 py-2.5">Phone</th>
-                            <th className="px-4 py-2.5">Year</th>
-                            <th className="px-4 py-2.5">Division</th>
-                            <th className="px-4 py-2.5">Status</th>
-                            <th className="px-4 py-2.5">Validation Details</th>
+                            <th className="px-3 py-2.5">Row</th>
+                            <th className="px-3 py-2.5">Name</th>
+                            <th className="px-3 py-2.5">Email</th>
+                            <th className="px-3 py-2.5">Phone</th>
+                            <th className="px-3 py-2.5">Enrollment ID</th>
+                            <th className="px-3 py-2.5">Year</th>
+                            <th className="px-3 py-2.5">Div</th>
+                            <th className="px-3 py-2.5">Status</th>
+                            <th className="px-3 py-2.5">Details</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                           {onboardingRows.map((row) => (
                             <tr
                               key={row.rowNumber}
-                              className={row.isValid ? "hover:bg-slate-50/60" : "bg-rose-50/20 hover:bg-rose-50/40"}
+                              className={
+                                !row.isValid
+                                  ? "bg-rose-50/30 hover:bg-rose-50/50"
+                                  : row.warnings.length > 0
+                                  ? "bg-amber-50/20 hover:bg-amber-50/40"
+                                  : "hover:bg-slate-50/60"
+                              }
                             >
-                              <td className="px-4 py-2 font-mono text-slate-400">{row.rowNumber}</td>
-                              <td className="px-4 py-2 font-semibold text-slate-800">
+                              <td className="px-3 py-2 font-mono text-slate-400">{row.rowNumber}</td>
+                              <td className="px-3 py-2 font-semibold text-slate-800">
                                 {row.name}
                               </td>
-                              <td className="px-4 py-2 text-slate-600 font-mono text-[11px]">
+                              <td className="px-3 py-2 text-slate-600 font-mono text-[11px]">
                                 {row.email}
                               </td>
-                              <td className="px-4 py-2 text-slate-600 font-mono text-[11px]">
+                              <td className="px-3 py-2 text-slate-600 font-mono text-[11px]">
                                 {row.phone}
                               </td>
-                              <td className="px-4 py-2 font-medium text-slate-700">
-                                {row.trainingYear || "-"}
+                              <td className="px-3 py-2 font-mono font-bold text-slate-900 text-[11px]">
+                                {row.enrollmentNo || <span className="text-slate-400 font-normal italic">None</span>}
                               </td>
-                              <td className="px-4 py-2 font-medium text-slate-700">
-                                {row.division || "-"}
+                              <td className="px-3 py-2 font-medium text-slate-700">
+                                {row.trainingYear}
                               </td>
-                              <td className="px-4 py-2">
-                                <Badge variant={row.isValid ? "success" : "danger"} size="sm">
-                                  {row.isValid ? "VALID" : "ERROR"}
+                              <td className="px-3 py-2 font-medium text-slate-700">
+                                {row.division}
+                              </td>
+                              <td className="px-3 py-2">
+                                <Badge
+                                  variant={
+                                    !row.isValid
+                                      ? "danger"
+                                      : row.warnings.length > 0
+                                      ? "warning"
+                                      : "success"
+                                  }
+                                  size="sm"
+                                >
+                                  {!row.isValid ? "ERROR" : row.warnings.length > 0 ? "WARNING" : "VALID"}
                                 </Badge>
                               </td>
-                              <td className="px-4 py-2 text-[11px]">
-                                {row.isValid ? (
-                                  <span className="text-emerald-600 font-medium">Ready to create</span>
-                                ) : (
+                              <td className="px-3 py-2 text-[11px]">
+                                {!row.isValid ? (
                                   <span className="text-rose-600 font-medium">
                                     {row.errors.join("; ")}
                                   </span>
+                                ) : row.warnings.length > 0 ? (
+                                  <span className="text-amber-700 font-medium">
+                                    {row.warnings.join("; ")}
+                                  </span>
+                                ) : (
+                                  <span className="text-emerald-600 font-medium">Ready to create</span>
                                 )}
                               </td>
                             </tr>
@@ -550,7 +751,7 @@ export function AdminImportExportView() {
                   {/* Confirmation Button */}
                   <div className="flex items-center justify-between pt-2">
                     <p className="text-xs text-slate-500">
-                      Clicking confirm will execute isolated batch account creation. Only valid rows will be processed.
+                      Import executes in chunks of 15. Only valid rows will be provisioned.
                     </p>
                     <Button
                       variant="primary"
@@ -580,10 +781,10 @@ export function AdminImportExportView() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <CardTitle className="text-base font-bold">
-                    Regimental Enrollment Number Assignment
+                    Add or fix Enrollment IDs for existing cadets
                   </CardTitle>
                   <CardDescription className="text-xs">
-                    Upload an Excel file with columns <code>Name | Enrollment Number</code> to match and update cadet records.
+                    Use this only when you need to assign or update regimental enrollment numbers for cadets who are already enrolled in the system.
                   </CardDescription>
                 </div>
                 <a href="/api/admin/excel/templates?type=enrollment" download>

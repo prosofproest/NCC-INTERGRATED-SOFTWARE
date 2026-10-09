@@ -12,15 +12,28 @@ export const DivisionEnum = z.enum(["SD", "SW"], {
   message: "Division must be 'SD' (Senior Division) or 'SW' (Senior Wing)",
 });
 
+export const EnrollmentNoFormatRegex = /^[A-Z0-9/_-]{6,25}$/;
+
 export const CadetImportRowInputSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
   email: z.string().trim().email("Invalid email address format").toLowerCase(),
   phone: z
     .string()
     .trim()
-    .regex(/^(\+91[\-\s]?)?[0]?[6-9]\d{9}$/, "Phone must be a valid 10-digit mobile number"),
+    .regex(/^[6-9]\d{9}$/, "Phone must be a valid 10-digit mobile number"),
+  enrollmentNo: z
+    .string()
+    .trim()
+    .transform((val) => val.toUpperCase().replace(/\s+/g, ""))
+    .refine(
+      (val) => val === "" || EnrollmentNoFormatRegex.test(val),
+      "Enrollment ID must be 6-25 alphanumeric characters (no spaces)"
+    )
+    .optional()
+    .nullable(),
   trainingYear: TrainingYearEnum,
   division: DivisionEnum,
+  gender: z.string().optional().nullable(),
 });
 
 export const CadetBatchConfirmInputSchema = z.object({
@@ -29,9 +42,20 @@ export const CadetBatchConfirmInputSchema = z.object({
       z.object({
         name: z.string().trim().min(2),
         email: z.string().trim().email().toLowerCase(),
-        phone: z.string().trim(),
+        phone: z.string().trim().regex(/^[6-9]\d{9}$/, "Phone must be a valid 10-digit number"),
+        enrollmentNo: z
+          .string()
+          .trim()
+          .transform((val) => val.toUpperCase().replace(/\s+/g, ""))
+          .refine(
+            (val) => val === "" || EnrollmentNoFormatRegex.test(val),
+            "Enrollment ID must be 6-25 alphanumeric characters"
+          )
+          .optional()
+          .nullable(),
         trainingYear: TrainingYearEnum,
         division: DivisionEnum,
+        gender: z.string().optional().nullable(),
       })
     )
     .min(1, "At least one valid cadet record must be provided for import"),

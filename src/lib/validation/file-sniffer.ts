@@ -244,14 +244,12 @@ export function validateUploadedDocument(
 
   // Handle XLSX
   if (extension === ".xlsx") {
-    if (
-      sniffedMime !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-      sniffedMime !== "application/zip"
-    ) {
+    const excelCheck = validateExcelSpreadsheetBuffer(buffer);
+    if (!excelCheck.valid) {
       return {
         valid: false,
         sniffedMimeType: sniffedMime,
-        error: `Content validation failed: File extension is '.xlsx' but binary content does not match Excel spreadsheet format.`,
+        error: excelCheck.error,
       };
     }
     return {
@@ -265,4 +263,92 @@ export function validateUploadedDocument(
     sniffedMimeType: sniffedMime,
     error: `Unsupported file format '${extension}'. Allowed formats: PDF, JPEG, PNG, WEBP, DOCX, XLSX.`,
   };
+}
+
+/**
+ * Validates an uploaded Excel spreadsheet buffer and returns plain-language errors for:
+ * - Apple Numbers documents (.xlsx containing Index/*.iwa or missing [Content_Types].xml)
+ * - Legacy Excel BIFF8 (.xls) files
+ * - CSV text files
+ * - Corrupt / unreadable zip files
+ * - Empty files (0 bytes)
+ */
+export function validateExcelSpreadsheetBuffer(
+  buffer: Buffer
+): { valid: boolean; error?: string } {
+  if (!buffer || buffer.length === 0) {
+    return {
+      valid: false,
+      error: "The uploaded file is empty (0 bytes). Please upload a valid Excel spreadsheet.",
+    };
+  }
+
+  // 1. Check for legacy .xls (OLE2 compound file signature: 0xD0 0xCF 0x11 0xE0)
+  if (
+    buffer.length >= 8 &&
+    buffer[0] === 0xd0 &&
+    buffer[1] === 0xcf &&
+    buffer[2] === 0x11 &&
+    buffer[3] === 0xe0
+  ) {
+    return {
+      valid: false,
+      error:
+        "This is a legacy Excel (.xls) file. Please open it in Microsoft Excel or Google Sheets and choose File > Save As > Excel Workbook (.xlsx), then upload the .xlsx file.",
+    };
+  }
+
+  // 2. Check for plain text / CSV
+  const isZip =
+    buffer.length >= 4 &&
+    buffer[0] === 0x50 &&
+    buffer[1] === 0x4b &&
+    buffer[2] === 0x03 &&
+    buffer[3] === 0x04;
+
+  if (!isZip) {
+    const headerSnippet = buffer.slice(0, 200).toString("utf8");
+    // If it looks like printable plain text / CSV
+    if (/^[\x20-\x7E\r\n\t]+$/.test(headerSnippet)) {
+      return {
+        valid: false,
+        error:
+          "This is a CSV / text file, not an Excel workbook. Please open it in Excel and save as Excel Workbook (.xlsx) before uploading.",
+      };
+    }
+    return {
+      valid: false,
+      error:
+        "The uploaded file could not be read as an Excel workbook. It may be corrupt or not a valid .xlsx file.",
+    };
+  }
+
+  // 3. Inspect ZIP contents to detect Apple Numbers or non-Excel ZIP archives
+  // Search the raw buffer for OpenXML vs Apple Numbers markers
+  const bufferString = buffer.slice(0, Math.min(buffer.length, 65536)).toString("latin1");
+  const isAppleNumbers =
+    bufferString.includes("Index/Document.iwa") ||
+    bufferString.includes("Index/Tables/") ||
+    (bufferString.includes(".iwa") && !bufferString.includes("[Content_Types].xml"));
+
+  if (isAppleNumbers) {
+    return {
+      valid: false,
+      error:
+        "This file is an Apple Numbers document, not an Excel file. In Numbers choose File > Export To > Excel, then upload the exported .xlsx file.",
+    };
+  }
+
+  const hasContentTypes = bufferString.includes("[Content_Types].xml");
+  const hasXlFolder = bufferString.includes("xl/");
+
+  if (!hasContentTypes && !hasXlFolder) {
+    return {
+      valid: false,
+      error:
+        "The uploaded file is a ZIP archive but does not contain valid Excel (.xlsx) worksheet data. Please ensure it is a genuine Microsoft Excel file.",
+    };
+  }
+
+  return { valid: true };
 }

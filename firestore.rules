@@ -109,6 +109,10 @@ service cloud.firestore {
     }
 
     // 9. Internal system collections (Server-side Admin SDK only)
+    match /enrollment_index/{enrollmentNo} {
+      allow read, write: if false;
+    }
+
     match /system_otps/{otpId} {
       allow read, write: if false;
     }

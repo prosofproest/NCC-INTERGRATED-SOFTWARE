@@ -23,6 +23,7 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [resendingInvite, setResendingInvite] = useState(false);
 
   // Form State
   const [fullName, setFullName] = useState("");
@@ -70,6 +71,30 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
 
     loadData();
   }, [cadetId]);
+
+  const handleResendInvite = async () => {
+    try {
+      setResendingInvite(true);
+      setError(null);
+      setSuccessMessage(null);
+
+      const res = await fetch(`/api/admin/cadets/${cadetId}/resend-invite`, {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to resend welcome email");
+      }
+
+      setSuccessMessage(data.message || "Welcome invitation email resent successfully.");
+      setTimeout(() => setSuccessMessage(null), 5000);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to resend welcome email");
+    } finally {
+      setResendingInvite(false);
+    }
+  };
 
   const handleDynamicChange = (fieldId: string, val: unknown) => {
     setDynamicValues((prev) => ({
@@ -254,9 +279,24 @@ export default function AdminCadetDetailsPage({ params }: CadetDetailsPageProps)
             </div>
           </div>
 
-          <Button type="submit" variant="primary" size="md" isLoading={saving}>
-            Save Changes
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="md"
+              onClick={handleResendInvite}
+              isLoading={resendingInvite}
+              className="cursor-pointer gap-1.5 text-xs text-slate-700 hover:text-slate-900"
+            >
+              <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Resend Welcome Email
+            </Button>
+            <Button type="submit" variant="primary" size="md" isLoading={saving}>
+              Save Changes
+            </Button>
+          </div>
         </div>
       </div>
 

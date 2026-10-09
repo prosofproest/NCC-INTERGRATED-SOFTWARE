@@ -7,20 +7,31 @@ export interface CadetImportRow {
   name: string;
   email: string;
   phone: string;
+  enrollmentNo: string | null;
   trainingYear: "1st Year" | "2nd Year" | "3rd Year";
   division: "SD" | "SW";
+  gender?: string | null;
   isValid: boolean;
   errors: string[];
+  warnings: string[];
   isDuplicateInFile?: boolean;
   isDuplicateInDb?: boolean;
+  isDuplicateEnrollmentInFile?: boolean;
+  isDuplicateEnrollmentInDb?: boolean;
 }
 
 export interface CadetImportSummary {
   totalRows: number;
   validCount: number;
+  warningCount: number;
   errorCount: number;
+  detectedSheet: string;
+  allSheets: string[];
+  columnMapping: Record<string, string>;
   duplicateEmailsInBatch: string[];
+  duplicateEnrollmentsInBatch: string[];
   existingEmailsInDb: string[];
+  existingEnrollmentsInDb: string[];
 }
 
 export interface CadetCandidateMatch {

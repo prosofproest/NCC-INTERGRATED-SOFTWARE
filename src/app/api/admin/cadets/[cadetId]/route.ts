@@ -79,12 +79,34 @@ export async function PUT(request: Request, { params }: RouteParams) {
     const body = await request.json();
 
     const fullName = typeof body.fullName === "string" ? body.fullName.trim() : existingCadet.fullName;
-    const enrollmentNo =
+    const rawEnrollment =
       body.enrollmentNo !== undefined
         ? body.enrollmentNo
-          ? String(body.enrollmentNo).trim()
+          ? String(body.enrollmentNo).trim().toUpperCase().replace(/\s+/g, "")
           : null
         : existingCadet.enrollmentNo;
+    const enrollmentNo = rawEnrollment || null;
+
+    // Check enrollment uniqueness if changed
+    const oldEnrollment = existingCadet.enrollmentNo
+      ? String(existingCadet.enrollmentNo).trim().toUpperCase().replace(/\s+/g, "")
+      : null;
+
+    if (enrollmentNo && enrollmentNo !== oldEnrollment) {
+      const existingIndexDoc = await adminDb
+        .collection("enrollment_index")
+        .doc(enrollmentNo)
+        .get();
+      if (existingIndexDoc.exists && existingIndexDoc.data()?.cadetId !== cadetId) {
+        return NextResponse.json(
+          {
+            error: `Enrollment ID '${enrollmentNo}' is already assigned to another cadet (${existingIndexDoc.data()?.cadetId}).`,
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const rank = typeof body.rank === "string" ? body.rank.trim() : existingCadet.rank;
     const unit = typeof body.unit === "string" ? body.unit.trim() : existingCadet.unit;
     const wing = "Air";
@@ -146,7 +168,21 @@ export async function PUT(request: Request, { params }: RouteParams) {
       updatedAt,
     };
 
-    await cadetRef.set(updatedCadet);
+    const batch = adminDb.batch();
+    batch.set(cadetRef, updatedCadet);
+
+    if (oldEnrollment && oldEnrollment !== enrollmentNo) {
+      batch.delete(adminDb.collection("enrollment_index").doc(oldEnrollment));
+    }
+    if (enrollmentNo) {
+      batch.set(adminDb.collection("enrollment_index").doc(enrollmentNo), {
+        cadetId,
+        enrollmentNo,
+        updatedAt,
+      });
+    }
+
+    await batch.commit();
 
     // Audit Log Entry
     await logAuditEvent({

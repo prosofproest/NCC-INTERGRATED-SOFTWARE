@@ -90,9 +90,9 @@ async function runTests() {
       headers[0] === "Name" &&
         headers[1] === "Email" &&
         headers[2] === "Phone" &&
-        headers[3] === "Training Year" &&
-        headers[4] === "Division",
-      "Headers match required schema: Name | Email | Phone | Training Year | Division"
+        headers[3] === "Enrollment ID" &&
+        headers[4] === "Gender",
+      "Headers match required schema: Name | Email | Phone | Enrollment ID | Gender"
     );
 
     // Verify Enrollment Template

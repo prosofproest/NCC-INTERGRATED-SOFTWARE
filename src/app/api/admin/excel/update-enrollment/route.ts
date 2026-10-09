@@ -39,11 +39,21 @@ export async function POST(req: NextRequest) {
     const batch = adminDb.batch();
 
     for (const item of updates) {
+      const cleanEnrollment = item.enrollmentNo.trim().toUpperCase().replace(/\s+/g, "");
       const cadetRef = adminDb.collection("cadets").doc(item.cadetId);
       batch.update(cadetRef, {
-        enrollmentNo: item.enrollmentNo.trim().toUpperCase(),
+        enrollmentNo: cleanEnrollment,
         updatedAt: now,
       });
+
+      // Update enrollment index atomically
+      const indexRef = adminDb.collection("enrollment_index").doc(cleanEnrollment);
+      batch.set(indexRef, {
+        cadetId: item.cadetId,
+        enrollmentNo: cleanEnrollment,
+        updatedAt: now,
+      });
+
       updatedCadetIds.push(item.cadetId);
     }
 
